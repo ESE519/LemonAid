@@ -41,20 +41,16 @@
 	<true/>
 	<key>NSMainNibFile</key>
 	<string></string>
-	<key>NSMainNibFile~ipad</key>
-	<string></string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
+	<key>UIStatusBarHidden~ipad</key>
+	<false/>
 	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
+	<array/>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>
