@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>socket test</title>
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+</head>
+
+<body onload="onLoad()">
+	<h1>Socket test</h1>
+	<button onclick="disconnect()">Disconnect</button>
+  <script>
+  
+  	function onLoad(){
+  	
+  	}
+  	
+  	
+  	var socket = io.connect('http://localhost:8080');
+	socket.on('news', function (data) {
+		console.log('*** news event occured ***');
+    	console.log(data.hello);
+	    socket.emit('my other event', { my: 'data' });
+  	});
+  	
+  	function disconnect(){
+  		socket.disconnect();
+  	}
+  </script>
+</body>
+</html>
