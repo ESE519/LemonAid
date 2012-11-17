@@ -1,23 +1,6 @@
 import serial
 
-
-# define all commands 
-#TODO: fill this up 
-#MODE 00
-GET_LIST 	= '00'
-
-#MODE 01
-GET_SPEED	= '01..'
-GET_RPM		= ''
-
-#MODE 02
-
-#MODE 03
-GET_DTC		= '03'
-
-#MODE 04
-CLEAR_DTC 	= '04'
-
+from command.py import *
 
 class OBDPort:
 
@@ -41,6 +24,7 @@ class OBDPort:
 		except serial.SerialException:
 			self.State = 0	#error in connection
 			return None
+
 			
 		
 		count = 0	#connection attempts
