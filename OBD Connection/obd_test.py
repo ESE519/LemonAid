@@ -41,6 +41,7 @@ class OBDPort:
 		except serial.SerialException:
 			self.State = 0	#error in connection
 			return None
+
 			
 		
 		count = 0	#connection attempts
