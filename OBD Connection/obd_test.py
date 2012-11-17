@@ -1,19 +1,23 @@
 import serial
 
-from command.py import *
+#from command.py import *
+
+
+GET_RPM = '010C'
 
 class OBDPort:
 
-	def init(self, port, timeout, attempts):
+	#-------------------------------------------------------------
+	def __init__(self, port, timeout, attempts):
 		print 'in init'
 		
 		baud     = 38400
-	    databits = 8
+		databits = 8
 		par      = serial.PARITY_NONE  # parity
-	    sb       = 1                   # stop bits
-	    to       = SERTIMEOUT
+		sb		 = 1 	#stop bits
+		to 		 = timeout
 		self.ELMver = "Unknown"
-	    self.State = 1 #state SERIAL is 1 connected, 0 disconnected (connection failed)
+		self.State  = 1
 	
 		
 		#try to open the serial connection 
@@ -73,8 +77,9 @@ class OBDPort:
 			
 				
 	
-	#-------------------------------------------------------------------------------------
+	#-------------------------------------------------------------
 	def send_query(self, command_code):
+		"""Internal use only"""
 		if self.port:
 			self.port.flushOutput()
 			self.port.flushInput()
@@ -88,6 +93,7 @@ class OBDPort:
 			
 	#-------------------------------------------------------------
 	def get_response(self):
+		"""Internal use only"""
 		#introduce some delay for ECUs to respond
 		time.sleep(0.2)
 		if self.port:
@@ -105,3 +111,21 @@ class OBDPort:
 		else:
 			#no connection
 			return None
+			
+			
+	#-------------------------------------------------------------
+	def get_rpm(self):
+		self.send_query(GET_RPM)
+		rpm = self.get_response()
+		rpm = rpm.split('41 0C')[1].strip()
+		rpm = rpm.replace(' ', '')
+		return int(rpm, 16)/4
+					
+			
+def main():
+	obd_connection = OBDPort(port, 1000, 5)	#modify port to path of the USB device
+	print obd_connection.get_rpm()
+	obd_connection.close()
+	
+ if __name__ == '__main__':
+    main()
