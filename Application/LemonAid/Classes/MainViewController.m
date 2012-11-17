@@ -52,9 +52,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    //Added new for landscape
-    self.webView.frame = CGRectMake ( 0, 20, self.view.frame.size.width, self.view.frame.size.height-20);
 }
 
 - (void) viewDidUnload
@@ -64,13 +61,10 @@
     // e.g. self.myOutlet = nil;
 }
 
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-//    if (interfaceOrientation==UIInterfaceOrientationLandscapeLeft || interfaceOrientation==UIInterfaceOrientationLandscapeRight)
-//        return YES;
-//    
-    return true;
+    // Return YES for supported orientations
+    return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
 /* Comment out the block below to over-ride */
@@ -143,6 +137,5 @@
 	return [super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 */
-
 
 @end
