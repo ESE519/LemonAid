@@ -26,10 +26,10 @@ class OBDPort:
 		
 		baud     = 38400
 	    databits = 8
-    	par      = serial.PARITY_NONE  # parity
+		par      = serial.PARITY_NONE  # parity
 	    sb       = 1                   # stop bits
 	    to       = SERTIMEOUT
-    	self.ELMver = "Unknown"
+		self.ELMver = "Unknown"
 	    self.State = 1 #state SERIAL is 1 connected, 0 disconnected (connection failed)
 	
 		
