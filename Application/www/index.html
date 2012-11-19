@@ -24,23 +24,93 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name = "format-detection" content = "telephone=no"/>
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" /> <!-- 2048-by-1536 resolution at 264 pixels per inch (ppi) -->
         <title>LemonAid</title>
     </head>
     <body>
         <div class="app">
-            <h1>LemonAid™</h1>
+            <div id="statusBar">
+            	<div id="connectionCheck">
+            		<label id="netCon" class="statusIcon"></label>
+            		<label id="dbCon" class="statusIcon"></label>
+            	</div> 	
+            </div>
             
-            <div id="deviceready">
-                <p class="status pending blink">Connecting to Device</p>
-                <p class="status complete blink hide">Device is Ready</p>
+            <div id="launchPage" class="appPage">
+            	<div id="launchIcon">
+            		<p>LemonAid</p>	
+            	</div>
+            </div>
+            
+            <div id="navBar">
+            	<div id="navItems">
+            		
+            	</div>
             </div>
             
         </div>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            app.initialize();
+            document.addEventListener('deviceready', onDeviceReady, false);
+            var isNetConnected = false;
+            var isDbConnected = false;
+            
+            /**
+             *  steps to do when cordova is ready 
+             */
+            function onDeviceReady(){
+            	console.log('device ready');
+            	document.addEventListener("online", onOnline, false);
+            	document.addEventListener("offline", onOffline, false);
+            	
+            	//checkConnection();
+            }
+            
+            /**
+             *  check connection 
+             */
+            function checkConnection(){
+            	console.log('connection check');
+            	var networkState = navigator.network.connection.type;
+
+			    var states = {};
+			    states[Connection.UNKNOWN]  = 'Unknown connection';
+			    states[Connection.ETHERNET] = 'Ethernet connection';
+			    states[Connection.WIFI]     = 'WiFi connection';
+			    states[Connection.CELL_2G]  = 'Cell 2G connection';
+			    states[Connection.CELL_3G]  = 'Cell 3G connection';
+			    states[Connection.CELL_4G]  = 'Cell 4G connection';
+			    states[Connection.NONE]     = 'No network connection';
+			
+			    alert('Connection type: ' + states[networkState]);
+			    
+			    if(states[Connection.WIFI] == 'WiFi connection'){
+			    	$('#netCon').text('WiFi connected');
+			    	isNetConnected = true;
+			    }
+            }
+            
+            /**
+             *  handle online event
+             */
+            function onOnline(){
+            	$('#netCon').text('WiFi connected');
+			    isNetConnected = true;
+            }
+            
+            /**
+             *  handle offline event
+             */
+            function onOffline(){
+            	$('#netCon').text('WiFi disconnected');
+			    isNetConnected = false;
+            }
+            
+            
+            
+            
         </script>
     </body>
 </html>
