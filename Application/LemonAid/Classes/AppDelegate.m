@@ -103,7 +103,8 @@
         [[UIApplication sharedApplication] setStatusBarOrientation:newOrient];
     }
     
-    [self.window addSubview:self.viewController.view];
+    //[self.window addSubview:self.viewController.view]; //commented this and replaced with the line below (pulah)
+    self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     
     return YES;

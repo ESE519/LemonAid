@@ -52,6 +52,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    //Added the following (pulah)
+    self.webView.frame = CGRectMake ( 0, 20, self.view.frame.size.width, self.view.frame.size.height-20);
 }
 
 - (void) viewDidUnload
