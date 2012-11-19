@@ -4,7 +4,7 @@
 	<title>socket test</title>
 	<script src="gauge.min.js"></script>
 	<!--<script src="http://localhost:8080/gauge.min.js"></script>-->
-	<script type="text/javascript" src="http://10.211.55.2:8080/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="http://192.168.1.1:8080/socket.io/socket.io.js"></script>
 </head>
 
 <body onload="onLoad()">
@@ -43,12 +43,12 @@
 
 	var target = document.getElementById('myCanvas'); // your canvas element
 	var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-	gauge.maxValue = 90; // set max gauge value
+	gauge.maxValue = 4000; // set max gauge value
 	gauge.animationSpeed = 70; // set animation speed (32 is default value)
 	gauge.set(speed); // set actual value
   	
   	
-  	var socket = io.connect('http://10.211.55.2:8080');
+  	var socket = io.connect('http://192.168.1.1:8080');
 	socket.on('news', function (data) {
 		console.log('*** news event occured ***');
 		kmph.innerHTML = data.hello;
