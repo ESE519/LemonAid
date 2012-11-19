@@ -38,6 +38,7 @@ io.sockets.on('connection', function (socket) {
   			//console.log('*** news event emitted *** ');
   		}, 300);
 	
+	//socket.emit('news', { hello: speed*2 });
 	
   	
   	socket.on('my other event', function (data) {

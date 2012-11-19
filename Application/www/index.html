@@ -33,6 +33,7 @@
             	<div id="connectionCheck">
             		<label id="netCon" class="statusIcon"></label>
             		<label id="dbCon" class="statusIcon"></label>
+            		<label id="socketConn" class="statusIcon"></label>
             	</div> 	
             </div>
             
@@ -52,10 +53,14 @@
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/websocket.js"></script>
+        <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
         <script type="text/javascript">
             document.addEventListener('deviceready', onDeviceReady, false);
             var isNetConnected = false;
             var isDbConnected = false;
+            var isSocketConnected = false;
+            var socket = -1;
             
             /**
              *  steps to do when cordova is ready 
@@ -66,6 +71,13 @@
             	document.addEventListener("offline", onOffline, false);
             	
             	//checkConnection();
+            	
+            	socket = io.connect('http://localhost:8080');
+            	socket.emit('my other event', { hello: 2 });
+            	socket.on('news', function (data) {
+            		$('#socketConn').text('Socket Connected ' + data.hello);
+					isSocketConnected = true;  
+		  		});
             }
             
             /**
@@ -108,7 +120,15 @@
 			    isNetConnected = false;
             }
             
-            
+            /**
+			 *  disconnect the socket
+			 */
+			$('#socketConn').click(function(){
+				alert('Disconnect Socket');
+				socket.disconnect();
+				isSocketConnected = false;
+			});
+			
             
             
         </script>
