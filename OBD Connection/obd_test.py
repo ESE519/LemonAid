@@ -146,7 +146,6 @@ class OBDPort:
                 if self.port:
                         response_buffer = ''
                         response_buffer = self.port.read(18)
-                        #print 'respnse: ' + response_buffer
                         """
                         while 1:
                                 #ch = self.port.read(18)
@@ -191,7 +190,7 @@ class OBDPort:
                 else:
                         return -99
 def main():
-        obd_connection = OBDPort('/dev/ttyUSB0', 1000, 5)       #modify port to path of the USB device
+        obd_connection = OBDPort('/dev/ttyUSB0', 1, 5)       #modify port to path of the USB device
         temp = 1
         while (True):
                 print 'Attempt ' + str(temp)
