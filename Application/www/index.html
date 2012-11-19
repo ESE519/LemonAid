@@ -41,6 +41,9 @@
             	<div id="launchIcon">
             		<p>LemonAid</p>	
             	</div>
+            	<div id="options">
+            		<canvas id="myCanvas" width="500" height="300"></canvas>
+            	</div>
             </div>
             
             <div id="navBar">
@@ -62,6 +65,31 @@
             var isSocketConnected = false;
             var socket = -1;
             
+            
+            //gauge
+		  	var opts = {
+				lines: 12, // The number of lines to draw
+		  		angle: 0, // The length of each line
+			    lineWidth: 0.28, // The line thickness
+			    pointer: {
+				    length: 0.7, // The radius of the inner circle
+				    strokeWidth: 0.035, // The rotation offset
+				    color: '#000000' // Fill color
+			    },
+		  		colorStart: '#6FADCF',   // Colors
+			    colorStop: '#8FC0DA',    // just experiment with them
+			    strokeColor: '#E0E0E0',   // to see which ones work best for you
+			    generateGradient: true
+			};
+		
+			var target = document.getElementById('myCanvas'); // your canvas element
+			var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+			gauge.maxValue = 30; // set max gauge value
+			gauge.animationSpeed = 70; // set animation speed (32 is default value)
+			gauge.set(speed); // set actual value
+            
+            
+            
             /**
              *  steps to do when cordova is ready 
              */
@@ -75,11 +103,12 @@
             	socket = io.connect('http://localhost:8080');
             	socket.emit('my other event', { hello: 2 });
             	socket.on('news', function (data) {
+            		gauge.set(data.hello);
             		$('#socketConn').text('Socket Connected ' + data.hello);
 					isSocketConnected = true;  
 		  		});
             }
-            
+                    
             /**
              *  check connection 
              */
