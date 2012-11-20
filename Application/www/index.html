@@ -25,6 +25,7 @@
         <meta name = "format-detection" content = "telephone=no"/>
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
         <link rel="stylesheet" type="text/css" href="css/index.css" /> <!-- 2048-by-1536 resolution at 264 pixels per inch (ppi) -->
+        <link rel="stylesheet" type="text/css" href="css/jquery.percentageloader-0.1.css" />
         <title>LemonAid</title>
     </head>
     <body>
@@ -39,10 +40,13 @@
             
             <div id="launchPage" class="appPage">
             	<div id="launchIcon">
-            		<p>LemonAid</p>	
+            			
             	</div>
             	<div id="options">
-            		<canvas id="myCanvas" width="500" height="300"></canvas>
+            		<button id="disconnectConn">Disconnect</button>
+            		<div id="myDiv" ></div>
+            		<canvas id="myCanvas" width="400" height="200"></canvas>
+            		<label id="speedValue"></label>
             	</div>
             </div>
             
@@ -58,6 +62,7 @@
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/websocket.js"></script>
         <script type="text/javascript" src="js/gauge.min.js"></script>
+        <script type="text/javascript" src="js/jquery.percentageloader-0.1.js"></script>
         <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
         <script type="text/javascript">
             document.addEventListener('deviceready', onDeviceReady, false);
@@ -85,9 +90,11 @@
 		
 			var target = document.getElementById('myCanvas'); // your canvas element
 			var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-			gauge.maxValue = 30; // set max gauge value
-			gauge.animationSpeed = 70; // set animation speed (32 is default value)
-			gauge.set(speed); // set actual value
+			gauge.maxValue = 20; // set max gauge value
+			gauge.animationSpeed = 40; // set animation speed (32 is default value)
+			gauge.set(0); // set actual value
+            
+           
             
             
             
@@ -101,13 +108,25 @@
             	
             	//checkConnection();
             	
+            	//loader settings
+	            var loader = $("#myDiv").percentageLoader();
+	            
+            	
             	socket = io.connect('http://localhost:8080');
             	socket.emit('my other event', { hello: 2 });
+            	
             	socket.on('news', function (data) {
             		gauge.set(data.hello);
+            		
+            		//loader.setValue(data.hello + 'kmph');
+            		loader.setProgress(data.hello/20);
+            		
+            		$('#speedValue').text(data.hello);
+	            
             		$('#socketConn').text('Socket Connected ' + data.hello);
 					isSocketConnected = true;  
 		  		});
+		  		
             }
                     
             /**
@@ -153,11 +172,27 @@
             /**
 			 *  disconnect the socket
 			 */
-			$('#socketConn').click(function(){
-				alert('Disconnect Socket');
+			$('#disconnectConn').click(function(){
+				//alert('Disconnect Socket');
+				
+				navigator.notification.alert(
+				    "Disconnect Socket",
+				    callBackFunctionB, // Specify a function to be called 
+				    'LemonAid',
+				    "OK"
+				);
+				
 				socket.disconnect();
+				$('#socketConn').text('Socket disonnected');
 				isSocketConnected = false;
 			});
+			
+			/**
+			 *  callback for alert 
+			 */
+			function callBackFunctionB(){
+			    console.log('Socket Disconnected - ok');
+			}
 			
             
             
