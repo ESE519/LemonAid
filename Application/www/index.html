@@ -52,6 +52,8 @@
             
             <div id="navBar">
             	<div id="navItems">
+            		<button id="toHome">Home</button>
+            		<button id="toAnalysis">Analysis</button>
             		
             	</div>
             </div>
@@ -64,6 +66,7 @@
         <script type="text/javascript" src="js/gauge.min.js"></script>
         <script type="text/javascript" src="js/jquery.percentageloader-0.1.js"></script>
         <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
+        <!--<script type="text/javascript" src="http://192.168.1.1:8080/socket.io/socket.io.js"></script>-->
         <script type="text/javascript">
             document.addEventListener('deviceready', onDeviceReady, false);
             var isNetConnected = false;
@@ -113,6 +116,7 @@
 	            
             	
             	socket = io.connect('http://localhost:8080');
+            	//socket = io.connect('http://192.168.1.1:8080');
             	socket.emit('my other event', { hello: 2 });
             	
             	socket.on('news', function (data) {
@@ -194,7 +198,9 @@
 			    console.log('Socket Disconnected - ok');
 			}
 			
-            
+            $('#toAnalysis').click(function(){
+				window.location.href = 'analysis.html';
+			});
             
         </script>
     </body>
