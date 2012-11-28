@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>DS-DIGI.tff</string>
+	</array>
 	<key>UIWebViewBounce</key>
-	<true/>
+	<false/>
 	<key>TopActivityIndicator</key>
 	<string>gray</string>
 	<key>EnableLocation</key>
@@ -28,6 +32,10 @@
 	</array>
 	<key>Plugins</key>
 	<dict>
+		<key>TabBar</key>
+		<string>TabBar</string>
+		<key>NavigationBar</key>
+		<string>NavigationBar</string>
 		<key>Device</key>
 		<string>CDVDevice</string>
 		<key>Logger</key>

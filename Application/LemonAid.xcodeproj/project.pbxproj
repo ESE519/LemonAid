@@ -42,6 +42,10 @@
 		30A0434914DC770100060A13 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 30A0434614DC770100060A13 /* Localizable.strings */; };
 		30E1352710E2C1420031B30D /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30E1352610E2C1420031B30D /* Cordova.plist */; };
 		30E5649213A7FCAF007403D8 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30E5649113A7FCAF007403D8 /* CoreMedia.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D105E0DD1666477E00819DD0 /* CDVNavigationBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = D105E0D81666477E00819DD0 /* CDVNavigationBar.xib */; };
+		D105E0DE1666477E00819DD0 /* CDVNavigationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0DA1666477E00819DD0 /* CDVNavigationBarController.m */; };
+		D105E0DF1666477E00819DD0 /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0DC1666477E00819DD0 /* NavigationBar.m */; };
+		D105E0E216664CE400819DD0 /* TabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0E116664CE400819DD0 /* TabBar.m */; };
 		D15E18ED163A8AE100F72708 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 /* End PBXBuildFile section */
 
@@ -119,6 +123,13 @@
 		30E5649113A7FCAF007403D8 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* LemonAid-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LemonAid-Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* LemonAid-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "LemonAid-Info.plist"; path = "../LemonAid-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		D105E0D81666477E00819DD0 /* CDVNavigationBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CDVNavigationBar.xib; sourceTree = "<group>"; };
+		D105E0D91666477E00819DD0 /* CDVNavigationBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVNavigationBarController.h; sourceTree = "<group>"; };
+		D105E0DA1666477E00819DD0 /* CDVNavigationBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVNavigationBarController.m; sourceTree = "<group>"; };
+		D105E0DB1666477E00819DD0 /* NavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationBar.h; sourceTree = "<group>"; };
+		D105E0DC1666477E00819DD0 /* NavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBar.m; sourceTree = "<group>"; };
+		D105E0E016664CE400819DD0 /* TabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBar.h; sourceTree = "<group>"; };
+		D105E0E116664CE400819DD0 /* TabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +273,13 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				D105E0E016664CE400819DD0 /* TabBar.h */,
+				D105E0E116664CE400819DD0 /* TabBar.m */,
+				D105E0D81666477E00819DD0 /* CDVNavigationBar.xib */,
+				D105E0D91666477E00819DD0 /* CDVNavigationBarController.h */,
+				D105E0DA1666477E00819DD0 /* CDVNavigationBarController.m */,
+				D105E0DB1666477E00819DD0 /* NavigationBar.h */,
+				D105E0DC1666477E00819DD0 /* NavigationBar.m */,
 			);
 			name = Plugins;
 			path = LemonAid/Plugins;
@@ -412,6 +430,7 @@
 				3088BBC0154F3926009F9C59 /* Default-Portrait~ipad.png in Resources */,
 				3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */,
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
+				D105E0DD1666477E00819DD0 /* CDVNavigationBar.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +461,9 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
+				D105E0DE1666477E00819DD0 /* CDVNavigationBarController.m in Sources */,
+				D105E0DF1666477E00819DD0 /* NavigationBar.m in Sources */,
+				D105E0E216664CE400819DD0 /* TabBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

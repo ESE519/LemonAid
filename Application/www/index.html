@@ -26,16 +26,27 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
         <link rel="stylesheet" type="text/css" href="css/index.css" /> <!-- 2048-by-1536 resolution at 264 pixels per inch (ppi) -->
         <link rel="stylesheet" type="text/css" href="css/jquery.percentageloader-0.1.css" />
+        
+        <link rel="stylesheet" type="text/css" href="css/examples-offline.css" />
+        <link rel="stylesheet" type="text/css" href="css/kendo.dataviz.min.css" />
+        
         <title>LemonAid</title>
+        
+        
     </head>
     <body>
+    	<div class="barBuffer" style="height: 20px;"></div>
         <div class="app">
-            <div id="statusBar">
+        	
+            <div id="statusBar" style="border-bottom: 2px solid gray;">
             	<div id="connectionCheck">
             		<label id="netCon" class="statusIcon"></label>
             		<label id="dbCon" class="statusIcon"></label>
             		<label id="socketConn" class="statusIcon"></label>
-            	</div> 	
+            	</div>
+            	<button id="disconnectConn">Disconnect</button> 
+            	<button id="connectConn">Connect</button>
+            			
             </div>
             
             <div id="launchPage" class="appPage">
@@ -43,13 +54,59 @@
             			
             	</div>
             	<div id="options">
-            		<button id="disconnectConn">Disconnect</button>
+            		
+            		
+            		<div id="topView" style="border: 2px solid white; float: right; margin: 0px 10px 0px 0px;">
+		            	<div id="headlights" style="border: 1px solid green;">
+		            		<div id="headlampL" class="headlamp"></div>
+		            		<div id="headlampR" class="headlamp"></div>
+		            	</div>
+		            	
+		            	<div id="carBody" style="margin-top: 0px;">
+		            		<img src="img/cartopviewwhite.png" alt="Car" />	
+		            	</div>
+		            	
+		            </div>
+            		
+            		<div id="gauge-container" style="border: 2px solid white; ">
+		                <!--<img src="img/dashboard/fuel_guage.jpg" />-->
+		                <div id="rpm" style="border: 1px solid green"></div>
+		                <div id="kmh" style="border: 1px solid green"></div>
+		                
+		                <div id="fuel" style="border: 1px solid green"></div>
+		                <div id="water-temprature" style="border: 1px solid green"></div>
+		                
+		                <div id="realValues" style="height: 100px; width: 824px; border: 1px solid green; float: left">
+		                	<label id="rpmRT"></label>
+		                	<div id="speedRTDiv">
+		                		<label id="speedRT">00</label>	
+		                	</div>
+		                	
+		                </div>
+		            </div>
+		            
+		            
+            		<!--<div id="rpmgauge"></div>
+            		<div id="speeder"></div>
             		<div id="myDiv" ></div>
-            		<canvas id="myCanvas" width="400" height="200"></canvas>
-            		<label id="speedValue"></label>
+            		<canvas id="myCanvas" width="400" height="200"></canvas>-->
+            		
             	</div>
             </div>
             
+           ​
+            <div id="warningIcons" style="border: 1px solid yellow; ">
+            	<img src="img/dashboard/mil.png" class="signOff" />
+            	<img src="img/dashboard/brake.png" class="signOff" />
+            	<img src="img/dashboard/brake_light.png" class="signOff" />
+            	<img id="turn_signal" src="img/dashboard/turn_signal.png" class="signOff" />
+            	<img src="img/dashboard/any_light.png" class="signOff" />
+            	
+            	<img src="img/dashboard/headlight_high.png" class="signOff" />
+            	<img src="img/dashboard/door.png" class="signOff" />
+            </div>
+            
+            <!--
             <div id="navBar">
             	<div id="navItems">
             		<button id="toHome">Home</button>
@@ -57,10 +114,29 @@
             		
             	</div>
             </div>
-            
+            -->
         </div>
+        
+        
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
+        
+        <script type="text/javascript" src="js/NavigationBar.js"></script>      
+        <script type="text/javascript" src="js/TabBar.js"></script>
+        
+        
+        <script type="text/javascript" src="js/raphael.min.js"></script>
+		<script type="text/javascript" src="js/raphael.speedometer.js"></script>
+		<script type="text/javascript" src="js/raphael.slider.js"></script>
+		<script type="text/javascript" src="js/raphael.button.js"></script>
+		
+		<script type="text/javascript" src="js/console.js"></script>
+		<script type="text/javascript" src="js/kendo.dataviz.min.js"></script>
+  
+  		<script type="text/javascript" src="js/NavigationBar.js"></script>      
+        <script type="text/javascript" src="js/TabBar.js"></script>
+        
+        
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/websocket.js"></script>
         <script type="text/javascript" src="js/gauge.min.js"></script>
@@ -68,14 +144,28 @@
         <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
         <!--<script type="text/javascript" src="http://192.168.1.1:8080/socket.io/socket.io.js"></script>-->
         <script type="text/javascript">
-            document.addEventListener('deviceready', onDeviceReady, false);
+        	
+        	
+        	
+            //document.addEventListener('deviceready', onDeviceReady, false);
             var isNetConnected = false;
             var isDbConnected = false;
             var isSocketConnected = false;
             var socket = -1;
             
+            //raphael gauge
+            /*
+            var speeder = Raphael.fn.speedometer("speeder",500,500,0); 
+			speeder.position(0);
+			speeder.setOptions({width:400,height:400});
+			
+			var rpmgauge = Raphael.fn.speedometer("rpmgauge",500,500,0); 
+			rpmgauge.position(0);
+			rpmgauge.setOptions({width:400,height:400});
+		    */        
             
             //gauge
+            /*
 		  	var opts = {
 				lines: 12, // The number of lines to draw
 		  		angle: 0, // The length of each line
@@ -96,23 +186,355 @@
 			gauge.maxValue = 20; // set max gauge value
 			gauge.animationSpeed = 40; // set animation speed (32 is default value)
 			gauge.set(0); // set actual value
-            
+            */
            
             
+            var speedData = 0,
+            	rpmData = 0;
+            
+            
+            function createDashboard() {
+                    $("#rpm").kendoRadialGauge({
+                        theme: "black",
+
+                        pointer: {
+                            value: 0,
+                            color: "#ea7001"
+                        },
+
+                        scale: {
+                            startAngle: -45,
+                            endAngle: 120,
+
+                            min: 0,
+                            max: 6,
+
+                            majorUnit: 1,
+                            majorTicks: {
+                                width: 1,
+                                size: 7
+                            },
+
+                            minorUnit: 0.2,
+                            minorTicks: {
+                                size: 5
+                            },
+
+                            ranges: [{
+                                from: 4,
+                                to: 5,
+                                color: "#ff7a00"
+                            }, {
+                                from: 5,
+                                to: 6,
+                                color: "#c20000"
+                            }],
+
+                            labels: {
+                                font: "15px Arial,Helvetica,sans-serif"
+                            }
+                        }
+                    });
+
+                    $("#kmh").kendoRadialGauge({
+                        theme: "black",
+
+                        pointer: {
+                            value: 0,
+                            color: "#1BA1E2"
+                        },
+
+                        scale: {
+                            startAngle: -60,
+                            endAngle: 240,
+
+                            min: 0,
+                            max: 220,
+
+                            majorTicks: {
+                                width: 3,
+                                size: 14,
+                                color: "#1BA1E2"
+                            },
+
+                            minorTicks: {
+                                size: 10
+                            },
+
+                            minorUnit: 2,
+                            
+                            labels: {
+                                font: "17px Arial,Helvetica,sans-serif"
+                            }
+                        }
+                    });
+
+                    $("#fuel").kendoRadialGauge({
+                        theme: "black",
+
+                        pointer: {
+                            value: 0.5,
+                            color: "#ea7001"
+                        },
+
+                        scale: {
+                            startAngle: 90,
+                            endAngle: 180,
+
+                            min: 0,
+                            max: 1,
+
+                            majorUnit: 0.5,
+                            majorTicks: {
+                                width: 2,
+                                size: 6
+                            },
+
+                            minorUnit: 0.25,
+                            minorTicks: {
+                                size: 3
+                            },
+
+                            ranges: [{
+                                from: 0,
+                                to: 0.1,
+                                color: "#c20000"
+                            }],
+
+                            labels: {
+                                font: "11px Arial,Helvetica,sans-serif"
+                            }
+                        }
+                    });
+
+                    $("#water-temprature").kendoRadialGauge({
+                        theme: "black",
+
+                        pointer: {
+                            value: 90,
+                            color: "#ea7001"
+                        },
+
+                        scale: {
+                            startAngle: 180,
+                            endAngle: 270,
+
+                            min: 60,
+                            max: 120,
+
+                            majorUnit: 30,
+                            majorTicks: {
+                                width: 2,
+                                size: 6
+                            },
+
+                            minorUnit: 10,
+                            minorTicks: {
+                                size: 3
+                            },
+
+                            ranges: [{
+                                from: 110,
+                                to: 120,
+                                color: "#c20000"
+                            }],
+
+                            labels: {
+                                font: "11px Arial,Helvetica,sans-serif"
+                            }
+                        }
+                    });
+                }
+                
+                
+                
+            var animateInterval;
+                function animateDashboard() {
+                    if (animateInterval) {
+                        return;
+                    }
+
+                    var GEARS = [0.14, 0.06, 0.035, 0.027, 0.019],
+                        IDLE_RPM = 0.9,
+                        CHANGE_RPM = 4,
+                        CHANGE_DELAY = 400,
+                        DECAY_RATE = 0.0017,
+                        TOP_SPEED = 210,
+                        ACCELERATION = 0.6,
+                        INTERVAL = 50;
+
+                    var speed = 0,
+                        skip = 0,
+                        ratio,
+                        gear = 0;
+
+                    function update() {
+                        //$("#rpm").data("kendoRadialGauge").value(GEARS[gear] * speed + IDLE_RPM);
+                        //$("#kmh").data("kendoRadialGauge").value(speed);
+                        if(isSocketConnected){
+                        	$("#rpm").data("kendoRadialGauge").value(rpmData);
+                        $("#kmh").data("kendoRadialGauge").value(speedData);
+                        $('#speedRT').text(speedData);	
+                        }
+                        
+                        
+                    }
+
+                    animateInterval = setInterval(function() {
+                        if(speed < TOP_SPEED) {
+                            if (GEARS[gear] * speed > CHANGE_RPM && gear < GEARS.length) {
+                                gear++;
+                                skip = CHANGE_DELAY / INTERVAL;
+                                update();
+                            }
+
+                            if (skip-- < 0) {
+                                speed += ACCELERATION - (DECAY_RATE * speed);
+                                update();
+                            }
+                        } else {
+                            skip = 100;
+                            speed = 0;
+                            gear = 0;
+                        }
+                    }, INTERVAL);
+                }    
+            
+
             
             
             /**
              *  steps to do when cordova is ready 
              */
+            
+            document.addEventListener("deviceready", function() {
+    console.log("PhoneGap ready")
+document.addEventListener("online", onOnline, false);
+            	document.addEventListener("offline", onOffline, false);
+           	
+            plugins.tabBar.init()
+
+    plugins.tabBar.create()
+    // or with an orange tint:
+    //plugins.tabBar.create({selectedImageTintColorRgba: '255,40,0,255'})
+
+	plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
+        onSelect: function() {
+            alert("dashboard tab selected")
+            window.location.href = "index.html";
+        }
+    })
+
+	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
+        onSelect: function() {
+            alert("analysis tab selected")
+            window.location.href = "analysis.html";
+        }
+    })
+	
+   
+    plugins.tabBar.show()
+    // Or with custom style (defaults to 49px height, positioned at bottom): plugins.tabBar.show({height: 80, position: 'top'})
+    plugins.tabBar.showItems("dashboard", "analysis")
+
+
+//TODO: only temporary
+	            $("#turn_signal").removeClass('signOff');
+	            
+	            
+	            animateInterval = null;
+
+                    createDashboard();
+                    //animateDashboard();
+
+                    $(document).bind("kendo:skinChange", function(e) {
+                        createDashboard();
+                    });
+/*
+                    $(document).bind("kendo:pageUnload", function(e) {
+                        clearInterval(animateInterval);
+                   	});
+	*/            
+            	
+            	
+		  		connectToSocket();
+
+
+    }, false)
+            
+            function connectToSocket(){
+            	alert('Connecting to socket...');
+            	socket = io.connect('http://localhost:8080');
+            	//socket = io.connect('http://192.168.1.1:8080');
+            	socket.emit('my other event', { hello: 2 });
+            	
+            	socket.on('news', function (data) {
+            		//gauge.set(data.hello);
+            		
+            		//loader.setValue(data.hello + 'kmph');
+            		//loader.setProgress(data.hello/20);
+            		
+            		//speeder.position(data.hello);
+            		//speeder.accelerate(data.hello);
+					//speeder.scrollTo(data.hello*10);
+					
+					speedData = data.hello;
+					
+            		$("#rpm").data("kendoRadialGauge").value(rpmData);
+                        $("#kmh").data("kendoRadialGauge").value(speedData);
+                        $('#speedRT').text(speedData);	
+            	
+            		$('#socketConn').text('Socket Connected ' + data.hello);
+					isSocketConnected = true;  
+		  		});
+            }
+            
+            
+            /*
+            
             function onDeviceReady(){
             	console.log('device ready');
             	document.addEventListener("online", onOnline, false);
             	document.addEventListener("offline", onOffline, false);
             	
-            	//checkConnection();
-            	
-            	//loader settings
-	            var loader = $("#myDiv").percentageLoader();
+            	// TAB BAR INIT
+/*	            
+	            plugins.tabBar.init()
+
+    plugins.tabBar.create()
+    // or with an orange tint:
+    //plugins.tabBar.create({selectedImageTintColorRgba: '255,40,0,255'})
+
+    plugins.tabBar.createItem("contacts", "Unused, iOS replaces this text by Contacts", "tabButton:Contacts")
+    plugins.tabBar.createItem("recents", "Unused, iOS replaces this text by Recents", "tabButton:Recents")
+
+   
+    plugins.tabBar.show()
+    // Or with custom style (defaults to 49px height, positioned at bottom): plugins.tabBar.show({height: 80, position: 'top'})
+    plugins.tabBar.showItems("contacts", "recents")
+
+    
+	            
+	            
+	            // ------------------------------------
+	            
+	            
+	            //TODO: only temporary
+	            $("#turn_signal").removeClass('signOff');
+	            
+	            
+	            animateInterval = null;
+
+                    createDashboard();
+                    animateDashboard();
+
+                    $(document).bind("kendo:skinChange", function(e) {
+                        createDashboard();
+                    });
+
+                    $(document).bind("kendo:pageUnload", function(e) {
+                        clearInterval(animateInterval);
+                   	});
 	            
             	
             	socket = io.connect('http://localhost:8080');
@@ -120,19 +542,25 @@
             	socket.emit('my other event', { hello: 2 });
             	
             	socket.on('news', function (data) {
-            		gauge.set(data.hello);
+            		//gauge.set(data.hello);
             		
             		//loader.setValue(data.hello + 'kmph');
-            		loader.setProgress(data.hello/20);
+            		//loader.setProgress(data.hello/20);
             		
-            		$('#speedValue').text(data.hello);
-	            
+            		//speeder.position(data.hello);
+            		//speeder.accelerate(data.hello);
+					//speeder.scrollTo(data.hello*10);
+					
+					speedData = data.hello;
+					
+            		
+            	
             		$('#socketConn').text('Socket Connected ' + data.hello);
 					isSocketConnected = true;  
 		  		});
 		  		
             }
-                    
+              */      
             /**
              *  check connection 
              */
@@ -187,8 +615,12 @@
 				);
 				
 				socket.disconnect();
-				$('#socketConn').text('Socket disonnected');
+				$('#socketConn').text('Socket disconnected');
 				isSocketConnected = false;
+				
+				speedData = 0;
+				$("#kmh").data("kendoRadialGauge").value(speedData);
+                $('#speedRT').text(speedData);
 			});
 			
 			/**
@@ -198,10 +630,15 @@
 			    console.log('Socket Disconnected - ok');
 			}
 			
-            $('#toAnalysis').click(function(){
-				window.location.href = 'analysis.html';
+		
+			
+			$('#connectConn').click(function(){
+				window.location.href = "index.html";
 			});
-            
+			
+			
+
+
         </script>
     </body>
 </html>
