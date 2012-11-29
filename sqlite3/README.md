@@ -11,11 +11,11 @@ In order to use LemonAid programs, we need to setup a database for storing all k
 *Note*: all the following commands only apply to Ubuntu.
 
 ###Install sqlite3
-    `sudo apt-get install sqlite3 libsqlite3-dev`
-    `sqlite3 test.db`
+    sudo apt-get install sqlite3 libsqlite3-dev
+    sqlite3 test.db
 
 ###Create the database
-    `sqlite3 test.db`
+    sqlite3 test.db
 
 ###Create the table
-    `create table speedinfo (gear, light, turn, engine, dd, pd, dr, pr, wheel, speed, throttle, brake, rpm);`
+    create table speedinfo (gear, light, turn, engine, dd, pd, dr, pr, wheel, speed, throttle, brake, rpm);
