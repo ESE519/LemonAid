@@ -19,7 +19,7 @@ LemonAid project requires the following components (both software and hardware) 
  - Beaglebone
 	 - Socket.io (on both sides)
 	 - node.js server
-	 - MySQL
+	 - sqlite3
 	 - C++
 	 - Custom pcan driver (USB2CAN)
  - OBD2CAN Cable
