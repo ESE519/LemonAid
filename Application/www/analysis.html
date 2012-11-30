@@ -44,7 +44,7 @@
             </div>
             
             <div id="analysisPage" class="appPage">
-            	 <div id="container" style="height: 550px; max-width: 800px; border: 1px solid red;"></div>
+            	 <div id="container" style="height: 550px; max-width: 800px; "></div>
             </div>
             
            
@@ -86,14 +86,24 @@
             
             document.addEventListener("deviceready", function() {
     console.log("PhoneGap ready")
-
-plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
+/*
+	plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
         onSelect: function() {
             //alert("dashboard tab selected")
             //selectedTabBar = "dashboard";
             window.location.href = "index.html";
         }
     })
+
+
+	plugins.tabBar.createItem("trip", "Trip", "/www/img/analysisIcon.png", {
+        onSelect: function() {
+            //alert("analysis tab selected")
+            //window.location.href = "analysis.html";
+            //selectedTabBarItem = "analysis";
+        }
+    })
+
 
 	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
         onSelect: function() {
@@ -102,9 +112,28 @@ plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png",
             //selectedTabBarItem = "analysis";
         }
     })
+   */ 
     
-    //plugins.selectTabBarItem("analysis");
-    //plugins.tabBar.show()
+    
+    
+    plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
+        onSelect: function() {
+        	window.location.href = "index.html"    
+        }
+    })
+    
+    plugins.tabBar.createItem("trip", "Trip", "www/img/dashboardIcon.png", {
+        onSelect: function() {
+            window.location.href = "trip.html"
+        }
+    })
+   
+
+	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
+        onSelect: function() {
+            //window.location.href = "analysis.html";
+        }
+    })
     
     
     

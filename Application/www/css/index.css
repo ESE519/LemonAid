@@ -102,7 +102,7 @@ body {
 	width:				20px;
 	background-color:	yellow;
 	
-	margin:				0px 20px 0px 10px;
+	margin:				30px 20px 0px 10px;
 }
 
 #headlampL {
@@ -131,6 +131,20 @@ body {
 	opacity:			0.2;
 }
 
+
+.stickPosition {
+	text-align:center;
+	vertical-align:middle;
+	color: gray;
+	font-size:40pt;
+	margin-top:	40px;
+	
+	width:	50px;
+	height:	50px;
+	float: left;
+}
+
+
 @font-face {
 	font-family: EraserDust;
   	src: url(../ds_digital/DS-DIGI.ttf);
@@ -140,7 +154,7 @@ body {
 	font-family: EraserDust;
 	color:#1BA1E2;
 	font-size: 60pt;
-	margin-left: 420px;
+	margin-left: 450px;
 }
 
 .goGray {
@@ -153,7 +167,7 @@ body {
 #gauge-container {
                     /* margin: 0 auto;*/
                     overflow: hidden;
-                    width: 834px;
+                    width: 845px;
                     height: 524px;
 
                     /*background: transparent url("../img/car-dashboard.png") no-repeat 50% 50%;*/
@@ -164,29 +178,29 @@ body {
                 }
 
                 #rpm {
-                    width: 242px;
-                    height: 247px;
-                    margin: 45px 0 0 28px;
+                    width: 282px;
+                    height: 287px;
+                    margin: 100px 0px 0px 08px;
                 }
 
                 #kmh {
                     width: 366px;
                     height: 366px;
-                    margin: 37px 0 0 10px;
+                    margin: 37px 0px 0px 10px;
                 }
 
                 #fuel {
-                    width: 125px;
-                    height: 131px;
+                    width: 140px;
+                    height: 136px;
 
-                    margin: 50px 0 0 38px;
+                    margin: 70px 0px 0px 38px;
                 }
 
                 #water-temprature {
-                    width: 131px;
-                    height: 125px;
+                    width: 140px;
+                    height: 136px;
 					float:right;
-                    
+                    margin-top: 50px;
                 }
 
 

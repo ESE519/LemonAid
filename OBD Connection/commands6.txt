@@ -1,0 +1,20 @@
+in init
+all init done
+trying to open port
+atzELM327 v1.5
+0160NO DATA>
+0161NO DATA>
+0162NO DATA>
+0163NO DATA>
+0164NO DATA>
+0165NO DATA>
+0166NO DATA>
+0167NO DATA>
+0168NO DATA>
+0169NO DATA>
+016ANO DATA>
+016BNO DATA>
+016CNO DATA>
+016DNO DATA>
+016ENO DATA>
+016FNO DATA>

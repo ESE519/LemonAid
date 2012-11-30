@@ -1,0 +1,44 @@
+#sidebar {
+				background-color: red;
+				padding:10px;
+			}
+			
+#body {
+				background-color: white;
+				
+			}
+			
+
+.testBorder {
+	border:					1px solid green;
+}
+
+
+#chartDiv {
+	width:					500px;
+	height:					500px;	
+	float:					left;
+}
+
+
+#mapDiv {
+	width:					400px;
+	height:					500px;
+	float:					left;
+}
+
+
+#statusDiv {
+	float:					left;
+}
+
+
+#rtParameters {
+	width:					100px;
+	
+}
+
+
+#controlDiv {
+	width: 					50px;
+}

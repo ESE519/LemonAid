@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleGetInfoString</key>
+	<string>MySQL_python2.3-platlib-py2.3-macosx10.3 1.2</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.pythonmac.MySQL_python2.3-platlib-py2.3-macosx10.3</string>
+	<key>CFBundleName</key>
+	<string>MySQL_python2.3-platlib-py2.3-macosx10.3</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.2</string>
+	<key>IFMajorVersion</key>
+	<integer>1</integer>
+	<key>IFMinorRevision</key>
+	<integer>2</integer>
+	<key>IFPkgFlagAllowBackRev</key>
+	<false/>
+	<key>IFPkgFlagAuthorizationAction</key>
+	<string>AdminAuthorization</string>
+	<key>IFPkgFlagDefaultLocation</key>
+	<string>/Library/Python/2.3</string>
+	<key>IFPkgFlagFollowLinks</key>
+	<true/>
+	<key>IFPkgFlagInstallFat</key>
+	<false/>
+	<key>IFPkgFlagIsRequired</key>
+	<false/>
+	<key>IFPkgFlagOverwritePermissions</key>
+	<false/>
+	<key>IFPkgFlagRelocatable</key>
+	<false/>
+	<key>IFPkgFlagRestartAction</key>
+	<string>NoRestart</string>
+	<key>IFPkgFlagRootVolumeOnly</key>
+	<true/>
+	<key>IFPkgFlagUpdateInstalledLangauges</key>
+	<false/>
+	<key>IFPkgFormatVersion</key>
+	<real>0.10000000149</real>
+	<key>IFRequirementDicts</key>
+	<array>
+		<dict>
+			<key>Level</key>
+			<string>requires</string>
+			<key>SpecArgument</key>
+			<string>/</string>
+			<key>SpecProperty</key>
+			<string>NSFileType</string>
+			<key>SpecType</key>
+			<string>file</string>
+			<key>TestObject</key>
+			<string>NSFileTypeDirectory</string>
+			<key>TestOperator</key>
+			<string>eq</string>
+		</dict>
+	</array>
+	<key>PythonInfoDict</key>
+	<dict>
+		<key>PythonExecutable</key>
+		<string>/usr/bin/python2.3</string>
+		<key>PythonLongVersion</key>
+		<string>2.3 (#1, Sep 13 2003, 00:49:11) 
+[GCC 3.3 20030304 (Apple Computer, Inc. build 1495)]</string>
+		<key>PythonShortVersion</key>
+		<string>2.3</string>
+		<key>bdist_mpkg</key>
+		<dict>
+			<key>version</key>
+			<string>0.2</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

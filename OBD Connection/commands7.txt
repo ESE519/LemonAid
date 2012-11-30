@@ -1,0 +1,20 @@
+in init
+all init done
+trying to open port
+atzELM327 v1.5
+>0170NO DATA>
+0171NO DATA>
+0172NO DATA>
+0173NO DATA>
+0174NO DATA>
+0175NO DATA>
+0176NO DATA>
+0177NO DATA>
+0178NO DATA>
+0179NO DATA>
+017ANO DATA>
+017BNO DATA>
+017CNO DATA>
+017DNO DATA>
+017ENO DATA>
+017FNO DATA>

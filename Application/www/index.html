@@ -42,8 +42,8 @@
             	<div id="options">
             		
             		
-            		<div id="topView" style="border: 2px solid white; float: right; margin: 0px 10px 0px 0px;">
-		            	<div id="headlights" style="border: 1px solid green;">
+            		<div id="topView" style=" float: right; margin: 0px 10px 0px 0px;">
+		            	<div id="headlights" style="">
 		            		<div id="headlampL" class="headlamp"></div>
 		            		<div id="headlampR" class="headlamp"></div>
 		            	</div>
@@ -54,19 +54,30 @@
 		            	
 		            </div>
             		
-            		<div id="gauge-container" style="border: 2px solid white; ">
+            		<div id="gauge-container" style=" ">
 		                <!--<img src="img/dashboard/fuel_guage.jpg" />-->
-		                <div id="rpm" style="border: 1px solid green"></div>
-		                <div id="kmh" style="border: 1px solid green"></div>
+		                <div id="rpm" style=" "></div>
+		                <div id="kmh" style=""></div>
 		                
-		                <div id="fuel" style="border: 1px solid green"></div>
-		                <div id="water-temprature" style="border: 1px solid green"></div>
+		                <div id="fuel" style=""></div>
+		                <div id="water-temprature" style=""></div>
 		                
-		                <div id="realValues" style="height: 100px; width: 824px; border: 1px solid green; float: left">
+		                <div id="realValues" style=" height: 100px; width: 850px;  float: left">
+		                	
+		                	
+		                	<div id="gearStatus" style="float: right; height: 53px">
+		                		<div class="stickPosition" id="p"><p>P</p></div>
+		                		<div class="stickPosition" id="r"><p>R</p></div>
+		                		<div class="stickPosition" id="n"><p>N</p></div>
+		                		<div class="stickPosition" id="d"><p>D</p></div>
+		                	</div>
+		                	
 		                	<label id="rpmRT"></label>
 		                	<div id="speedRTDiv">
-		                		<label id="speedRT">00</label>	
+		                		<label id="speedRT">0</label>	
 		                	</div>
+		                	
+		                	
 		                	
 		                </div>
 		            </div>
@@ -81,7 +92,7 @@
             </div>
             
            ​
-            <div id="warningIcons" style="border: 1px solid yellow; ">
+            <div id="warningIcons" style=" ">
             	<img src="img/dashboard/mil.png" class="signOff" />
             	<img src="img/dashboard/brake.png" class="signOff" />
             	<img src="img/dashboard/brake_light.png" class="signOff" />
@@ -365,23 +376,27 @@ document.addEventListener("online", onOnline, false);
    
 	plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
         onSelect: function() {
-            //alert("dashboard tab selected")
-            //window.location.href = "index.html";
-            //selectedTabBarItem = "dashboard";
+            
         }
     })
+    
+   
+   	plugins.tabBar.createItem("trip", "Trip", "www/img/dashboardIcon.png", {
+        onSelect: function() {
+            window.location.href = "trip.html";
+        }
+    })
+   
 
 	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
         onSelect: function() {
-            //alert("analysis tab selected")
-            //selectedTabBarItem = "analysis";
             window.location.href = "analysis.html";
         }
     })
 	
    
     plugins.tabBar.show()
-    plugins.tabBar.showItems("dashboard", "analysis")
+    plugins.tabBar.showItems("dashboard", "trip", "analysis")
     
    
 

@@ -46,7 +46,7 @@
 		D105E0DE1666477E00819DD0 /* CDVNavigationBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0DA1666477E00819DD0 /* CDVNavigationBarController.m */; };
 		D105E0DF1666477E00819DD0 /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0DC1666477E00819DD0 /* NavigationBar.m */; };
 		D105E0E216664CE400819DD0 /* TabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0E116664CE400819DD0 /* TabBar.m */; };
-		D15E18ED163A8AE100F72708 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
+		D15E18ED163A8AE100F72708 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -577,6 +577,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,
@@ -620,6 +621,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-weak_framework",
 					CoreFoundation,

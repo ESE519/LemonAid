@@ -1,0 +1,20 @@
+in init
+all init done
+trying to open port
+atzELM327 v1.5
+>010041 00 98 18 
+010141 01 00 04 0
+0102NO DATA>
+010341 03 02 00 
+010441 04 56 41 
+010541 05 85 41 
+010641 06 84 >
+010741 07 82 >
+0108NO DATA>
+0109NO DATA>
+010ANO DATA>
+010BNO DATA>
+010C41 0C 0B D7 
+010D41 0D 00 41 
+010E41 0E 8B >
+010F41 0F 55 >
