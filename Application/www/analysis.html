@@ -89,19 +89,21 @@
 
 plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
         onSelect: function() {
-            alert("dashboard tab selected")
+            //alert("dashboard tab selected")
+            //selectedTabBar = "dashboard";
             window.location.href = "index.html";
         }
     })
 
 	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
         onSelect: function() {
-            alert("analysis tab selected")
-            window.location.href = "analysis.html";
+            //alert("analysis tab selected")
+            //window.location.href = "analysis.html";
+            //selectedTabBarItem = "analysis";
         }
     })
     
-    
+    //plugins.selectTabBarItem("analysis");
     //plugins.tabBar.show()
     
     

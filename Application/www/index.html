@@ -1,25 +1,11 @@
-<!DOCTYPE html>
-<html>
 <!--
 #
-# Licensed to the Apache Software Foundation (ASF) under one
-# or more contributor license agreements.  See the NOTICE file
-# distributed with this work for additional information
-# regarding copyright ownership.  The ASF licenses this file
-# to you under the Apache License, Version 2.0 (the
-# "License"); you may not use this file except in compliance
-# with the License.  You may obtain a copy of the License at
-# 
-# http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing,
-# software distributed under the License is distributed on an
-# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-#  KIND, either express or implied.  See the License for the
-# specific language governing permissions and limitations
-# under the License.
+# Author : Pulah Shah
 #
 -->
+
+<!DOCTYPE html>
+<html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name = "format-detection" content = "telephone=no"/>
@@ -103,7 +89,7 @@
             	<img src="img/dashboard/any_light.png" class="signOff" />
             	
             	<img src="img/dashboard/headlight_high.png" class="signOff" />
-            	<img src="img/dashboard/door.png" class="signOff" />
+            	<img id="testdoor" src="img/dashboard/door.png" class="signOff" />
             </div>
             
             <!--
@@ -125,11 +111,6 @@
         <script type="text/javascript" src="js/TabBar.js"></script>
         
         
-        <script type="text/javascript" src="js/raphael.min.js"></script>
-		<script type="text/javascript" src="js/raphael.speedometer.js"></script>
-		<script type="text/javascript" src="js/raphael.slider.js"></script>
-		<script type="text/javascript" src="js/raphael.button.js"></script>
-		
 		<script type="text/javascript" src="js/console.js"></script>
 		<script type="text/javascript" src="js/kendo.dataviz.min.js"></script>
   
@@ -145,49 +126,12 @@
         <!--<script type="text/javascript" src="http://192.168.1.1:8080/socket.io/socket.io.js"></script>-->
         <script type="text/javascript">
         	
-        	
-        	
-            //document.addEventListener('deviceready', onDeviceReady, false);
-            var isNetConnected = false;
+        	var isNetConnected = false;
             var isDbConnected = false;
             var isSocketConnected = false;
             var socket = -1;
             
-            //raphael gauge
-            /*
-            var speeder = Raphael.fn.speedometer("speeder",500,500,0); 
-			speeder.position(0);
-			speeder.setOptions({width:400,height:400});
-			
-			var rpmgauge = Raphael.fn.speedometer("rpmgauge",500,500,0); 
-			rpmgauge.position(0);
-			rpmgauge.setOptions({width:400,height:400});
-		    */        
-            
-            //gauge
-            /*
-		  	var opts = {
-				lines: 12, // The number of lines to draw
-		  		angle: 0, // The length of each line
-			    lineWidth: 0.28, // The line thickness
-			    pointer: {
-				    length: 0.7, // The radius of the inner circle
-				    strokeWidth: 0.035, // The rotation offset
-				    color: '#000000' // Fill color
-			    },
-		  		colorStart: '#6FADCF',   // Colors
-			    colorStop: '#8FC0DA',    // just experiment with them
-			    strokeColor: '#E0E0E0',   // to see which ones work best for you
-			    generateGradient: true
-			};
-		
-			var target = document.getElementById('myCanvas'); // your canvas element
-			var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
-			gauge.maxValue = 20; // set max gauge value
-			gauge.animationSpeed = 40; // set animation speed (32 is default value)
-			gauge.set(0); // set actual value
-            */
-           
+               
             
             var speedData = 0,
             	rpmData = 0;
@@ -371,11 +315,14 @@
                     function update() {
                         //$("#rpm").data("kendoRadialGauge").value(GEARS[gear] * speed + IDLE_RPM);
                         //$("#kmh").data("kendoRadialGauge").value(speed);
+                        
+                        /*
                         if(isSocketConnected){
                         	$("#rpm").data("kendoRadialGauge").value(rpmData);
                         $("#kmh").data("kendoRadialGauge").value(speedData);
                         $('#speedRT').text(speedData);	
                         }
+                        */
                         
                         
                     }
@@ -415,28 +362,28 @@ document.addEventListener("online", onOnline, false);
             plugins.tabBar.init()
 
     plugins.tabBar.create()
-    // or with an orange tint:
-    //plugins.tabBar.create({selectedImageTintColorRgba: '255,40,0,255'})
-
+   
 	plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
         onSelect: function() {
-            alert("dashboard tab selected")
-            window.location.href = "index.html";
+            //alert("dashboard tab selected")
+            //window.location.href = "index.html";
+            //selectedTabBarItem = "dashboard";
         }
     })
 
 	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
         onSelect: function() {
-            alert("analysis tab selected")
+            //alert("analysis tab selected")
+            //selectedTabBarItem = "analysis";
             window.location.href = "analysis.html";
         }
     })
 	
    
     plugins.tabBar.show()
-    // Or with custom style (defaults to 49px height, positioned at bottom): plugins.tabBar.show({height: 80, position: 'top'})
     plugins.tabBar.showItems("dashboard", "analysis")
-
+    
+   
 
 //TODO: only temporary
 	            $("#turn_signal").removeClass('signOff');
@@ -450,11 +397,6 @@ document.addEventListener("online", onOnline, false);
                     $(document).bind("kendo:skinChange", function(e) {
                         createDashboard();
                     });
-/*
-                    $(document).bind("kendo:pageUnload", function(e) {
-                        clearInterval(animateInterval);
-                   	});
-	*/            
             	
             	
 		  		connectToSocket();
@@ -463,20 +405,12 @@ document.addEventListener("online", onOnline, false);
     }, false)
             
             function connectToSocket(){
-            	alert('Connecting to socket...');
+            	//alert('Connecting to socket...');
             	socket = io.connect('http://localhost:8080');
             	//socket = io.connect('http://192.168.1.1:8080');
             	socket.emit('my other event', { hello: 2 });
             	
             	socket.on('news', function (data) {
-            		//gauge.set(data.hello);
-            		
-            		//loader.setValue(data.hello + 'kmph');
-            		//loader.setProgress(data.hello/20);
-            		
-            		//speeder.position(data.hello);
-            		//speeder.accelerate(data.hello);
-					//speeder.scrollTo(data.hello*10);
 					
 					speedData = data.hello;
 					
@@ -490,77 +424,7 @@ document.addEventListener("online", onOnline, false);
             }
             
             
-            /*
-            
-            function onDeviceReady(){
-            	console.log('device ready');
-            	document.addEventListener("online", onOnline, false);
-            	document.addEventListener("offline", onOffline, false);
-            	
-            	// TAB BAR INIT
-/*	            
-	            plugins.tabBar.init()
-
-    plugins.tabBar.create()
-    // or with an orange tint:
-    //plugins.tabBar.create({selectedImageTintColorRgba: '255,40,0,255'})
-
-    plugins.tabBar.createItem("contacts", "Unused, iOS replaces this text by Contacts", "tabButton:Contacts")
-    plugins.tabBar.createItem("recents", "Unused, iOS replaces this text by Recents", "tabButton:Recents")
-
-   
-    plugins.tabBar.show()
-    // Or with custom style (defaults to 49px height, positioned at bottom): plugins.tabBar.show({height: 80, position: 'top'})
-    plugins.tabBar.showItems("contacts", "recents")
-
-    
-	            
-	            
-	            // ------------------------------------
-	            
-	            
-	            //TODO: only temporary
-	            $("#turn_signal").removeClass('signOff');
-	            
-	            
-	            animateInterval = null;
-
-                    createDashboard();
-                    animateDashboard();
-
-                    $(document).bind("kendo:skinChange", function(e) {
-                        createDashboard();
-                    });
-
-                    $(document).bind("kendo:pageUnload", function(e) {
-                        clearInterval(animateInterval);
-                   	});
-	            
-            	
-            	socket = io.connect('http://localhost:8080');
-            	//socket = io.connect('http://192.168.1.1:8080');
-            	socket.emit('my other event', { hello: 2 });
-            	
-            	socket.on('news', function (data) {
-            		//gauge.set(data.hello);
-            		
-            		//loader.setValue(data.hello + 'kmph');
-            		//loader.setProgress(data.hello/20);
-            		
-            		//speeder.position(data.hello);
-            		//speeder.accelerate(data.hello);
-					//speeder.scrollTo(data.hello*10);
-					
-					speedData = data.hello;
-					
-            		
-            	
-            		$('#socketConn').text('Socket Connected ' + data.hello);
-					isSocketConnected = true;  
-		  		});
-		  		
-            }
-              */      
+     
             /**
              *  check connection 
              */
