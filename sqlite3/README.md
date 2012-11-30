@@ -18,4 +18,4 @@ In order to use LemonAid programs, we need to setup a database for storing all k
     sqlite3 test.db
 
 ###Create the table
-    create table speedinfo (gear, light, turn, engine, dd, pd, dr, pr, wheel, speed, throttle, brake, rpm);
+    create table speedinfo (gear int, light int, turn int, engine int, dd int, pd int, dr int, pr int, steer int, speed int, throttle int, brake int, rpm int, timestamp timestamp);
