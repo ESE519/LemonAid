@@ -29,6 +29,10 @@
         <link rel="stylesheet" type="text/css" href="css/trip.css" />
         
         
+        <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqbDHf8NwFQ1WOwysbABx3pDEogumJXxA&sensor=false">
+    </script>
+        
         <title>LemonAid</title>
     </head>
     <body>
@@ -115,10 +119,23 @@
 			        }
 			    })
 			    
+			    
+			    initialize()
+			    
 		    }, false)
               
              
              
+             
+             function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(-34.397, 150.644),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("mapDiv"),
+            mapOptions);
+      }
          
             
             
