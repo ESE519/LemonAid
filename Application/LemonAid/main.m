@@ -20,8 +20,8 @@
 //  main.m
 //  LemonAid
 //
-//  Created by ___FULLUSERNAME___ on ___DATE___.
-//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
+//  Created by ___PULAH SHAH___ on ___DATE___.
+//  Copyright ___ORGANIZATIONNAME___ ___2012___. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

@@ -1,0 +1,206 @@
+/* ----------------------------------------------------------------- CSS RESET */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* ----------------------------------------------------------------- PAGE SETTING */
+html,
+body {
+    height:100%;
+    font-size:12px;
+    font-family:sans-serif;
+    width:100%;
+    background-color:#000000;
+}
+
+
+
+/* ----------------------------------------------------------------- STATUS BAR */
+#statusBar {
+	height:				50px;
+	color:				white;
+	background-color: 	black;
+}
+
+/* ----------------------------------------------------------------- STATUS ICONS */
+#connectionCheck {
+	float:				right;
+	margin:				10px 10px 0px 10px;
+}
+
+/* ----------------------------------------------------------------- NAVIGATION BAR */
+#navBar {
+	height:				50px;
+	color:				white;
+	background-color: 	black;
+	position:			absolute;
+    bottom:				0;
+    width:				100%;
+}
+
+/* ----------------------------------------------------------------- LAUNCH ICON */
+#launchIcon {
+	font-size: 			36pt;
+}
+
+/* temp */
+#speedValue {
+	font-size:			36pt;
+}
+
+/* speeder */
+#speeder {
+	display:table-cell;
+}
+
+#headlights {
+	height:				80px;
+}
+
+.headlamp {
+	height:				80px;
+	width:				20px;
+	background-color:	yellow;
+	
+	margin:				30px 20px 0px 10px;
+}
+
+#headlampL {
+	float:				left;
+	margin-left:		22px;
+}
+
+#headlampR {
+	float:				right;
+}
+
+#warningIcons {
+	width:				980px;
+	margin-left:				20px;
+	
+	
+	position:absolute;
+   bottom:0;
+   
+   height:136px;   /* Height of the footer */
+   
+}
+
+
+.signOff {
+	opacity:			0.2;
+}
+
+
+.stickPosition {
+	text-align:center;
+	vertical-align:middle;
+	color: gray;
+	font-size:40pt;
+	margin-top:	40px;
+	
+	width:	50px;
+	height:	50px;
+	float: left;
+}
+
+
+@font-face {
+	font-family: EraserDust;
+  	src: url(../ds_digital/DS-DIGI.ttf);
+}
+
+#speedRTDiv {
+	font-family: EraserDust;
+	color:#1BA1E2;
+	font-size: 60pt;
+	margin-left: 450px;
+}
+
+.goGray {
+	font-family: EraserDust;
+	color:#FFFFFF;
+	font-size: 60pt;
+	margin-left: 420px;
+}
+
+#gauge-container {
+                    /* margin: 0 auto;*/
+                    overflow: hidden;
+                    width: 845px;
+                    height: 524px;
+
+                    /*background: transparent url("../img/car-dashboard.png") no-repeat 50% 50%;*/
+                }
+
+                .k-gauge {
+                    float: left;
+                }
+
+                #rpm {
+                    width: 282px;
+                    height: 287px;
+                    margin: 100px 0px 0px 08px;
+                }
+
+                #kmh {
+                    width: 366px;
+                    height: 366px;
+                    margin: 37px 0px 0px 10px;
+                }
+
+                #fuel {
+                    width: 140px;
+                    height: 136px;
+
+                    margin: 70px 0px 0px 38px;
+                }
+
+                #water-temprature {
+                    width: 140px;
+                    height: 136px;
+					float:right;
+                    margin-top: 50px;
+                }
+
+
