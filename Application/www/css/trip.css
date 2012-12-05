@@ -1,13 +1,4 @@
-#sidebar {
-				background-color: red;
-				padding:10px;
-			}
-			
-#body {
-				background-color: white;
-				
-			}
-			
+
 
 .testBorder {
 	border:					1px solid green;
@@ -15,30 +6,103 @@
 
 
 #chartDiv {
-	width:					500px;
-	height:					500px;	
+	/*-webkit-user-select: none;  /* prevent copy paste for all elements */
+	width:					490px;
+	height:					450px;	
 	float:					left;
 }
 
 
 #mapDiv {
-	width:					400px;
+	width:					480px;
 	height:					500px;
 	float:					left;
+	margin-left:        	30px;
 }
 
 
 #statusDiv {
 	float:					left;
+	margin-left:			15px;
 }
+
 
 
 #rtParameters {
-	width:					100px;
-	
+	width:					1000px;
+	height:                 100px;
+	color:					#FFFFFF;
+}
+
+#allText {
+	margin:					10px 0px 0px 0px;
+}
+
+.rtTitle {
+	width:					100%;
+	height:					25px;
+	color:					#808080;
 }
 
 
+.rtParam, .str {
+	margin:					0px 10px 10px 10px;
+	width:					87px;
+	height:					35px;
+	float:					left;
+	text-align: 			center;
+	color:					#808080;
+	
+}
+
+.rtParam {
+	font-size:				30pt;
+}
+
+.str {
+	height:					15px;
+	color:					white;
+}
+
+#throttlePosition, #turnLights {
+	width:					90px;
+}
+
+.tposition {
+	margin:					0px 2px 10px 2px;
+	width:					5px;
+	height:					40px;
+	float:					left;
+	background-color:		#808080;				
+}
+
+#speedMeter {
+	color:					#00BFFF;
+}
+
+#rpmMeter {
+	color:					#FFFF00;
+}
+
 #controlDiv {
-	width: 					50px;
+	width: 					1000px;
+	height:					50px;
+}
+
+
+#timeSlider {
+	width:					100%;
+	
+	float:					left;
+}
+
+#statusLine {
+	width: 					100%;
+	float:					left;
+}
+
+#slider {
+	margin-top:				15px;
+	float:					right;
+	width:					50%;
 }

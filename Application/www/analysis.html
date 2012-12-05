@@ -36,9 +36,6 @@
         <div class="app">
             <div id="statusBar">
             	<div id="connectionCheck">
-            		<label id="netCon" class="statusIcon"></label>
-            		<label id="dbCon" class="statusIcon"></label>
-            		<label id="socketConn" class="statusIcon"></label>
             	</div> 
             	<button id="disconnectConn">Disconnect</button>	
             </div>
@@ -59,6 +56,7 @@
             </div>-->
             
         </div>
+        
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
         
@@ -69,151 +67,10 @@
         
         <script type="text/javascript" src="js/TabBar.js"></script>
        
+        <script type="text/javascript" src="js/analysis.js"></script>
          
         <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
         <!--<script type="text/javascript" src="http://192.168.1.1:8080/socket.io/socket.io.js"></script>-->
-        <script type="text/javascript">
-            var isNetConnected = false;
-            var isDbConnected = false;
-            var isSocketConnected = false;
-            var socket = -1;
-            
-            var speedData = 0;
-            
-            /**
-             *  steps to do when cordova is ready 
-             */
-            
-            document.addEventListener("deviceready", function() {
-    console.log("PhoneGap ready")
-
-    
-    
-    
-    plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
-        onSelect: function() {
-        	window.location.href = "dashboard.html"    
-        }
-    })
-    
-    plugins.tabBar.createItem("trip", "Trip", "www/img/dashboardIcon.png", {
-        onSelect: function() {
-            window.location.href = "trip.html"
-        }
-    })
-   
-
-	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
-        onSelect: function() {
-            //window.location.href = "analysis.html";
-        }
-    })
-    
-    
-    
-    socket = io.connect('http://localhost:8080');
-            	//socket = io.connect('http://192.168.1.1:8080');
-            	//socket.emit('my other event', { hello: 2 });
-            	
-            	socket.on('news', function (data) {
-            		//gauge.set(data.hello);
-            		
-            		//loader.setValue(data.hello + 'kmph');
-            		//loader.setProgress(data.hello/20);
-            		
-            		//speeder.position(data.hello);
-            		//speeder.accelerate(data.hello);
-					//speeder.scrollTo(data.hello*10);
-					
-					speedData = data.hello;
-					
-            		$('#socketConn').text('Socket Connected ' + data.hello);
-					isSocketConnected = true;  
-		  		});
-            
-    
-    
-    }, false)
-              
-             
-             
-             
-                   
-            /**
-             *  check connection 
-             */
-            function checkConnection(){
-            	console.log('connection check');
-            	var networkState = navigator.network.connection.type;
-
-			    var states = {};
-			    states[Connection.UNKNOWN]  = 'Unknown connection';
-			    states[Connection.ETHERNET] = 'Ethernet connection';
-			    states[Connection.WIFI]     = 'WiFi connection';
-			    states[Connection.CELL_2G]  = 'Cell 2G connection';
-			    states[Connection.CELL_3G]  = 'Cell 3G connection';
-			    states[Connection.CELL_4G]  = 'Cell 4G connection';
-			    states[Connection.NONE]     = 'No network connection';
-			
-			    alert('Connection type: ' + states[networkState]);
-			    
-			    if(states[Connection.WIFI] == 'WiFi connection'){
-			    	$('#netCon').text('WiFi connected');
-			    	isNetConnected = true;
-			    }
-            }
-            
-            /**
-             *  handle online event
-             */
-            function onOnline(){
-            	$('#netCon').text('WiFi connected');
-			    isNetConnected = true;
-            }
-            
-            /**
-             *  handle offline event
-             */
-            function onOffline(){
-            	$('#netCon').text('WiFi disconnected');
-			    isNetConnected = false;
-            }
-            
-            /**
-			 *  disconnect the socket
-			 */
-			$('#disconnectConn').click(function(){
-				//alert('Disconnect Socket');
-				
-				navigator.notification.alert(
-				    "Disconnect Socket",
-				    callBackFunctionB, // Specify a function to be called 
-				    'LemonAid',
-				    "OK"
-				);
-				
-				socket.disconnect();
-				$('#socketConn').text('Socket disonnected');
-				isSocketConnected = false;
-			});
-			
-			/**
-			 *  callback for alert 
-			 */
-			function callBackFunctionB(){
-			    console.log('Socket Disconnected - ok');
-			}
-			
-			
-			$('#toHome').click(function(){
-				window.location.href = 'index.html';
-			});
-            
-   
-
-            
-            
-            
-        </script>
+        
     </body>
 </html>

@@ -47,6 +47,8 @@
 		D105E0DF1666477E00819DD0 /* NavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0DC1666477E00819DD0 /* NavigationBar.m */; };
 		D105E0E216664CE400819DD0 /* TabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D105E0E116664CE400819DD0 /* TabBar.m */; };
 		D15E18ED163A8AE100F72708 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		D196386F166C691100CEF1AD /* wheel-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D196386E166C691100CEF1AD /* wheel-72.png */; };
+		D1963871166C69CB00CEF1AD /* wheel-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D1963870166C69CB00CEF1AD /* wheel-72@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +132,8 @@
 		D105E0DC1666477E00819DD0 /* NavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationBar.m; sourceTree = "<group>"; };
 		D105E0E016664CE400819DD0 /* TabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBar.h; sourceTree = "<group>"; };
 		D105E0E116664CE400819DD0 /* TabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBar.m; sourceTree = "<group>"; };
+		D196386E166C691100CEF1AD /* wheel-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel-72.png"; sourceTree = "<group>"; };
+		D1963870166C69CB00CEF1AD /* wheel-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wheel-72@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				D1963870166C69CB00CEF1AD /* wheel-72@2x.png */,
+				D196386E166C691100CEF1AD /* wheel-72.png */,
 				301BF56E109A69640062928A /* www */,
 				301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -431,6 +437,8 @@
 				3088BBC1154F3926009F9C59 /* Default@2x~iphone.png in Resources */,
 				3088BBC2154F3926009F9C59 /* Default~iphone.png in Resources */,
 				D105E0DD1666477E00819DD0 /* CDVNavigationBar.xib in Resources */,
+				D196386F166C691100CEF1AD /* wheel-72.png in Resources */,
+				D1963871166C69CB00CEF1AD /* wheel-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

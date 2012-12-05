@@ -1,17 +1,5 @@
 /* ----------------------------------------------------------------- CSS RESET */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, div {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -20,8 +8,7 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
@@ -33,8 +20,7 @@ ol, ul {
 blockquote, q {
 	quotes: none;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
+blockquote:before, blockquote:after, q:before, q:after {
 	content: '';
 	content: none;
 }
@@ -43,164 +29,282 @@ table {
 	border-spacing: 0;
 }
 
-/* ----------------------------------------------------------------- PAGE SETTING */
-html,
-body {
-    height:100%;
-    font-size:12px;
-    font-family:sans-serif;
-    width:100%;
-    background-color:#000000;
+* {
+	-webkit-user-select: none; /* prevent copy paste for all elements */
 }
 
+/* ----------------------------------------------------------------- PAGE SETTING */
+html, body {
+	height: 100%;
+	font-size: 12px;
+	font-family: sans-serif;
+	width: 100%;
+	background-color: #000000;
+}
+
+
+.app {
+	border: 2px solid blue;
+	width:  1020px;
+	height: 650px;
+	overflow: hidden;
+	background-color: black;
+}
 
 
 /* ----------------------------------------------------------------- STATUS BAR */
 #statusBar {
-	height:				50px;
-	color:				white;
-	background-color: 	black;
+	height: 50px;
+	color: white;
+	background-color: black;
 }
 
 /* ----------------------------------------------------------------- STATUS ICONS */
 #connectionCheck {
-	float:				right;
-	margin:				10px 10px 0px 10px;
+	float: right;
+	margin: 10px 10px 0px 10px;
 }
 
 /* ----------------------------------------------------------------- NAVIGATION BAR */
 #navBar {
-	height:				50px;
-	color:				white;
-	background-color: 	black;
-	position:			absolute;
-    bottom:				0;
-    width:				100%;
+	height: 50px;
+	color: white;
+	background-color: black;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 }
 
 /* ----------------------------------------------------------------- LAUNCH ICON */
 #launchIcon {
-	font-size: 			36pt;
+	font-size: 36pt;
 }
 
 /* temp */
 #speedValue {
-	font-size:			36pt;
+	font-size: 36pt;
 }
 
 /* speeder */
 #speeder {
-	display:table-cell;
+	display: table-cell;
 }
 
 #headlights {
-	height:				80px;
+	
+	height: 80px;
+	top: 690px;
+	
 }
 
 .headlamp {
-	height:				80px;
-	width:				20px;
-	background-color:	yellow;
-	
-	margin:				30px 20px 0px 10px;
+	height: 80px;
+	width: 20px;
+	top: 690px;
 }
 
 #headlampL {
-	float:				left;
-	margin-left:		22px;
+	position: absolute;
+	right: 120px;
+	
 }
 
 #headlampR {
-	float:				right;
+	position: absolute;
+	right: 45px;
+	
 }
+
+.doorsq {
+	position:absolute;
+	top: 850px;
+	width: 20px;
+	height: 50px;
+	background-color:	#808080;
+	opacity: 0.1;
+}
+
+#dfront, #pfront {
+	top:850px;
+}
+
+#drear, #prear {
+	top: 910px;
+}
+
+#pfront, #prear {
+	right: 20px;
+}
+
+.brakesq {
+	
+}
+
+#brakesqL, #brakesqR {
+	position: absolute;
+	width: 30px;
+	height: 20px;
+	top: 1000px;
+}
+
+#brakesqR {
+	right: 20px;
+}
+
 
 #warningIcons {
-	width:				980px;
-	margin-left:				20px;
-	
-	
-	position:absolute;
-   bottom:0;
-   
-   height:136px;   /* Height of the footer */
-   
+	width: 980px;
+	margin-left: 20px;
+	position: absolute;
+	top: 1170px;
+	height: 136px; /* Height of the footer */
 }
-
 
 .signOff {
-	opacity:			0.2;
+	opacity: 0.2;
 }
 
-
 .stickPosition {
-	text-align:center;
-	vertical-align:middle;
+	text-align: center;
+	vertical-align: middle;
 	color: gray;
-	font-size:40pt;
-	margin-top:	40px;
-	
-	width:	50px;
-	height:	50px;
+	font-size: 40pt;
+	margin-top: 40px;
+	border-radius: 5px;
+	width: 55px;
+	height: 55px;
 	float: left;
 }
 
-
 @font-face {
 	font-family: EraserDust;
-  	src: url(../ds_digital/DS-DIGI.ttf);
-}
-
-#speedRTDiv {
-	font-family: EraserDust;
-	color:#1BA1E2;
-	font-size: 60pt;
-	margin-left: 450px;
+	src: url(../ds_digital/DS-DIGI.ttf);
 }
 
 .goGray {
 	font-family: EraserDust;
-	color:#FFFFFF;
+	color: #FFFFFF;
 	font-size: 60pt;
 	margin-left: 420px;
 }
 
+#speedRing {
+	position: absolute;
+	margin-left: 235px;
+	margin-top: 50px;
+	z-index: 2;
+}
+
+#rpmRing {
+	position: absolute;
+	margin-left: 20px;
+	margin-top: 50px;
+	z-index: 1;
+}
+
+#dataRing {
+	position: absolute;
+	margin-left: 450px;
+	margin-top: 50px;
+	z-index: 1;
+}
+
 #gauge-container {
-                    /* margin: 0 auto;*/
-                    overflow: hidden;
-                    width: 845px;
-                    height: 524px;
+	/* margin: 0 auto;*/
+	overflow: hidden;
+	width: 845px;
+	height: 524px;
+	/*background: transparent url("../img/car-dashboard.png") no-repeat 50% 50%;*/
+}
 
-                    /*background: transparent url("../img/car-dashboard.png") no-repeat 50% 50%;*/
-                }
+.k-gauge {
+	float: left;
+}
 
-                .k-gauge {
-                    float: left;
-                }
+#rpm {
+	width: 286px;
+	height: 286px;
+	top: 65px;
+	margin-left: 20px;
+	z-index: 4;
+}
 
-                #rpm {
-                    width: 282px;
-                    height: 287px;
-                    margin: 100px 0px 0px 08px;
-                }
+#kmh {
+	position: absolute;
+	right: 55px;
+	top: 45px;
+	width: 336px;
+	height: 336px;
+	z-index: 4;
+}
 
-                #kmh {
-                    width: 366px;
-                    height: 366px;
-                    margin: 37px 0px 0px 10px;
-                }
+#fuel {
+	position: absolute;
+	width: 170px;
+	height: 170px;
+	top: 65px;
+	right: 15px;
+	z-index: 4;
+}
 
-                #fuel {
-                    width: 140px;
-                    height: 136px;
+#fuel-icon, #temp-icon {
+	position: absolute;
+	top: 790px;
+	left: 600px;
+	z-index: 16;
+	opacity: 0.5;
+}
 
-                    margin: 70px 0px 0px 38px;
-                }
+#temp-icon {
+	top:	955px;
+}
 
-                #water-temprature {
-                    width: 140px;
-                    height: 136px;
-					float:right;
-                    margin-top: 50px;
-                }
+#water-temprature {
+	position: absolute;
+	width: 170px;
+	height: 168px;
+	top: 60px;
+	right: 15px;
+	z-index: 4;
+}
 
+#rpmRT {
+	font-family: sans-serif;
+	color: #ff7a00;
+	font-size: 10pt;
+	position: absolute;
+	top: 1010px;
+	right: 800px;
+	z-index: 5;
+}
+
+#speedRTDiv {
+	font-family: sans-serif;
+	color: #1BA1E2;
+	font-size: 30pt;
+	position: absolute;
+	top: 990px;
+	right: 580px;
+	z-index: 5;
+}
+
+#kmph {
+	font-size: 12pt;
+	font-family: sans-serif;
+}
+
+#gearStatus {
+	position: absolute;
+	height: 60px;
+	top: 1070px;
+	right: 50px;
+}
+
+#realValues {
+	height: 100px;
+	width: 980px;
+	margin-left: 20px;
+	position: absolute;
+	bottom: 140px;
+}
 

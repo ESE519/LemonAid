@@ -3,106 +3,257 @@
 # Author : Pulah Shah
 #
 -->
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name = "format-detection" content = "telephone=no"/>
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
-        <link rel="stylesheet" type="text/css" href="css/dashboard.css" /> <!-- 2048-by-1536 resolution at 264 pixels per inch (ppi) -->
-        <link rel="stylesheet" type="text/css" href="css/jquery.percentageloader-0.1.css" />
-        
-        <link rel="stylesheet" type="text/css" href="css/examples-offline.css" />
-        <link rel="stylesheet" type="text/css" href="css/kendo.dataviz.min.css" />
-        
-        <title>LemonAid</title>
-        
-        
-    </head>
-    <body>
-    	<div class="barBuffer" style="height: 20px;"></div>
-        <div class="app">
-        	
-            <div id="statusBar" style="border-bottom: 2px solid gray;">
-            	<div id="connectionCheck">
-            		<label id="netCon" class="statusIcon"></label>
-            		<label id="dbCon" class="statusIcon"></label>
-            		<label id="socketConn" class="statusIcon"></label>
-            	</div>
-            	<button id="disconnectConn">Disconnect</button> 
-            	<button id="connectConn">Connect</button>
-            			
-            </div>
-            
-            <div id="options">
-            		
-            		
-            		<div id="topView" style=" float: right; margin: 0px 10px 0px 0px;">
-		            	<div id="headlights" style="">
-		            		<div id="headlampL" class="headlamp"></div>
-		            		<div id="headlampR" class="headlamp"></div>
-		            	</div>
-		            	
-		            	<div id="carBody" style="margin-top: 0px;">
-		            		<img src="img/cartopviewwhite.png" alt="Car" />	
-		            	</div>
-		            	
-		            </div>
-            		
-            		<div id="gauge-container" style=" ">
-		                <!--<img src="img/dashboard/fuel_guage.jpg" />-->
-		                <div id="rpm" style=" "></div>
-		                <div id="kmh" style=""></div>
-		                
-		                <div id="fuel" style=""></div>
-		                <div id="water-temprature" style=""></div>
-		                
-		                <div id="realValues" style=" height: 100px; width: 850px;  float: left">
-		                	
-		                	
-		                	<div id="gearStatus" style="float: right; height: 53px">
-		                		<div class="stickPosition" id="p"><p>P</p></div>
-		                		<div class="stickPosition" id="r"><p>R</p></div>
-		                		<div class="stickPosition" id="n"><p>N</p></div>
-		                		<div class="stickPosition" id="d"><p>D</p></div>
-		                	</div>
-		                	
-		                	<label id="rpmRT"></label>
-		                	<div id="speedRTDiv">
-		                		<label id="speedRT">0</label>	
-		                	</div>
-		                	
-		                	
-		                	
-		                </div>
-		            </div>
-		            
-		            
-            	</div>
-            </div>
-            
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "format-detection" content = "telephone=no"/>
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
+		<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+		<link rel="stylesheet" type="text/css" href="css/trip.css" />
+		<!-- 2048-by-1536 resolution at 264 pixels per inch (ppi) -->
+		<link rel="stylesheet" type="text/css" href="css/jquery.percentageloader-0.1.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.9.2.custom.css" />
+		<link rel="stylesheet" type="text/css" href="css/examples-offline.css" />
+		<link rel="stylesheet" type="text/css" href="css/kendo.dataviz.min.css" />
+
+		<script type="text/javascript"
+      		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqbDHf8NwFQ1WOwysbABx3pDEogumJXxA&sensor=false">
+    	</script>
+			
+		<title>LemonAid</title>
+
+   </head>
+	<body>
+		<div class="app" id="dashboardPage">
+
+			
+			<div id="options">
+
+				<div id="topView" style=" float: right; margin: 0px 20px 0px 0px;">
+					<div id="headlights" style="">
+						<div id="headlampL" class="headlamp"></div>
+						<div id="headlampR" class="headlamp"></div>
+					</div>
+					
+					<div id="doorSquare">
+						<div id="dfront" class="doorsq">
+							
+						</div>
+						<div id="pfront" class="doorsq">
+							
+						</div>
+						<div id="drear" class="doorsq">
+							
+						</div>
+						<div id="prear" class="doorsq">
+							
+						</div> 
+					</div>
+					
+					<div class="brakesq">
+						<div id="brakesqL"></div>
+						<div id="brakesqR"></div>
+					</div>
+					
+					<div id="carBody" style="margin-top: 20px;">
+						<img src="img/cartopviewwhite.png" alt="Car" />
+					</div>
+
+				</div>
+
+				<div id="gauge-container" style=" ">
+					<!--<img src="img/dashboard/fuel_guage.jpg" />-->
+					<div id="rpm" style=" "></div>
+					<img id="speedRing" src="img/speedometerCircle.gif" alt="" />
+					<img id="rpmRing" src="img/speedometerCircle.gif" alt="" />
+					<img id="dataRing" src="img/speedometerCircle.gif" alt="" />
+					<div id="kmh" style=""></div>
+
+					<div id="fuel" style=""></div>
+					<img id="fuel-icon" src="img/dashboard/fuel_guage.jpg" />
+					<img id="temp-icon" src="img/dashboard/coolanttemp.png" />
+					<div id="water-temprature" style=""></div>
+
+					<label id="rpmRT"> <label>RPM</label>
+						<div>
+							x 1000
+						</div> </label>
+					<div id="speedRTDiv">
+						<label id="speedRT">00</label>
+						<div id="kmph">
+							KMPH
+
+						</div>
+
+					</div>
+
+					<div id="gearStatus" style="">
+						<div class="stickPosition" id="p">
+							<p>
+								P
+							</p>
+						</div>
+						<div class="stickPosition" id="r">
+							<p>
+								R
+							</p>
+						</div>
+						<div class="stickPosition" id="n">
+							<p>
+								N
+							</p>
+						</div>
+						<div class="stickPosition" id="d">
+							<p>
+								D
+							</p>
+						</div>
+					</div><!-- gear status -->
+
+					<!--//TODO: THROTTLE POSITION meter-->
+
+				</div><!-- gauge container -->
+			
+			</div><!-- options -->
+			
+
            ​
             <div id="warningIcons" style=" ">
-            	<img src="img/dashboard/mil.png" class="signOff" />
-            	<img src="img/dashboard/brake.png" class="signOff" />
-            	<img src="img/dashboard/brake_light.png" class="signOff" />
-            	<img id="turn_signal" src="img/dashboard/turn_signal.png" class="signOff" />
-            	<img src="img/dashboard/any_light.png" class="signOff" />
+            	<img class="wIcons" src="img/dashboard/mil.png"  />
+            	<img class="wIcons" id="brakeWarning" src="img/dashboard/brake.png"  />
+            	<img class="wIcons" src="img/dashboard/brake_light.png"  />
+            	<img class="wIcons" id="turn_signal" src="img/dashboard/turn_signal.png"  />
+            	<img class="wIcons" src="img/dashboard/any_light.png"  />
             	
-            	<img src="img/dashboard/headlight_high.png" class="signOff" />
-            	<img id="testdoor" src="img/dashboard/door.png" class="signOff" />
-            </div>
+            	<img class="wIcons" src="img/dashboard/headlight_high.png" />
+            	<img class="wIcons" id="doorWarning" src="img/dashboard/door.png"  />
+            </div><!-- warning icons -->
 		
-             
-             
-             
-             
-             
-             
-            	
+		</div><!-- dashboard page -->
+		
+		<!-- ********************************************************************** -->
+		
+		<div id="tripPage" class="app" style="">
+			<div id="chartDiv" >
+				<div id="container" style="min-width: 400px; height: 500px; margin: 0 auto"></div>
+			</div><!-- chart div -->
+
+			<div id="mapDiv" >
+
+			</div><!-- map div -->
+			
+			
+			<div id="statusDiv" >
+
+				<div id="rtParameters" >
+					<div class="rtTitle" id="allText">
+						<div class="str" >
+							THROTTLE
+						</div>
+						<div class="str" >
+							RPM
+						</div>
+						<div class="str" >
+							SPEED
+						</div>
+						<div class="str" >
+							DOOR
+						</div>
+						<div class="str" >
+							HEADLAMP
+						</div>
+						<div class="str" id="turnLights">
+							INDICATORS
+						</div>
+						<div class="str" >
+							BRAKE
+						</div>
+						<div class="str" ></div>
+						<div class="str" ></div>
+					</div>
+
+					<div class="rtParam" id="throttlePosition">
+						<div class="tposition" id="l1"></div>
+						<div class="tposition" id="l2"></div>
+						<div class="tposition" id="l3"></div>
+						<div class="tposition" id="14"></div>
+						<div class="tposition" id="l5"></div>
+						<div class="tposition" id="l6"></div>
+						<div class="tposition" id="l7"></div>
+						<div class="tposition" id="l8"></div>
+						<div class="tposition" id="19"></div>
+						<div class="tposition" id="l10"></div>
+					</div>
+					<div class="rtParam" id="rpmMeter">
+						00
+					</div>
+					<div class="rtParam" id="speedMeter">
+						00
+					</div>
+					<div class="rtParam" id="doorIcon"></div>
+					<div class="rtParam" id="lightIcon"></div>
+					<div class="rtParam" id="turnIcon"></div>
+					<div class="rtParam" id="brakeIcon"></div>
+					<div class="rtParam" id=""></div>
+					<div class="rtParam" id=""></div>
+
+					<div class="rtTitle">
+						<div class="str" id="throttleText">
+							0 %
+						</div>
+						<div class="str" id="rpmText">
+							x 1000
+						</div>
+						<div class="str" id="speedText">
+							KMPH
+						</div>
+						<div class="str" id="doorText">
+							CLOSED
+						</div>
+						<div class="str" id="lightText">
+							OFF
+						</div>
+						<div class="str" id="turnText">
+							OFF
+						</div>
+						<div class="str" id="brakeText">
+							OFF
+						</div>
+						<div class="str" ></div>
+						<div class="str" ></div>
+					</div>
+				</div>
+
+				<div id="controlDiv" class="testBorder">
+					<div id="timeSlider" class="testBorder">
+
+					</div>
+					<button id="playButton" onclick="onResumeClick()">
+						Play
+					</button>
+					<button id="pauseButton" onclick="onPauseClick()">
+						Pause
+					</button>
+					
+					<div id="slider"></div>
+
+				</div><!-- control div -->
+			</div><!-- status div -->
+			
+
+		</div>
+		        
         
         
+        <!---------------------- ANALYSIS ---------------------------------------->
+        
+        <div id="analysisPage" class="app" style="">
+        
+        </div>
+        
+        
+        <!------------------------------------------------------------------->     
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
         
@@ -113,348 +264,17 @@
         <script type="text/javascript" src="js/TabBar.js"></script>
         
         
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/dashboard.js"></script>
+        <!--<script type="text/javascript" src="js/trip.js"></script>-->
+        <!--<script type="text/javascript" src="http://192.168.1.3:8080/socket.io/socket.io.js"></script>-->
+        
+        <script type="text/javascript" src="js/highstock.js"></script>
+        <script type="text/javascript" src="js/exporting.js"></script>
+        
+        <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
+        
         <script type="text/javascript" src="js/websocket.js"></script>
-        <script type="text/javascript" src="js/gauge.min.js"></script>
-        <script type="text/javascript" src="js/jquery.percentageloader-0.1.js"></script>
-        <!--<script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>-->
-        <script type="text/javascript" src="http://192.168.1.72:8080/socket.io/socket.io.js"></script>
-        <script type="text/javascript">
-			var isNetConnected = false;
-			var isDbConnected = false;
-			var isSocketConnected = false;
-			var socket = -1;
-
-			var speedData = 0, rpmData = 0;
-
-			function createDashboard() {
-				$("#rpm").kendoRadialGauge({
-					theme : "black",
-
-					pointer : {
-						value : 0,
-						color : "#ea7001"
-					},
-
-					scale : {
-						startAngle : -45,
-						endAngle : 120,
-
-						min : 0,
-						max : 6,
-
-						majorUnit : 1,
-						majorTicks : {
-							width : 1,
-							size : 7
-						},
-
-						minorUnit : 0.2,
-						minorTicks : {
-							size : 5
-						},
-
-						ranges : [{
-							from : 4,
-							to : 5,
-							color : "#ff7a00"
-						}, {
-							from : 5,
-							to : 6,
-							color : "#c20000"
-						}],
-
-						labels : {
-							font : "15px Arial,Helvetica,sans-serif"
-						}
-					}
-				});
-
-				$("#kmh").kendoRadialGauge({
-					theme : "black",
-
-					pointer : {
-						value : 0,
-						color : "#1BA1E2"
-					},
-
-					scale : {
-						startAngle : -60,
-						endAngle : 240,
-
-						min : 0,
-						max : 220,
-
-						majorTicks : {
-							width : 3,
-							size : 14,
-							color : "#1BA1E2"
-						},
-
-						minorTicks : {
-							size : 10
-						},
-
-						minorUnit : 2,
-
-						labels : {
-							font : "17px Arial,Helvetica,sans-serif"
-						}
-					}
-				});
-
-				$("#fuel").kendoRadialGauge({
-					theme : "black",
-
-					pointer : {
-						value : 0.5,
-						color : "#ea7001"
-					},
-
-					scale : {
-						startAngle : 90,
-						endAngle : 180,
-
-						min : 0,
-						max : 1,
-
-						majorUnit : 0.5,
-						majorTicks : {
-							width : 2,
-							size : 6
-						},
-
-						minorUnit : 0.25,
-						minorTicks : {
-							size : 3
-						},
-
-						ranges : [{
-							from : 0,
-							to : 0.1,
-							color : "#c20000"
-						}],
-
-						labels : {
-							font : "11px Arial,Helvetica,sans-serif"
-						}
-					}
-				});
-
-				$("#water-temprature").kendoRadialGauge({
-					theme : "black",
-
-					pointer : {
-						value : 90,
-						color : "#ea7001"
-					},
-
-					scale : {
-						startAngle : 180,
-						endAngle : 270,
-
-						min : 60,
-						max : 120,
-
-						majorUnit : 30,
-						majorTicks : {
-							width : 2,
-							size : 6
-						},
-
-						minorUnit : 10,
-						minorTicks : {
-							size : 3
-						},
-
-						ranges : [{
-							from : 110,
-							to : 120,
-							color : "#c20000"
-						}],
-
-						labels : {
-							font : "11px Arial,Helvetica,sans-serif"
-						}
-					}
-				});
-			}
-
-			var animateInterval;
-			function animateDashboard() {
-				if (animateInterval) {
-					return;
-				}
-
-				var GEARS = [0.14, 0.06, 0.035, 0.027, 0.019], IDLE_RPM = 0.9, CHANGE_RPM = 4, CHANGE_DELAY = 400, DECAY_RATE = 0.0017, TOP_SPEED = 210, ACCELERATION = 0.6, INTERVAL = 50;
-
-				var speed = 0, skip = 0, ratio, gear = 0;
-
-				function update() {
-
-				}
-
-				animateInterval = setInterval(function() {
-					if (speed < TOP_SPEED) {
-						if (GEARS[gear] * speed > CHANGE_RPM && gear < GEARS.length) {
-							gear++;
-							skip = CHANGE_DELAY / INTERVAL;
-							update();
-						}
-
-						if (skip-- < 0) {
-							speed += ACCELERATION - (DECAY_RATE * speed);
-							update();
-						}
-					} else {
-						skip = 100;
-						speed = 0;
-						gear = 0;
-					}
-				}, INTERVAL);
-			}
-
-			/**
-			 *  steps to do when cordova is ready
-			 */
-
-			document.addEventListener("deviceready", function() {
-				console.log("PhoneGap ready")
-				document.addEventListener("online", onOnline, false);
-				document.addEventListener("offline", onOffline, false);
-
-				plugins.tabBar.init()
-
-				plugins.tabBar.create()
-
-				plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
-					onSelect : function() {
-
-					}
-				})
-
-				plugins.tabBar.createItem("trip", "Trip", "www/img/dashboardIcon.png", {
-					onSelect : function() {
-						window.location.href = "trip.html";
-					}
-				})
-
-				plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
-					onSelect : function() {
-						window.location.href = "analysis.html";
-					}
-				})
-
-				plugins.tabBar.show()
-				plugins.tabBar.showItems("dashboard", "trip", "analysis")
-
-				//TODO: only temporary
-				$("#turn_signal").removeClass('signOff');
-
-				animateInterval = null;
-
-				createDashboard();
-				//animateDashboard();
-
-				$(document).bind("kendo:skinChange", function(e) {
-					createDashboard();
-				});
-
-				connectToSocket();
-
-			}, false)
-
-			function connectToSocket() {
-				//alert('Connecting to socket...');
-				//socket = io.connect('http://localhost:8080');
-				socket = io.connect('http://192.168.1.72:8080');
-				socket.emit('my other event', {
-					hello : 2
-				});
-
-				socket.on('news', function(data) {
-
-					speedData = data.hello;
-
-					$("#rpm").data("kendoRadialGauge").value(rpmData);
-					$("#kmh").data("kendoRadialGauge").value(speedData);
-					$('#speedRT').text(speedData);
-
-					$('#socketConn').text('Socket Connected ' + data.hello);
-					isSocketConnected = true;
-				});
-			}
-
-			/**
-			 *  check connection
-			 */
-			function checkConnection() {
-				console.log('connection check');
-				var networkState = navigator.network.connection.type;
-
-				var states = {};
-				states[Connection.UNKNOWN] = 'Unknown connection';
-				states[Connection.ETHERNET] = 'Ethernet connection';
-				states[Connection.WIFI] = 'WiFi connection';
-				states[Connection.CELL_2G] = 'Cell 2G connection';
-				states[Connection.CELL_3G] = 'Cell 3G connection';
-				states[Connection.CELL_4G] = 'Cell 4G connection';
-				states[Connection.NONE] = 'No network connection';
-
-				alert('Connection type: ' + states[networkState]);
-
-				if (states[Connection.WIFI] == 'WiFi connection') {
-					$('#netCon').text('WiFi connected');
-					isNetConnected = true;
-				}
-			}
-
-			/**
-			 *  handle online event
-			 */
-			function onOnline() {
-				$('#netCon').text('WiFi connected');
-				isNetConnected = true;
-			}
-
-			/**
-			 *  handle offline event
-			 */
-			function onOffline() {
-				$('#netCon').text('WiFi disconnected');
-				isNetConnected = false;
-			}
-
-			/**
-			 *  disconnect the socket
-			 */
-			$('#disconnectConn').click(function() {
-				//alert('Disconnect Socket');
-
-				navigator.notification.alert("Disconnect Socket", callBackFunctionB, // Specify a function to be called
-				'LemonAid', "OK");
-
-				socket.disconnect();
-				$('#socketConn').text('Socket disconnected');
-				isSocketConnected = false;
-
-				speedData = 0;
-				$("#kmh").data("kendoRadialGauge").value(speedData);
-				$('#speedRT').text(speedData);
-			});
-
-			/**
-			 *  callback for alert
-			 */
-			function callBackFunctionB() {
-				console.log('Socket Disconnected - ok');
-			}
-
-
-			$('#connectConn').click(function() {
-				window.location.href = "dashboard.html";
-			});
-
-        </script>
+        <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
+        
     </body>
 </html>

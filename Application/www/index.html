@@ -3,53 +3,287 @@
 # Author : Pulah Shah
 #
 -->
-
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name = "format-detection" content = "telephone=no"/>
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" /> <!-- 2048-by-1536 resolution at 264 pixels per inch (ppi) -->
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name = "format-detection" content = "telephone=no"/>
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
+		<link rel="stylesheet" type="text/css" href="css/dashboard.css" />
+		<link rel="stylesheet" type="text/css" href="css/trip.css" />
+		<!-- 2048-by-1536 resolution at 264 pixels per inch (ppi) -->
+		<link rel="stylesheet" type="text/css" href="css/jquery.percentageloader-0.1.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.9.2.custom.css" />
+		<link rel="stylesheet" type="text/css" href="css/examples-offline.css" />
+		<link rel="stylesheet" type="text/css" href="css/kendo.dataviz.min.css" />
+
+		<script type="text/javascript"
+      		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqbDHf8NwFQ1WOwysbABx3pDEogumJXxA&sensor=false">
+    	</script>
+			
+		<title>LemonAid</title>
+
+   </head>
+	<body>
+		
+		<!---------------------- CONTROL ---------------------------------------->
+        
+        <div id="controlPage" class="app" style="">
+        
+        </div>
+		
+		
+		<!---------------------- DASHBOARD ---------------------------------------->
+		
+		<div class="app" id="dashboardPage">
+
+			
+			<div id="options">
+
+				<div id="topView" style=" float: right; margin: 0px 20px 0px 0px;">
+					<div id="headlights" style="">
+						<div id="headlampL" class="headlamp"></div>
+						<div id="headlampR" class="headlamp"></div>
+					</div>
+					
+					<div id="doorSquare">
+						<div id="dfront" class="doorsq">
+							
+						</div>
+						<div id="pfront" class="doorsq">
+							
+						</div>
+						<div id="drear" class="doorsq">
+							
+						</div>
+						<div id="prear" class="doorsq">
+							
+						</div> 
+					</div>
+					
+					<div class="brakesq">
+						<div id="brakesqL"></div>
+						<div id="brakesqR"></div>
+					</div>
+					
+					<div id="carBody" style="margin-top: 20px;">
+						<img src="img/cartopviewwhite.png" alt="Car" />
+					</div>
+
+				</div>
+
+				<div id="gauge-container" style=" ">
+					<!--<img src="img/dashboard/fuel_guage.jpg" />-->
+					<div id="rpm" style=" "></div>
+					<img id="speedRing" src="img/speedometerCircle.gif" alt="" />
+					<img id="rpmRing" src="img/speedometerCircle.gif" alt="" />
+					<img id="dataRing" src="img/speedometerCircle.gif" alt="" />
+					<div id="kmh" style=""></div>
+
+					<div id="fuel" style=""></div>
+					<img id="fuel-icon" src="img/dashboard/fuel_guage.jpg" />
+					<img id="temp-icon" src="img/dashboard/coolanttemp.png" />
+					<div id="water-temprature" style=""></div>
+
+					<label id="rpmRT"> <label>RPM</label>
+						<div>
+							x 1000
+						</div> </label>
+					<div id="speedRTDiv">
+						<label id="speedRT">00</label>
+						<div id="kmph">
+							KMPH
+
+						</div>
+
+					</div>
+
+					<div id="gearStatus" style="">
+						<div class="stickPosition" id="p">
+							<p>
+								P
+							</p>
+						</div>
+						<div class="stickPosition" id="r">
+							<p>
+								R
+							</p>
+						</div>
+						<div class="stickPosition" id="n">
+							<p>
+								N
+							</p>
+						</div>
+						<div class="stickPosition" id="d">
+							<p>
+								D
+							</p>
+						</div>
+					</div><!-- gear status -->
+
+					<!--//TODO: THROTTLE POSITION meter-->
+
+				</div><!-- gauge container -->
+			
+			</div><!-- options -->
+			
+
+           ​
+            <div id="warningIcons" style=" ">
+            	<img class="wIcons" src="img/dashboard/mil.png"  />
+            	<img class="wIcons" id="brakeWarning" src="img/dashboard/brake.png"  />
+            	<img class="wIcons" src="img/dashboard/brake_light.png"  />
+            	<img class="wIcons" id="turn_signal" src="img/dashboard/turn_signal.png"  />
+            	<img class="wIcons" src="img/dashboard/any_light.png"  />
+            	
+            	<img class="wIcons" src="img/dashboard/headlight_high.png" />
+            	<img class="wIcons" id="doorWarning" src="img/dashboard/door.png"  />
+            </div><!-- warning icons -->
+		
+		</div><!-- dashboard page -->
+		
+		<!-- ********************************************************************** -->
+		
+		<div id="tripPage" class="app" style="">
+			<div id="chartDiv" >
+				<div id="container" style="min-width: 400px; height: 500px; margin: 0 auto"></div>
+			</div><!-- chart div -->
+
+			<div id="mapDiv" >
+
+			</div><!-- map div -->
+			
+			
+			<div id="statusDiv" >
+
+				<div id="rtParameters" >
+					<div class="rtTitle" id="allText">
+						<div class="str" >
+							THROTTLE
+						</div>
+						<div class="str" >
+							RPM
+						</div>
+						<div class="str" >
+							SPEED
+						</div>
+						<div class="str" >
+							DOOR
+						</div>
+						<div class="str" >
+							HEADLAMP
+						</div>
+						<div class="str" id="turnLights">
+							INDICATORS
+						</div>
+						<div class="str" >
+							BRAKE
+						</div>
+						<div class="str" ></div>
+						<div class="str" ></div>
+					</div>
+
+					<div class="rtParam" id="throttlePosition">
+						<div class="tposition" id="l1"></div>
+						<div class="tposition" id="l2"></div>
+						<div class="tposition" id="l3"></div>
+						<div class="tposition" id="14"></div>
+						<div class="tposition" id="l5"></div>
+						<div class="tposition" id="l6"></div>
+						<div class="tposition" id="l7"></div>
+						<div class="tposition" id="l8"></div>
+						<div class="tposition" id="19"></div>
+						<div class="tposition" id="l10"></div>
+					</div>
+					<div class="rtParam" id="rpmMeter">
+						00
+					</div>
+					<div class="rtParam" id="speedMeter">
+						00
+					</div>
+					<div class="rtParam" id="doorIcon"></div>
+					<div class="rtParam" id="lightIcon"></div>
+					<div class="rtParam" id="turnIcon"></div>
+					<div class="rtParam" id="brakeIcon"></div>
+					<div class="rtParam" id=""></div>
+					<div class="rtParam" id=""></div>
+
+					<div class="rtTitle">
+						<div class="str" id="throttleText">
+							0 %
+						</div>
+						<div class="str" id="rpmText">
+							x 1000
+						</div>
+						<div class="str" id="speedText">
+							KMPH
+						</div>
+						<div class="str" id="doorText">
+							CLOSED
+						</div>
+						<div class="str" id="lightText">
+							OFF
+						</div>
+						<div class="str" id="turnText">
+							OFF
+						</div>
+						<div class="str" id="brakeText">
+							OFF
+						</div>
+						<div class="str" ></div>
+						<div class="str" ></div>
+					</div>
+				</div>
+
+				<div id="controlDiv" class="testBorder">
+					<div id="timeSlider" class="testBorder">
+
+					</div>
+					<button id="playButton" onclick="onResumeClick()">
+						Play
+					</button>
+					<button id="pauseButton" onclick="onPauseClick()">
+						Pause
+					</button>
+					
+					<div id="slider"></div>
+
+				</div><!-- control div -->
+			</div><!-- status div -->
+			
+
+		</div>
+		        
         
         
-        <title>LemonAid</title>
+        <!---------------------- ANALYSIS ---------------------------------------->
         
+        <div id="analysisPage" class="app" style="">
         
-    </head>
-    <body>
-    	<div class="barBuffer" style="height: 20px;"></div>
-        <div class="app">
-        	
-            <div id="statusBar" style="border-bottom: 2px solid gray;">
-            	<div id="connectionCheck">
-            		<label id="netCon" class="statusIcon"></label>
-            		<label id="dbCon" class="statusIcon"></label>
-            		<label id="socketConn" class="statusIcon"></label>
-            	</div>
-            	<button id="disconnectConn">Disconnect</button> 
-            	<button id="connectConn">Connect</button>
-            			
-            </div>
-            
-            <div id="launchPage" class="appPage">
-            		<a href="dashboard.html">DashBoard</a>
-            	</div>
         </div>
         
+        
+        <!------------------------------------------------------------------->     
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
-    
+        
+		<script type="text/javascript" src="js/console.js"></script>
+		<script type="text/javascript" src="js/kendo.dataviz.min.js"></script>
+  
   		<script type="text/javascript" src="js/NavigationBar.js"></script>      
         <script type="text/javascript" src="js/TabBar.js"></script>
         
         
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/dashboard.js"></script>
+        <!--<script type="text/javascript" src="js/trip.js"></script>-->
+        
+        <script type="text/javascript" src="js/highstock.js"></script>
+        <script type="text/javascript" src="js/exporting.js"></script>
+        
+        <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
+        
         <script type="text/javascript" src="js/websocket.js"></script>
-        <script type="text/javascript">
-        	
-        	
-
-        </script>
+        <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
+        
     </body>
 </html>

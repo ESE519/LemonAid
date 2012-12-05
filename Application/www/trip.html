@@ -25,7 +25,7 @@
         <meta name = "format-detection" content = "telephone=no"/>
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" />
         
-        
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.9.2.custom.css" />
         <link rel="stylesheet" type="text/css" href="css/trip.css" />
         
         
@@ -48,20 +48,70 @@
             </div>
             
             <div id="tripPage" class="appPage">
-            	 <div id="chartDiv" class="testBorder">
-            	 
+            	 <div id="chartDiv" >
+            	 	<div id="container" style="min-width: 400px; height: 500px; margin: 0 auto"></div>
             	 </div>
             	 
-            	 <div id="mapDiv" class="testBorder">
+            	 <div id="mapDiv" >
             	 	
             	 </div>
             	 
-            	 <div id="statusDiv" class="testBorder">
-            	 	<div id="rtParameters" class="testBorder">
+            	 <div id="statusDiv" >
+            	 	
+            	 	<div id="rtParameters" >
+            	 		<div class="rtTitle" id="allText">
+            	 			<div class="str" >THROTTLE</div>
+            	 			<div class="str" >RPM</div>
+            	 			<div class="str" >SPEED</div>
+            	 			<div class="str" >DOOR</div>
+            	 			<div class="str" >HEADLAMP</div>
+            	 			<div class="str" id="turnLights">INDICATORS</div>
+            	 			<div class="str" >BRAKE</div>
+            	 			<div class="str" ></div>
+            	 			<div class="str" ></div>
+            	 		</div>
+            	 	
+            	 		<div class="rtParam" id="throttlePosition">
+            	 			<div class="tposition" id="l1"></div>
+            	 			<div class="tposition" id="l2"></div>
+            	 			<div class="tposition" id="l3"></div>
+            	 			<div class="tposition" id="14"></div>
+            	 			<div class="tposition" id="l5"></div>
+            	 			<div class="tposition" id="l6"></div>
+            	 			<div class="tposition" id="l7"></div>
+            	 			<div class="tposition" id="l8"></div>
+            	 			<div class="tposition" id="19"></div>
+            	 			<div class="tposition" id="l10"></div>
+            	 		</div>
+            	 		<div class="rtParam" id="rpmMeter">00</div>
+            	 		<div class="rtParam" id="speedMeter">00</div>
+            	 		<div class="rtParam" id="doorIcon"></div>
+            	 		<div class="rtParam" id="lightIcon"></div>
+            	 		<div class="rtParam" id="turnIcon"></div>
+            	 		<div class="rtParam" id="brakeIcon"></div>
+            	 		<div class="rtParam" id=""></div>
+            	 		<div class="rtParam" id=""></div>
             	 		
+            	 		<div class="rtTitle">
+            	 			<div class="str" id="throttleText">0 %</div>
+            	 			<div class="str" id="rpmText">x 1000</div>
+            	 			<div class="str" id="speedText">KMPH</div>
+            	 			<div class="str" id="doorText">CLOSED</div>
+            	 			<div class="str" id="lightText">OFF</div>
+            	 			<div class="str" id="turnText">OFF</div>
+            	 			<div class="str" id="brakeText">OFF</div>
+            	 			<div class="str" ></div>
+            	 			<div class="str" ></div>
+            	 		</div>
             	 	</div>
             	 	
             	 	<div id="controlDiv" class="testBorder">
+            	 		<!--<div id="timeSlider" class="testBorder">
+            	 			
+            	 		</div>-->
+            	 		<button id="playButton" onclick="onResumeClick()">Play</button>
+            	 		<button id="pauseButton" onclick="onPauseClick()">Pause</button>
+            	 		<div id="slider"></div>
             	 		
             	 	</div>
             	 </div>
@@ -81,64 +131,18 @@
         </div>
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="cordova-2.0.0.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/websocket.js"></script>
         
         <script type="text/javascript" src="js/highstock.js"></script>
         <script type="text/javascript" src="js/exporting.js"></script>
         
         <script type="text/javascript" src="js/TabBar.js"></script>
-       
+        
+        <script type="text/javascript" src="js/jquery-ui-1.9.2.custom.js"></script>
          
         <script type="text/javascript" src="http://localhost:8080/socket.io/socket.io.js"></script>
         <!--<script type="text/javascript" src="http://192.168.1.1:8080/socket.io/socket.io.js"></script>-->
-        <script type="text/javascript">
-            /**
-             *  steps to do when cordova is ready 
-             */
-            
-            document.addEventListener("deviceready", function() {
-    			console.log("PhoneGap ready")
-
-    		    plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/dashboardIcon.png", {
-			        onSelect: function() {
-			        	window.location.href = "dashboard.html"    
-			        }
-			    })
-			    
-			    plugins.tabBar.createItem("trip", "Trip", "www/img/dashboardIcon.png", {
-			        onSelect: function() {
-			            //window.location.href = "trip.html"
-			        }
-			    })
-			   
-			
-				plugins.tabBar.createItem("analysis", "Analysis", "/www/img/analysisIcon.png", {
-			        onSelect: function() {
-			            window.location.href = "analysis.html";
-			        }
-			    })
-			    
-			    
-			    initialize()
-			    
-		    }, false)
-              
-             
-             
-             
-             function initialize() {
-        var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 8,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("mapDiv"),
-            mapOptions);
-      }
-         
-            
-            
-        </script>
+        <script type="text/javascript" src="js/trip.js"></script>
+       
     </body>
 </html>
