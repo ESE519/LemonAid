@@ -1,0 +1,8 @@
+comment "This is the PCAN driver"
+
+config PCAN_LEMONAID
+	tristate "Peak System CAN bus driver"
+	depends on PARPORT && I2C_ALGOBIT
+	default m
+	help
+	  This is RTTEP, say Y when you feel lucky 
