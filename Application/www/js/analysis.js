@@ -1,87 +1,44 @@
-var isNetConnected = false;
-var isDbConnected = false;
-var isSocketConnected = false;
 
 
-var socket = -1;
 
-/**
- *  steps to do when cordova is ready
+// load at least 150 data points for each trip 
+
+
+// connect to the database
+
+
+// load unique trips from the database - also cache all trip data in a map
+/* 
+ * 1. select unique trip ids from speedInfo;
+ * 2. select * from speedInfo where tripID = xx;
+ * 3. make cache maps
+ *  
  */
-document.addEventListener("deviceready", function() {
-	console.log("PhoneGap ready")
-	document.addEventListener("pause", onPause, false);
-	//document.addEventListener("resume", onResume, false);
-
-	plugins.tabBar.createItem("control", "Control", "www/img/tabbar/house.png", {
-		onSelect : function() {
-			window.location.href = "index.html";
-		}
-	})
-
-	plugins.tabBar.createItem("dashboard", "Dashboard", "www/img/tabbar/81-dashboard.png", {
-		onSelect : function() {
-			window.location.href = "dashboard.html";
-		}
-	})
-
-	plugins.tabBar.createItem("trip", "Trip", "www/img/tabbar/map.png", {
-		onSelect : function() {
-			window.location.href = "trip.html"
-		}
-	})
-
-	plugins.tabBar.createItem("analysis", "Analysis", "/www/img/tabbar/ekg.png", {
-		onSelect : function() {
-			//window.location.href = "analysis.html";
-		}
-	})
-
-	plugins.tabBar.selectItem("analysis");
 
 
-	connectToSocket();
-
-
-	
-
-}, false)
-
-
-function onPause() {
-	socket.emit('stopData', function() {
-		console.log('request to stop data');
-	});
-
-	socket.disconnect();
-	socket = -1;
-}
+// populate trips in the list and wait for trip selection
 
 
 
-function connectToSocket() {
-	socket = io.connect('http://localhost:8080');
-	//socket = io.connect('http://192.168.1.1:8080');
-
-}
+// by default just show the first trip data
 
 
 
-/**
- *  handle online event
+// display data for selected trips
+
+
+// add markers to key events
+/*
+ * KEY EVENTS:
+ * ----------
+ * 1. SPEED LIMIT
+ * 2. SUDDEN SPEED DECREASE
+ * 3. STEERING ANGLE AND TURN LIGHTS
+ * 4. ENGINE ON/OFF | LIGHTS ON/OFF | DOORS OPEN/CLOSE
+ * 5. THROTTLE TOO HIGH
+ * 6. SUDDEN BRAKE WITH DEPLOYEMENT OF BRAKE
+ * 7. MAPS - BASED ON MAP -> SUDDEN TURNS ON STRAIGHT ROAD
+ * 8. KEEP A GLOBAL COUNT OF THESE EVNETS PER TRIP AND PER CAR
+ * 
  */
-function onOnline() {
-	//$('#netCon').text('WiFi connected');
-	isNetConnected = true;
-}
-
-/**
- *  handle offline event
- */
-function onOffline() {
-	//$('#netCon').text('WiFi disconnected');
-	isNetConnected = false;
-}
-
-
 

@@ -1,0 +1,51 @@
+#busy {
+	display:none;
+	position: absolute;
+	
+	
+	bottom: 300px;
+ 	left: 50%;
+	margin-left: -65px;
+	margin-top: -31px;
+	color: #FFFFFF;
+	font-size: 24px;	
+	z-index:60;
+	background-color: #000000;
+	opacity:0.5;
+ 	width:100px;
+	height:32px;
+	padding: 30px;
+	-moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+	
+}
+
+
+#analysisPage {
+	background-color:  white;
+}
+
+.tlistItem {
+	background-color: #FFFFFF;
+	color: #000000;
+	width: 87%;
+	padding: 15px;
+	height: 40px;
+	border: 1px solid blue;
+}
+
+.tlistHeader {
+	font-size: large;
+	font-weight: bold;
+}
+
+#analysisContainer {
+	position: absolute;
+	right: 10px;
+	width:  1000px;
+	bottom: 20px;
+	z-index: 10;
+	border: 2px solid blue;
+}

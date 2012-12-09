@@ -8,15 +8,16 @@
 #chartDiv {
 	/*-webkit-user-select: none;  /* prevent copy paste for all elements */
 	width:					490px;
-	height:					450px;	
+	height:					480px;	
 	float:					left;
+	overflow: 				hidden;
 }
 
 
 #mapDiv {
 	width:					480px;
-	height:					500px;
-	float:					left;
+	height:					480px;
+	float:					right;
 	margin-left:        	30px;
 }
 
@@ -101,8 +102,31 @@
 	float:					left;
 }
 
-#slider {
-	margin-top:				15px;
-	float:					right;
-	width:					50%;
+#sliderDiv {
+	margin-top:				10px;
+}
+
+input.ui-slider-input {
+	display : none !important;
+}
+
+
+#controlButtonsPane {
+	float: right;
+	width:	100px;
+}
+
+
+.tripButton {
+	float:left;
+	margin-right: 25px;
+	padding:	3px;
+	
+	text-align: center;
+	vertical-align: middle;
+	
+	/*
+	width:  40px;
+	height: 40px;
+	background-color: #808080;*/
 }
