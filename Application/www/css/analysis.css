@@ -33,7 +33,7 @@
 	width: 87%;
 	padding: 15px;
 	height: 40px;
-	border: 1px solid blue;
+	border-bottom: 1px solid #808080;
 }
 
 .tlistHeader {

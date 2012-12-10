@@ -1,5 +1,7 @@
 
 
+
+
 var isNetConnected = false;
 var isSocketConnected = false;
 var socket = -1;
@@ -9,7 +11,7 @@ var speedData = 0, rpmData = 0;
 var map;
 
 //------------------------------------ CHART (trip page)
-var chart, achart;
+var chart, achart, chart1;
 var chartInterval;
 var series; // speed series
 var rpmseries; // rpm series
@@ -18,6 +20,9 @@ var flag = true;
 
 var maxSpeed = 100;
 var speedLimit = 40;
+
+var chartNew; var optionsNew;
+                
 
 //------------------------------------
  
@@ -201,6 +206,8 @@ document.addEventListener("deviceready", function() {
 	initSlider();
 	loadCharts();
 	
+	// -------------------------------------- 
+	//createChart();
 	
 	connectToSocket();
 
@@ -212,7 +219,7 @@ function populateDB(tx) {
      //tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id, data)');
      
      tx.executeSql('create table if not exists demo (carid int, tripid int, engine int, speed int, rpm int, throttle int, steering int, gear int, light int, door int, turn int, brake int, fuel int, temperature int, lat real, lon real, timedb text)');
-     //tripid = 2
+     //tripid = 2 // CHANGE THE TRIP ID HERE //TODO: DELETE THIS
      console.log('****** DEBUG - ' + tripid);
      timedb = new Date().getTime();
      tx.executeSql('insert into demo (carid, tripid, engine, speed, rpm, throttle, steering, gear, light, door, turn, brake, fuel, temperature, lat, lon, timedb) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [carid, tripid, engine, speed, rpm, throttle, steering, gear, light, door, turn, brake, fuel, temperature, lat, lon, timedb]);
@@ -260,11 +267,12 @@ function querySuccess(tx, results) {
 		
 		$('#tlist').append('<li>' +
 						'<div class="tlistItem" id="'+results.rows.item(i).tripid+'">' +
+						'<img class="selectButton" src="./img/UIButtonTypeDetailDisclosure.jpg" />' +
 						'<div class="tlistHeader">' +
 							'Trip ' + results.rows.item(i).tripid +
 						'</div>' +
 						'<div class="tlistInfo">' +
-							'<button>GO</button>' +
+							
 						'</div>' +
 						'</div>' +
 						'</li>');
@@ -339,7 +347,8 @@ $(".tlistItem").live('mousedown', function(e) {
 	e.preventDefault();
 	//alert( $(this).attr('id') );
 	id = $(this).attr('id');
-	$('.panel-popover').css('display', 'none');
+	$('.panel-popover-trip').css('display', 'none');
+	tripSide = false;
 	db = window.openDatabase("Database", "1.0", "Cordova Demo", 999999);
 	db.transaction(singleTripData, errorCB);
 	
@@ -348,12 +357,16 @@ $(".tlistItem").live('mousedown', function(e) {
 
 
 function singleTripData(tx) {
-	tx.executeSql('select * from demo where tripid=:id', [id], successTrip, errorCB);
+	tx.executeSql('select * from demo where tripid=:id limit 400', [id], successTrip, errorCB);
 }
 
 
 
 var selectedTrip = new Array();
+
+var speedAllSeries = new Array();
+var rpmAllSeries = new Array();
+var angleAllSeries = new Array();
 
 function successTrip(tx, results) {
 	console.log('Total rows for selected TRIP: '+ results.rows.length);
@@ -363,6 +376,7 @@ function successTrip(tx, results) {
 	
 	selectedTrip.length = 0
 	var tempRow = {}
+	var tempSpeedRow = {}, tempRpmRow = {}, tempAngleRow = {};
 	
 	for(var i = 0; i < tz; i++){
 		tempRow = {
@@ -385,17 +399,19 @@ function successTrip(tx, results) {
 			timedbr		: results.rows.item(i).timedb
 		}
 		
+		
 		selectedTrip.push(tempRow);
+		
+		
+		
 	}
+	console.log('Will load analysis chart');
 	
-	//loadAllCharts();
-	
-	
+	//loadAnalysis(selectedTrip); // ---- LOAD ANALYSIS CHART
+	createChart(selectedTrip);	
+
+
 }
-
-
-
-
 
 
 
@@ -429,8 +445,8 @@ function onOffline() {
 }
 
 function connectToSocket() {
-	//socket = io.connect('http://localhost:8088');
-	socket = io.connect('http://192.168.1.6:8088');
+	 socket = io.connect('http://158.130.107.164:8088');
+	//socket = io.connect('http://192.168.1.6:8088');
 
 	socket.emit('getNewData', function() {
 		console.log('Requesting new data');
@@ -1539,124 +1555,96 @@ function insertDB(tx) {
 
 /*************************************** ANALYSIS JS ********************************/
 
-/*
-function loadAllCharts() {
-	
-	
-	
+
+function loadAnalysis(pData) {
+
+
+}
+
+
+
+
+
+// -----
+
+
+function createChart() {
+$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function(data) {
+
         // split the data set into ohlc and volume
-        var speeda = [],
-            rpma = [],
-            anglea = [],
-            dataLength = pData.length;
+        var ohlc = [],
+            volume = [],
+            speedAllSeries = [], rpmAllSeries = [],
+            dataLength = data.length;
             
-            // if(dataLength > 600){
-            	// dataLength = 500;
-            // }
+        for (i = 0; i < 2; i++) {
             
-            console.log('Data Length - ' + dataLength);
+            //alert(data[i][0]);
             
-        for (i = 0; i < dataLength; i++) {
-        	
-        	xt = pData[i].timedbr;
-        	if(xt != "time"){
-        		xt = new Date(pData[i].timedbr * 100);	
-        	}
-        	
-            speeda.push([xt, pData[i].speedr]);
+            speedAllSeries.push([
+                data[i][0], // the date
+                data[i][1]
+            ]);
             
-    
+            rpmAllSeries.push([
+                data[i][0], // the date
+                data[i][5] // the volume
+            ])
         }
 
+       
 
         // create the chart
-        achart = new Highcharts.StockChart({
+        chartNew = new Highcharts.StockChart({
             chart: {
                 renderTo: 'analysisContainer',
-                alignTicks: false,
-                events: {
-	                load: function() {
-	                    achart.hideLoading();
-	                }
-	            }
+                alignTicks: false
             },
             
             credits: {
-            	enabled: false
+                enabled: false
             },
-
-			exporting: {
-				enabled: false
-			},
-			
-			legend: {
-	            enabled: true,
-	            layout: 'vertical',
-	            align: 'right',
-	            verticalAlign: 'top',
-	            y: 100
-	        },
-	        
-	        navigator : {
-	        	xAxis: {
-					tickWidth: 0,
-					lineWidth: 0,
-					gridLineWidth: 1,
-					tickPixelInterval: 200,
-					labels: {
-						align: 'left',
-						x: 3,
-						y: -4
-					}
-				}
-	        },
-	        
-	        loading: {
-	            labelStyle: {
-	                color: 'white'
-	            },
-	            style: {
-	                backgroundColor: 'gray'
-	            }
-	        },
+                exporting: {
+                enabled: false                
+                } ,          
 
             rangeSelector: {
-                enabled : false
+                enabled: false
             },
 
             title: {
                 text: 'Trip Analysis'
-            },
-            
-            tooltip: {
-            	valueDecimals: 2,
-	            positioner: function () {
-	                return { x: 800, y: 10 };
-	          
-	        	},
-            },
-            
-            xAxis: {
-            	type: 'datetime'
-            	
             },
 
             yAxis: [{
                 title: {
                     text: 'Speed'
                 },
-                min : 0,
-                max : 100,
+                height: 200,
+                lineWidth: 2
+            }, {
+                title: {
+                    text: 'RPM'
+                },
+                top: 300,
                 height: 100,
-                lineWidth: 1,
-                minTickInterval: 5,
-                minorTickInterval: 10,
-                minorGridLineColor: '#E0E0E0'
+                offset: 0,
+                lineWidth: 2
+            }],
+            
+            series: [{
+                type: 'spline',
+                name: 'Speed',
+                data: speedAllSeries
+                
+            }, {
+                type: 'spline',
+                name: 'RPM',
+                data: rpmAllSeries,
+                yAxis: 1
             }]
         });
-        
-        
-        achart.showLoading();
-    
+    });        
+
 }
-*/
+

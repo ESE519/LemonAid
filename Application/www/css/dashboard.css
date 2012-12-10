@@ -372,10 +372,10 @@ html, body {
   position: fixed;
   top:3px;
   left:0px;
-  background-color: #272727;
+  background-color: white;
   
   z-index:5000000;
-  border-left: 1px solid gray;
+  
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -409,4 +409,8 @@ html, body {
 .panel-popover-trip div[data-role="page"] {
   height: inherit;
   overflow-y:auto;
+}
+
+.selectButton {
+	float : right;
 }
