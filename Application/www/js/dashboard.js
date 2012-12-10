@@ -1568,28 +1568,36 @@ function loadAnalysis(pData) {
 // -----
 
 
-function createChart() {
+function createChart(pData) {
 $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function(data) {
 
         // split the data set into ohlc and volume
         var ohlc = [],
             volume = [],
-            speedAllSeries = [], rpmAllSeries = [],
+            speedAllSeries = [], rpmAllSeries = [], angleAllSeries = [],
             dataLength = data.length;
             
-        for (i = 0; i < 2; i++) {
+        for (i = 0; i < 400; i++) {
             
             //alert(data[i][0]);
             
+            var currTime = new Date().getTime();
+            
             speedAllSeries.push([
-                data[i][0], // the date
-                data[i][1]
+                currTime,
+                pData[i].speedr
             ]);
             
             rpmAllSeries.push([
-                data[i][0], // the date
-                data[i][5] // the volume
-            ])
+                currTime,
+                pData[i].rpmr
+            ]);
+            
+            
+            angleAllSeries.push([
+            	currTime,
+            	pData[i].steeringr
+            ]);
         }
 
        
@@ -1612,24 +1620,85 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
                 enabled: false
             },
 
+/*
             title: {
                 text: 'Trip Analysis'
             },
+            
+            
+            scrollbar: {
+				barBackgroundColor: 'gray',
+				barBorderRadius: 7,
+				barBorderWidth: 0,
+				buttonBackgroundColor: 'gray',
+				buttonBorderWidth: 0,
+				buttonBorderRadius: 7,
+				trackBackgroundColor: 'none',
+				trackBorderWidth: 1,
+				trackBorderRadius: 8,
+				trackBorderColor: '#CCC'
+		    },*/
+		    
+		    legend: {
+	            enabled: true,
+	            layout: 'vertical',
+	            align: 'right',
+	            verticalAlign: 'top',
+	            y: 100
+	        },
+		    
+		    tooltip: {
+	            
+	            borderWidth: 1,
+	            borderRadius: 1,
+	           
+	            positioner: function () {
+	                return { x: 865, y: 02 };
+	            },
+	            shadow: false
+	        },
+        
 
             yAxis: [{
                 title: {
                     text: 'Speed'
                 },
-                height: 200,
-                lineWidth: 2
+                min: 0,
+                max: 100,
+                height: 100,
+                lineWidth: 2,
+                plotLines : [{
+					value : 60,
+					color : 'red',
+					dashStyle : 'shortdash',
+					width : 2,
+					label : {
+						text : 'High Speed'
+					}
+				}]
             }, {
                 title: {
                     text: 'RPM'
                 },
-                top: 300,
+                min: 0,
+                max: 4000,
+                minorTickInterval: 1000,
+                gridLineWidth: 0,
+                top: 170,
                 height: 100,
                 offset: 0,
                 lineWidth: 2
+            }, {
+            	title: {
+            		text: 'Angle'
+            	},
+            	top: 300,
+            	min: -450,
+            	max: 450,
+            	minorTickInterval: 90,
+            	height: 100,
+            	offset: 0,
+            	lineWidth: 2
             }],
             
             series: [{
@@ -1642,6 +1711,11 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
                 name: 'RPM',
                 data: rpmAllSeries,
                 yAxis: 1
+            }, {
+            	type: 'spline',
+            	name: 'Angle',
+            	data: angleAllSeries,
+            	yAxis: 2
             }]
         });
     });        
