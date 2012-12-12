@@ -1,3 +1,5 @@
-./ubuntu
-./linux-dev
+ubuntu/
+ubuntu/*
+linux-dev/
+linux-dev/*
 
