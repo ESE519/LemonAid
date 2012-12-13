@@ -1,0 +1,49 @@
+
+receivetest Version "Release_20090203_n"  (www.peak-system.com)
+------- Copyright (C) 2004-2009 PEAK System-Technik GmbH ------
+receivetest comes with ABSOLUTELY NO WARRANTY.     This is free
+software  and you are welcome  to redistribute it under certain
+conditions.   For   details   see    attached   COPYING   file.
+
+receivetest: device node="/dev/pcan32"
+             Only standard frames are accepted, init with 500 kbit/sec.
+receivetest: driver version = Release_20120726_n
+receivetest: m s 280 8 46 1b 56 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 56 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 55 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 56 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 18 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 19 c0 00 
+receivetest: m s 280 8 46 1b 55 57 05 19 c0 00 
+receivetest: type            = usb
+             Serial Number   = 0xffffffff
+             Device Number   = 254
+             count of reads  = 26
+             count of writes = 0
+             count of errors = 1307
+             count of irqs   = 365447
+             last CAN status = 0x0020
+             last error      = 0
+             open paths      = 1
+             driver version  = Release_20120726_n
+receivetest: finished (0).
+
