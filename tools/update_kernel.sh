@@ -82,7 +82,8 @@ echo "############################################################"
 cp ./scripts/git.sh ./scripts/git.sh_backup
 cp ./build_kernel.sh ./build_kernel.sh_backup
 
-sed "/copy_defconfig$/a/bin/bash -e \"\${DIR}/scripts/insert_pcandriver.sh\"" ./build_kernel.sh_backup > ./build_kernel.sh
+sed "/cd \${DIR}\/$/a\/bin\/bash -e \"\${DIR}\/scripts\/insert_pcandriver.sh\"" ./scripts/git.sh_backup > ./scripts/git.sh
+# sed "/copy_defconfig$/a/bin/bash -e \"\${DIR}/scripts/insert_pcandriver.sh\"" ./build_kernel.sh_backup > ./build_kernel.sh
 
 sed "/For TI: OMAP3\/4\/AM35xx/aZRELADDR=`echo ${ZRELADDR}`" ./system.sh.sample > ./system.sh.sample1
 sed "/ARM GCC CROSS Compiler.\+$/aCC=`echo ${CC}`" ./system.sh.sample1 > ./system.sh.sample2
