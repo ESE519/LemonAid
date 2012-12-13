@@ -29,9 +29,13 @@ fi
 
 echo "copying drivers to linux kernel"
 mkdir ${CURRENT_DIRECTORY}/linux-dev/KERNEL/drivers/misc/pcan
+mkdir ${CURRENT_DIRECTORY}/linux-dev/KERNEL/lib
 cp ${CURRENT_DIRECTORY}/pcandriver/* ${CURRENT_DIRECTORY}/linux-dev/KERNEL/drivers/misc/pcan/
+cp ${CURRENT_DIRECTORY}/pcanlib/* ${CURRENT_DIRECTORY}/linux-dev/KERNEL/lib/
 
+echo "lib-\$(CONFIG_PCAN_LEMONAID) += libpcan.o" >> ${CURRENT_DIRECTORY}/linux-dev/KERNEL/lib/Makefile
 echo "obj-\$(CONFIG_PCAN_LEMONAID) += pcan/" >> ${CURRENT_DIRECTORY}/linux-dev/KERNEL/drivers/misc/Makefile
+
 cp ${CURRENT_DIRECTORY}/linux-dev/KERNEL/drivers/misc/Kconfig ${CURRENT_DIRECTORY}/linux-dev/KERNEL/drivers/misc/Kconfig1
 sed '/carma/asource "drivers\/misc\/pcan\/Kconfig"' ${CURRENT_DIRECTORY}/linux-dev/KERNEL/drivers/misc/Kconfig1 > ${CURRENT_DIRECTORY}/linux-dev/KERNEL/drivers/misc/Kconfig
 
