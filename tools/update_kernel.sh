@@ -134,28 +134,7 @@ else
 	tar xJf ${UBUNTU_IMG}
 	echo "ready to go: ${UBUNTU_DIR}"
 fi
-cd ${UBUNTU_DIR}
-
-
-echo "##############################"
-echo "##############################"
-echo "     Installing Ubuntu        "
-echo "##############################"
-echo "##############################"
-
-if [ "${MMC}" ] ; then
-	if [ `ls /dev/ | grep ${MMC}` ] ; then
-		echo "MMC set, ready to install image"
-		sudo ./setup_sdcard.sh --mmc /dev/${MMC} --uboot "${BOARD}"
-	else
-		echo "Please insert your SD card"
-	fi
-else
-	echo "Please specify the path to your SD card"
-	sudo ./setup_sdcard.sh --probe-mmc
-fi
-
-cd ../..
+cd ${CURRENT_DIRECTORY}
 
 echo "##############################"
 echo "##############################"
@@ -166,4 +145,45 @@ echo "##############################"
 cd ${CURRENT_DIRECTORY}/linux-dev
 pwd
 sh ./build_kernel.sh
+
+echo "##############################"
+echo "##############################"
+echo "     Installing Ubuntu        "
+echo "##############################"
+echo "##############################"
+
+cd ${CURRENT_DIRECTORY}/ubuntu
+cd ${UBUNTU_DIR}
+
+pwd
+
+if [ "${MMC}" ] ; then
+	if [ `ls /dev/ | grep ${MMC}` ] ; then
+		echo "MMC set, ready to install image"
+		/bin/bash -e 'setup_sdcard.sh --mmc /dev/${MMC} --uboot "${BOARD}"'
+	else
+		echo "Please insert your SD card"
+	fi
+else
+	echo "Please specify the path to your SD card"
+	/bin/bash -e 'setup_sdcard.sh --probe-mmc'
+fi
+
+cd ${CURRENT_DIRECTORY}
+
+echo "##############################"
+echo "##############################"
+echo "     Installing Kernel        "
+echo "##############################"
+echo "##############################"
+
+cd ${CURRENT_DIRECTORY}/linux-dev
+pwd
+sh ./tools/install_image.sh
+
+echo "##############################"
+echo "##############################"
+echo "     Installing Library       "
+echo "##############################"
+echo "##############################"
 
