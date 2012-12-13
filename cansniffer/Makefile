@@ -33,34 +33,7 @@ SRC     = src
 INC     = -I. -I../lib -I../driver
 RT      = NO_RT
 
-
-ifeq ($(RT), XENOMAI)
-SKIN = xeno
-### Xenomai directory, xeno-config and library directory ###########
-RT_DIR          ?= /usr/xenomai
-RT_CONFIG       ?= $(RT_DIR)/bin/xeno-config
-RT_LIB_DIR      ?= $(shell $(RT_CONFIG) --library-dir) -Wl,-rpath $(shell $(RT_CONFIG) --library-dir)
-### User space application compile options #########################
-USERAPP_LIBS      ?= -lnative -lpcan
-USERAPP_LDFLAGS   ?= $(shell $(RT_CONFIG) --$(SKIN)-ldflags) -L$(RT_LIB_DIR)
-USERAPP_CFLAGS    ?= $(shell $(RT_CONFIG) --$(SKIN)-cflags)
-endif
-
-ifeq ($(RT), RTAI)
-SKIN = lxrt
-### Rtai directory, rtai-config and library directory ###########
-RT_DIR          ?= /usr/realtime
-RT_CONFIG       ?= $(RT_DIR)/bin/rtai-config
-RT_LIB_DIR      ?= $(shell $(RT_CONFIG) --library-dir) -Wl,-rpath $(shell $(RT_CONFIG) --library-dir)
-### User space application compile options #########################
-USERAPP_LIBS      ?= -llxrt -lpcan
-USERAPP_LDFLAGS   ?= $(shell $(RT_CONFIG) --$(SKIN)-ldflags) -L$(RT_LIB_DIR)
-USERAPP_CFLAGS    ?= $(shell $(RT_CONFIG) --$(SKIN)-cflags)
-endif
-
-ifeq ($(RT), NO_RT)
-  USERAPP_LIBS = -lpcan
-endif
+USERAPP_LIBS = -lpcan
 
 ifeq ($(HOSTTYPE),x86_64)
   LDLIBS  = -L../lib -L/lib64 -L/usr/lib64 -L/usr/local/lib64

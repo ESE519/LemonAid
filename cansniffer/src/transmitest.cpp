@@ -1,42 +1,3 @@
-//****************************************************************************
-// Copyright (C) 2001-2009  PEAK System-Technik GmbH
-//
-// linux@peak-system.com 
-// www.peak-system.com
-//
-// This program is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//
-// Maintainer(s): Klaus Hitschler (klaus.hitschler@gmx.de)
-//****************************************************************************
-
-//****************************************************************************
-// transmitest_common.cpp - a simple program to test CAN transmits
-//
-// for the realtime-variant look at transmitest_rt.cpp
-//
-// $Id: transmitest.cpp 599 2009-11-08 21:04:50Z khitschler $
-//
-//****************************************************************************
-
-//----------------------------------------------------------------------------
-// set here current release for this program
-#define CURRENT_RELEASE "Release_20091108_n"
-
-//****************************************************************************
-// INCLUDES
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -55,7 +16,7 @@
 //****************************************************************************
 // DEFINES
 
-#define DEFAULT_NODE "/dev/pcan0"
+#define DEFAULT_NODE "/dev/pcanusb0"
 
 //****************************************************************************
 // GLOBALS
@@ -72,10 +33,10 @@ void do_exit(int error)
 {
   if (h)
   {
-    print_diag("transmitest");
+    print_diag("cantransmitter");
     CAN_Close(h);
   }
-  printf("transmitest: finished (%d).\n\n", error);
+  printf("cantransmitter: finished (%d).\n\n", error);
   exit(error);
 }
 
@@ -118,7 +79,7 @@ int write_loop(__u32 dwMaxTimeInterval, __u32 dwMaxLoop)
 	//sleep(1);
         if ((errno = CAN_Write(h, &(*iter))))
         {
-          perror("transmitest: CAN_Write()");
+          perror("cantransmitter: CAN_Write()");
           return errno;
         }
         // wait some time before the invocation
@@ -133,8 +94,8 @@ int write_loop(__u32 dwMaxTimeInterval, __u32 dwMaxLoop)
 
 static void hlpMsg(void)
 {
-  printf("transmitest - a small test program which sends CAN messages.\n");
-  printf("usage:   transmitest filename {[-f=devicenode] | {[-t=type] [-p=port [-i=irq]]}} [-b=BTR0BTR1] [-e] [-r=msec] [-?]\n");
+  printf("cantransmitter - a small test program which sends CAN messages.\n");
+  printf("usage:   cantransmitter filename {[-f=devicenode] | {[-t=type] [-p=port [-i=irq]]}} [-b=BTR0BTR1] [-e] [-r=msec] [-?]\n");
   printf("options: filename - mandatory name of message description file.\n");
   printf("         -f - devicenode - path to devicefile, default=%s\n", DEFAULT_NODE);
   printf("         -t - type of interface, e.g. 'pci', 'sp', 'epp' ,'isa', 'pccard' or 'usb' (default: pci).\n");
@@ -165,8 +126,8 @@ int main(int argc, char *argv[])
 
   errno = 0;
 
-  current_release = CURRENT_RELEASE;
-  disclaimer("transmitest");
+  current_release = "rttep";
+  disclaimer("cantransmitter");
 
   init();
 
@@ -199,7 +160,7 @@ int main(int argc, char *argv[])
           if (!nType) 
           {
             errno = EINVAL;
-            printf("transmitest: unknown type of interface\n");
+            printf("cantransmitter: unknown type of interface\n");
             goto error;
           }
           bTypeGiven = true;
@@ -229,7 +190,7 @@ int main(int argc, char *argv[])
           break;
         default:
           errno = EINVAL;
-          printf("transmitest: unknown command line argument\n");
+          printf("cantransmitter: unknown command line argument\n");
           goto error;
           break;
       }
@@ -242,7 +203,7 @@ int main(int argc, char *argv[])
   if (filename == NULL) 
   {
     errno = EINVAL;
-    perror("transmitest: no filename given");
+    perror("cantransmitter: no filename given");
     goto error;
   }
 
@@ -250,7 +211,7 @@ int main(int argc, char *argv[])
   if (bDevNodeGiven && bTypeGiven) 
   {
     errno = EINVAL;
-    perror("transmitest: device node and type together is useless");
+    perror("cantransmitter: device node and type together is useless");
     goto error;
   }
 
@@ -260,10 +221,10 @@ int main(int argc, char *argv[])
   // tell some information to the user
   if (!bTypeGiven) 
   {
-    printf("transmitest: device node=\"%s\"\n", szDevNode);
+    printf("cantransmitter: device node=\"%s\"\n", szDevNode);
   }
   else {
-    printf("transmitest: type=%s", getNameOfInterface(nType));
+    printf("cantransmitter: type=%s", getNameOfInterface(nType));
     if (nType == HW_USB) 
       printf(", Serial Number=default, Device Number=%d\n", dwPort); 
     else {
@@ -303,7 +264,7 @@ int main(int argc, char *argv[])
   if (!List)
   {
     errno = MyParser.nGetLastError();
-    perror("transmitest: error at file read");
+    perror("cantransmitter: error at file read");
     goto error;
   }
   
@@ -313,7 +274,7 @@ int main(int argc, char *argv[])
     h = LINUX_CAN_Open(szDevNode, O_RDWR);
     if (!h)
     {
-      printf("transmitest: can't open %s\n", szDevNode);
+      printf("cantransmitter: can't open %s\n", szDevNode);
       goto error;
     }
   }
@@ -326,7 +287,7 @@ int main(int argc, char *argv[])
     h = CAN_Open(nType, dwPort, wIrq);
     if (!h)
     {
-      printf("transmitest: can't open %s device.\n", getNameOfInterface(nType));
+      printf("cantransmitter: can't open %s device.\n", getNameOfInterface(nType));
       goto error;
     }
   }
@@ -337,9 +298,9 @@ int main(int argc, char *argv[])
   // get version info
   errno = CAN_VersionInfo(h, txt);
   if (!errno)
-    printf("transmitest: driver version = %s\n", txt);
+    printf("cantransmitter: driver version = %s\n", txt);
   else {
-    perror("transmitest: CAN_VersionInfo()");
+    perror("cantransmitter: CAN_VersionInfo()");
     goto error;
   }
   
@@ -349,7 +310,7 @@ int main(int argc, char *argv[])
     errno = CAN_Init(h, wBTR0BTR1, nExtended);
     if (errno) 
     {
-      perror("transmitest: CAN_Init()");
+      perror("cantransmitter: CAN_Init()");
       goto error;
     }
   }

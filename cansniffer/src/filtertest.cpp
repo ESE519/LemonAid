@@ -1,40 +1,3 @@
-//****************************************************************************
-// Copyright (C) 2007  PEAK System-Technik GmbH
-//
-// linux@peak-system.com 
-// www.peak-system.com
-//
-// This program is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//
-// Maintainer(s): Klaus Hitschler (klaus.hitschler@gmx.de)
-//****************************************************************************
-
-//****************************************************************************
-//
-// filtertest.cpp - a simple program to test CAN filter settings
-//
-// $Id: filtertest.cpp 538 2008-02-15 16:06:45Z edouard $
-//
-//****************************************************************************
-
-//----------------------------------------------------------------------------
-// set here current release for this program
-#define CURRENT_RELEASE "Release_20070211_a"  
-
-//****************************************************************************
-// INCLUDES
 #include <cstdio>
 #include <cstdlib>
 #include <cerrno>
@@ -49,7 +12,7 @@
 
 //****************************************************************************
 // DEFINES
-#define DEFAULT_NODE "/dev/pcan0"
+#define DEFAULT_NODE "/dev/pcanusb0"
 
 //****************************************************************************
 // GLOBALS
@@ -63,14 +26,12 @@ const char *current_release;
 // CODE 
 static void hlpMsg(void)
 {
-  printf("filtertest - a small test program to test CAN filter settings together with PCAN chardev driver.\n");
-  printf("usage:   filtertest [-f=devicenode] {{[-l=low_CAN_ID] [-h=highest_CAN_ID] [-m=MSGTYPE]} | {[-c]}} [-?]\n");
+  printf("canfilter - a program to test CAN filter settings together with PCAN chardev driver.\n");
+  printf("usage:   canfilter [-f=devicenode] {{[-l=low_CAN_ID] [-h=highest_CAN_ID] } | {[-c]}} [-?]\n");
   printf("options: -f - devicenode - path to devicefile, default=%s\n", DEFAULT_NODE);
   printf("         -l - lowest CAN ID to pass, e.g, '-l=0x200' (default: 0).\n");
   printf("         -u - most upper CAN ID to pass, e.g. '-u=0x201' (default: 0x7FFFFFFF).\n");
-  printf("         -m - message type to pass, see pcan.h, e.g. '-m=0x02' (default: 0x02 - MSGTYPE_EXTENDED).\n");
   printf("         -c - clear all filters.\n");
-  printf("         -v - set verbose mode.\n");
   printf("         -? or --help - this help\n");
   printf("\n");
 }
@@ -90,8 +51,8 @@ int main(int argc, char *argv[])
 
   errno = 0;
 
-  current_release = CURRENT_RELEASE;
-  disclaimer("filtertest");
+  current_release = "rttep";
+  disclaimer("canfilter");
 
   // decode command line arguments
   for (i = 1; i < argc; i++)
@@ -122,12 +83,6 @@ int main(int argc, char *argv[])
         case 'u':
           upper_ID = strtoul(ptr, NULL, 16);
           break;
-        case 'm':
-          msgtype = (__u8)strtoul(ptr, NULL, 16);
-          break;
-        case 'v':
-          verbose = true;
-          break;
         case 'c':
           clear = true;
           break;
@@ -139,7 +94,7 @@ int main(int argc, char *argv[])
           break;
         default:
           errno = EINVAL;
-          printf("filtertest: unknown command line argument (%s)\n", ptr);
+          printf("canfilter: unknown command line argument (%s)\n", ptr);
           errno = -1;
           goto error;
           break;
@@ -147,7 +102,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-      printf("filtertest: unknown command line argument (%s)\n", ptr);
+      printf("canfilter: unknown command line argument (%s)\n", ptr);
       errno = -1;
       goto error;
     }
@@ -155,14 +110,14 @@ int main(int argc, char *argv[])
   
   if (verbose)
   {
-    printf("filtertest: device-node = %s\n", szDevNode);
+    printf("canfilter: device-node = %s\n", szDevNode);
     if (clear)
-      printf("filtertest: clear the filter chain.\n");
+      printf("canfilter: clear the filter chain.\n");
     else
     {
-      printf("filtertest: lowest CAN ID to pass      = 0x%08x\n", lower_ID);
-      printf("filtertest: highest CAN ID to pass     = 0x%08x\n", upper_ID);
-      printf("filtertest: message type flags to pass = 0x%02x\n", msgtype);
+      printf("canfilter: lowest CAN ID to pass      = 0x%08x\n", lower_ID);
+      printf("canfilter: highest CAN ID to pass     = 0x%08x\n", upper_ID);
+      printf("canfilter: message type flags to pass = 0x%02x\n", msgtype);
     }    
   }
   
@@ -172,7 +127,7 @@ int main(int argc, char *argv[])
   // get driver version info
   if ((!h) && (verbose))
   {
-    perror("filtertest: LINUX_CAN_Open()");
+    perror("canfilter: LINUX_CAN_Open()");
     goto error;
   }
   else
@@ -185,10 +140,10 @@ int main(int argc, char *argv[])
     // get version info
     errno = CAN_VersionInfo(h, txt);
     if (!errno)
-      printf("filtertest: driver version = %s\n", txt);
+      printf("canfilter: driver version = %s\n", txt);
     else
     {
-      perror("filtertest: CAN_VersionInfo()");
+      perror("canfilter: CAN_VersionInfo()");
       goto error;
     }
   }
@@ -200,7 +155,7 @@ int main(int argc, char *argv[])
     if (err)
     {
       errno = err;
-      perror("filtertest: CAN_ResetFilter()");
+      perror("canfilter: CAN_ResetFilter()");
       goto error;
     }
   }
@@ -210,7 +165,7 @@ int main(int argc, char *argv[])
     if (err)
     {
       errno = err;
-      perror("filtertest: CAN_MsgFilter()");
+      perror("canfilter: CAN_MsgFilter()");
       goto error;
     }
   }

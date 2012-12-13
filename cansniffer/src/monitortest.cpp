@@ -1,42 +1,3 @@
-//****************************************************************************
-// Copyright (C) 2001-2009  PEAK System-Technik GmbH
-//
-// linux@peak-system.com 
-// www.peak-system.com
-//
-// This program is free software; you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation; either version 2 of the License, or
-// (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-//
-// Maintainer(s): Klaus Hitschler (klaus.hitschler@gmx.de)
-//****************************************************************************
-
-//****************************************************************************
-// receivetest.c - a small program to test the receive features of pcan driver 
-//                 and the supporting shared library
-//
-// for example of realtime variant look at "receivetest_rt.c"
-//
-// $Id: receivetest.c 592 2009-06-07 21:04:25Z khitschler $
-//
-//****************************************************************************
-
-// set here current release for this program
-#define CURRENT_RELEASE "Release_20090203_n"
-
-//****************************************************************************
-// INCLUDE
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -56,7 +17,7 @@
 //****************************************************************************
 // DEFINES
 
-#define DEFAULT_NODE "/dev/pcan0"
+#define DEFAULT_NODE "/dev/pcanusb0"
 #ifndef bool
   #define bool  int
   #define true  1
@@ -78,10 +39,10 @@ void do_exit(int error)
 {
   if (h) 
   {
-    print_diag("receivetest");
+    print_diag("canmonitor");
     CAN_Close(h);
   }
-  printf("receivetest: finished (%d).\n\n", error);
+  printf("canmonitor: finished (%d).\n\n", error);
   exit(error);
 }
 
@@ -107,12 +68,6 @@ int open_can(bool bDevNodeGiven,bool bTypeGiven,const char *szDevNode,int nType,
     h = LINUX_CAN_Open(szDevNode, O_RDWR);
   else 
   {
-		// please use what is appropriate
-		// HW_DONGLE_SJA
-		// HW_DONGLE_SJA_EPP
-		// HW_ISA_SJA
-		// HW_PCI
-		// HW_USB
     h = CAN_Open(nType, dwPort, wIrq);
   }
   if (!h) 
@@ -249,13 +204,13 @@ int read_loop(bool display_on)
     __u32 status;
  		if ((errno = LINUX_CAN_Read(h, &m))) 
 		{
-			perror("receivetest: LINUX_CAN_Read()");
+			perror("canmonitor: LINUX_CAN_Read()");
 			return errno;
 		}
 		else 
 		{
 			if (m.Msg.ID == 0x0D0 || 
-//					m.Msg.ID >= 0x000 || // to disable the condition
+					m.Msg.ID >= 0x000 || // to disable the condition designed for Ford Focus
 					m.Msg.ID == 0x0C8 || 
 					m.Msg.ID == 0x310 || 
 					m.Msg.ID == 0x340 || 
@@ -316,11 +271,11 @@ int read_loop(bool display_on)
 					if ((int)status < 0) 
 					{
 						errno = nGetLastError();
-						perror("receivetest: CAN_Status()");
+						perror("canmonitor: CAN_Status()");
 						return errno;
 					}
 					else
-						printf("receivetest: pending CAN status 0x%04x read.\n", (__u16)status);
+						printf("canmonitor: pending CAN status 0x%04x read.\n", (__u16)status);
 				}
 			}
 		}
@@ -331,14 +286,9 @@ int read_loop(bool display_on)
 
 static void hlpMsg(void)
 {
-  printf("receivetest - a small test program which receives and prints CAN messages.\n");
-  printf("usage:   receivetest {[-f=devicenode] | {[-t=type] [-p=port [-i=irq]]}} [-b=BTR0BTR1] [-e] [-?]\n");
+  printf("canmonitor - a small test program which receives and prints CAN messages.\n");
+  printf("usage:   canmonitor [-f=devicenode] | [-?]\n");
   printf("options: -f - devicenode - path to devicefile, default=%s\n", DEFAULT_NODE);
-  printf("         -t - type of interface, e.g. 'pci', 'sp', 'epp', 'isa', 'pccard' or 'usb' (default: pci).\n");
-  printf("         -p - port in hex notation if applicable, e.g. 0x378 (default: 1st port of type).\n");
-  printf("         -i - irq in dec notation if applicable, e.g. 7 (default: irq of 1st port).\n");
-  printf("         -b - BTR0BTR1 code in hex, e.g. 0x001C (default: 500 kbit).\n");
-  printf("         -e - accept extended frames. (default: standard frames)\n");
   printf("         -? or --help - this help\n");
   printf("\n");
 }
@@ -361,8 +311,8 @@ int main(int argc, char *argv[])
 
   errno = 0;
 
-  current_release = CURRENT_RELEASE;
-  disclaimer("receivetest");
+  current_release = "rttep";
+  disclaimer("canmonitor");
 
   init();
 
@@ -388,40 +338,14 @@ int main(int argc, char *argv[])
         szDevNode = ptr;
         bDevNodeGiven = true;
         break;
-      case 'd':
-        if (strcmp(ptr, "no") == 0)
-          bDisplayOn = false;
-        break;
-      case 't':
-        nType = getTypeOfInterface(ptr);
-        if (!nType)
-        {
-          errno = EINVAL;
-          printf("receivetest: unknown type of interface!\n");
-          goto error;
-        }
-        bTypeGiven = true;
-        break;
-      case 'p':
-        dwPort = strtoul(ptr, NULL, 16);
-        break;
-      case 'i':
-        wIrq   = (__u16)strtoul(ptr, NULL, 10);
-        break;
-      case 'e':
-        nExtended = CAN_INIT_TYPE_EX;
-        break;
       case '?':
       case 'h':
         hlpMsg();
         goto error;
         break;
-      case 'b':
-        wBTR0BTR1 = (__u16)strtoul(ptr, NULL, 16);
-        break;
       default:
         errno = EINVAL;
-        perror("receivetest: unknown command line argument!\n");
+        perror("canmonitor: unknown command line argument!\n");
         goto error;
         break;
     }
@@ -431,18 +355,18 @@ int main(int argc, char *argv[])
   if (bDevNodeGiven && bTypeGiven)
   {
     errno = EINVAL;
-    perror("receivetest: device node and type together is useless");
+    perror("canmonitor: device node and type together is useless");
     goto error;
   }
 
   // give some information back
   if (!bTypeGiven)
   {
-    printf("receivetest: device node=\"%s\"\n", szDevNode);
+    printf("canmonitor: device node=\"%s\"\n", szDevNode);
   }
   else
   {
-    printf("receivetest: type=%s", getNameOfInterface(nType));
+    printf("canmonitor: type=%s", getNameOfInterface(nType));
     if (nType == HW_USB)
     {
       if (dwPort)
@@ -482,21 +406,16 @@ int main(int argc, char *argv[])
     h = LINUX_CAN_Open(szDevNode, O_RDWR);
     if (!h)
     {
-      printf("receivetest: can't open %s\n", szDevNode);
+      printf("canmonitor: can't open %s\n", szDevNode);
       goto error;
     }
   }
   else 
   {
-    // please use what is appropriate  
-    // HW_DONGLE_SJA 
-    // HW_DONGLE_SJA_EPP 
-    // HW_ISA_SJA 
-    // HW_PCI 
     h = CAN_Open(nType, dwPort, wIrq);
     if (!h)
     {
-      printf("receivetest: can't open %s device.\n", getNameOfInterface(nType));
+      printf("canmonitor: can't open %s device.\n", getNameOfInterface(nType));
       goto error;
     }
   }
@@ -507,9 +426,9 @@ int main(int argc, char *argv[])
  // get version info
   errno = CAN_VersionInfo(h, txt);
   if (!errno)
-    printf("receivetest: driver version = %s\n", txt);
+    printf("canmonitor: driver version = %s\n", txt);
   else {
-    perror("receivetest: CAN_VersionInfo()");
+    perror("canmonitor: CAN_VersionInfo()");
     goto error;
   }
 
@@ -519,7 +438,7 @@ int main(int argc, char *argv[])
     errno = CAN_Init(h, wBTR0BTR1, nExtended);
     if (errno) 
     {
-      perror("receivetest: CAN_Init()");
+      perror("canmonitor: CAN_Init()");
       goto error;
     }
   }

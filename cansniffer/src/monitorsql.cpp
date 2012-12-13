@@ -301,6 +301,8 @@ int main(int argc, char *argv[])
   bool bDisplayOn    = true;
   char txt[VERSIONSTRING_LEN];
 
+	// connecting to mysql database
+
   conn = mysql_init(NULL);
   if (conn == NULL) {
     printf("Error %u: %s\n", mysql_errno(conn), mysql_error(conn));
@@ -391,15 +393,6 @@ int main(int argc, char *argv[])
         printf(", irq=default\n");
     }
   }
-
-  if (nExtended == CAN_INIT_TYPE_EX)
-    printf("             Extended frames are accepted");
-  else
-    printf("             Only standard frames are accepted");
-  if (wBTR0BTR1)
-    printf(", init with BTR0BTR1=0x%04x\n", wBTR0BTR1);
-  else
-    printf(", init with 500 kbit/sec.\n");
 
   /* open CAN port */
   if ((bDevNodeGiven) || (!bDevNodeGiven && !bTypeGiven)) 
