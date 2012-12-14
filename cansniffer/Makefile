@@ -1,7 +1,8 @@
 SRC     = src
-INC     = -I. -I../lib -I../driver
+INC     = -I. -I../pcanlib -I../pcandriver -L../pcanlib
 RT      = NO_RT
 
+# USERAPP_LIBS = 
 USERAPP_LIBS = -lpcan
 
 ifeq ($(HOSTTYPE),x86_64)
