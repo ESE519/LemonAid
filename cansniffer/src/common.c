@@ -68,6 +68,9 @@ void disclaimer(const char *prgName)
 void display_status(TPCANMsg *m)
 {
   int i;
+	int16_t angel;
+	int fangle;
+	int rpm;
 
 	switch (m->ID)
 	{
@@ -92,7 +95,10 @@ void display_status(TPCANMsg *m)
 				case 0xC:
 					printf("PARK  ");
 					break;
+				default:
+					break;
 			}
+			break;
 			switch ((m->DATA[4] & 0x20) >> 4)
 			{
 				case 0x2:
@@ -100,6 +106,8 @@ void display_status(TPCANMsg *m)
 					break;
 				case 0x0:
 					printf("ENGINE OFF\n");
+					break;
+				default:
 					break;
 			}
 			break;
@@ -113,7 +121,10 @@ void display_status(TPCANMsg *m)
 				case 0x66:
 					printf("ENGINE ON \n");
 					break;
+				default:
+					break;
 			}
+			break;
 		case 0x360:
 			printf("        Doors: %03x ", m->ID);
 			printf("D: %01x P: %01x DR: %01x PR: %01x \n",
@@ -123,14 +134,11 @@ void display_status(TPCANMsg *m)
 							(m->DATA[2] & 0x08) >> 3);
 			break;
 		case 0x0B0:
-		{
-			int16_t angel;
 			angel = (((m->DATA[5]) << 8) | (m->DATA[6]));
-			int fangle = (int)((double)angel / 32768.0 * 450.0);
+			fangle = (int)((double)angel / 32768.0 * 450.0);
 			printf("Steering angl: %03x ", m->ID);
 			printf("%d \n", fangle);
 			break;
-		}
 		case 0x130:
 			printf("        Speed: %03x ", m->ID);
 			printf("%d km/h\n", (((m->DATA[6]) << 8)|(m->DATA[7])));
@@ -144,13 +152,11 @@ void display_status(TPCANMsg *m)
 			printf("%d\n", ((m->DATA[2] & 0xF0) >> 4));
 			break;
 		case 0x90:
-		{
 			printf("          RPM: %03x ", m->ID);
-			int rpm = (((m->DATA[4] & 0x0F) << 8) | (m->DATA[5]));
+			rpm = (((m->DATA[4] & 0x0F) << 8) | (m->DATA[5]));
 			rpm = rpm * 2;
 			printf("%d \n", rpm);
 			break;
-		}
 		default:
 			break;
 	}

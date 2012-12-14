@@ -29,6 +29,10 @@
 
 HANDLE h;
 const char *current_release;
+bool raw_flag;
+__u32 lower_ID = 0;
+__u32 upper_ID = 0x1fffffff; //maximum extended can id
+__u8  msgtype  = 0x02; //extended msg type
 
 //****************************************************************************
 // CODE
@@ -76,124 +80,6 @@ int open_can(bool bDevNodeGiven,bool bTypeGiven,const char *szDevNode,int nType,
   return err;
 }
 
-void generate_entry(std::list<TPCANRdMsg> List)
-{
-  int i;
-	int16_t angel;
-	int gearPos = 0,
-			light = 0,
-			turn = 0,
-			engine = 0,
-			driverDoor = 0,
-			passengerDoor = 0,
-			driverRear = 0,
-			passengerRear = 0,
-			fangle = 0,
-			speed = 0,
-			throttlePos = 0,
-			brake = 0,
-			rpm = 0;
-
-	std::list<TPCANRdMsg>::iterator it;
-	for (it = List.begin(); it != List.end(); it++)
-	{
-		TPCANMsg *m = &(it->Msg);
-
-		switch (m->ID)
-		{
-			case 0xD0:
-				printf("Gear Position: %03x ", m->ID);
-				printf("%02x\n", ((m->DATA[2])>>4));
-				break;
-			case 0xC8:
-				printf(" Light Status: %03x ", m->ID);
-				printf("%02x\n", m->DATA[7]);
-				break;
-			case 0x310:
-				printf("Turning Light: %03x ", m->ID);
-				switch ((m->DATA[4] & 0xC0) >> 4)
-				{
-					case 0x4:
-						printf("LEFT  ");
-						break;
-					case 0x8:
-						printf("RIGHT ");
-						break;
-					case 0xC:
-						printf("PARK  ");
-						break;
-					default:
-						break;
-				}
-				switch ((m->DATA[4] & 0x20) >> 4)
-				{
-					case 0x2:
-						printf("ENGINE ON \n");
-						break;
-					case 0x0:
-						printf("ENGINE OFF\n");
-						break;
-					default:
-						break;
-				}
-				break;
-			case 0x340:
-				printf("Engine Status: %03x ", m->ID);
-				switch (m->DATA[6])
-				{
-					case 0x6E:
-						printf("ENGINE OFF\n");
-						break;
-					case 0x66:
-						printf("ENGINE ON \n");
-						break;
-					default:
-						break;
-				}
-				break;
-			case 0x360:
-				printf("        Doors: %03x ", m->ID);
-				printf("D: %01x P: %01x DR: %01x PR: %01x \n",
-								(m->DATA[2] & 0x01) >> 0,
-								(m->DATA[2] & 0x02) >> 1,
-								(m->DATA[2] & 0x04) >> 2,
-								(m->DATA[2] & 0x08) >> 3);
-				break;
-			case 0x0B0:
-				angel = (((m->DATA[5]) << 8) | (m->DATA[6]));
-				angel = ~angel;
-				fangle = (int)((double)angel / 32768.0 * 450.0);
-				fangle = fangle>0 ? (fangle-450) : (fangle+450);
-				fangle = fangle * 3.0;
-				printf("Steering angl: %03x ", m->ID);
-				printf("%d \n", fangle);
-				break;
-			case 0x130:
-				printf("        Speed: %03x ", m->ID);
-				printf("%d km/h\n", ((((m->DATA[6]) << 8)|(m->DATA[7]))/100));
-				break;
-			case 0x080:
-				printf(" throttle pos: %03x ", m->ID);
-				printf("%d percent\n", (((m->DATA[0])&0x0F)<<8 | m->DATA[1])/10 );
-				break;
-			case 0x252:
-				printf(" brake status: %03x ", m->ID);
-
-				printf("%d\n", (((m->DATA[1])<<8)|(m->DATA[2]))/20);
-				break;
-			case 0x90:
-				printf("          RPM: %03x ", m->ID);
-				rpm = (((m->DATA[4] & 0x0F) << 8) | (m->DATA[5]));
-				rpm = rpm * 2;
-				printf("%d \n", rpm);
-				break;
-			default:
-				break;
-		}
-	}
-
-}
-
 // read from CAN forever - until manual break
 int read_loop(bool display_on)
 {
@@ -209,6 +95,46 @@ int read_loop(bool display_on)
 		}
 		else 
 		{
+			char kb_char;
+			char *lower = new char[4];
+			char *upper = new char[4];
+
+			if (kbhit())
+			{
+				kb_char = getchar();
+				if(kb_char == 'c')
+				{
+					List.clear();
+					raw_flag = false;
+					errno = CAN_ResetFilter(h);
+					if (errno)
+					{
+						perror("canmonitor: CAN_ResetFilter()");
+						return errno;
+					}
+				}
+				else if(kb_char == 'r')
+				{
+					raw_flag = true;
+				}
+				else if(kb_char.isdigit())
+				{
+					lower[0] = kb_char;
+					lower[1] = '0';
+					lower[2] = '0';
+					lower[3] = '\0';
+					upper[0] = kb_char + 1;
+					upper[1] = '0';
+					upper[2] = '0';
+					upper[3] = '\0';
+          lower_ID = strtoul(lower, NULL, 16);
+          upper_ID = strtoul(upper, NULL, 16);
+					err = CAN_MsgFilter(h, lower_ID, upper_ID, msgtype);
+				}
+			}	
+
+
+
 			if (m.Msg.ID == 0x0D0 || 
 					m.Msg.ID >= 0x000 || // to disable the condition designed for Ford Focus
 					m.Msg.ID == 0x0C8 || 
@@ -253,12 +179,17 @@ int read_loop(bool display_on)
 					{
 						std::list<TPCANRdMsg>::iterator iter;
 						ClearScreen();
-						generate_entry(List);
 
 						for (iter = List.begin(); iter != List.end(); iter++)
 						{
-						//	print_message(&((*iter).Msg));
-						//	display_status(&((*iter).Msg));
+							if(raw_flag)
+							{
+								print_message(&((*iter).Msg));
+							}
+							else
+							{
+								display_status(&((*iter).Msg));
+							}
 						}
 						print_period = 0;
 					}
@@ -442,6 +373,7 @@ int main(int argc, char *argv[])
       goto error;
     }
   }
+	raw_flag = false;
   errno = read_loop(bDisplayOn);
   if (!errno)
     return 0;
