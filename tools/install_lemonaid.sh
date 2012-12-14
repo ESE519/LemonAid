@@ -37,7 +37,7 @@ ZRELADDR=0x80008000
 #specify location of locally cloned git tree,
 #this will keep you from downloading all the time
 
-LINUX_GIT=/home/mathew/beaglebone/linux-stable/ 
+#LINUX_GIT=/home/mathew/beaglebone/linux-stable/ 
 
 
 
@@ -165,8 +165,14 @@ if [ "${MMC}" ] ; then
 		echo "Please insert your SD card"
 	fi
 else
-	echo "Please specify the path to your SD card"
-	/bin/bash -e 'setup_sdcard.sh --probe-mmc'
+	until [ `ls /dev/ | grep ${MMC}` ]
+	do
+		echo "Please insert the SD card;"
+		echo "OR press [Ctrl-C] and specify another path to your SD card"
+		echo "wait 2 seconds..."
+		sleep 2;
+	done
+	/bin/bash -e 'setup_sdcard.sh --mmc /dev/${MMC} --uboot "${BOARD}"'
 fi
 
 cd ${CURRENT_DIRECTORY}
@@ -183,7 +189,26 @@ sh ./tools/install_image.sh
 
 echo "##############################"
 echo "##############################"
-echo "     Installing Library       "
+echo "     Installing Program       "
 echo "##############################"
 echo "##############################"
 
+cd ${CURRENT_DIRECTORY}
+
+until [ `ls /media/ | grep -e rootfs` ] 
+do
+	echo "Please remount the SD card (umount; eject; and re-insert)"
+	echo "wait 5 seconds..."
+	sleep 5;
+done
+mkdir /media/rootfs/home/ubuntu/program
+PROGRAM_DIRECTORY=/media/rootfs/home/ubuntu/program
+
+mkdir ${PROGRAM_DIRECTORY}/cansniffer
+mkdir ${PROGRAM_DIRECTORY}/pcanlib
+mkdir ${PROGRAM_DIRECTORY}/pcandriver
+
+cp ./pcanlib/* ${PROGRAM_DIRECTORY}/pcanlib
+cp ./pcandriver/* ${PROGRAM_DIRECTORY}/pcandriver
+cp ./cansniffer/* ${PROGRAM_DIRECTORY}/cansniffer
+cp ./Makefile ${PROGRAM_DIRECTORY}/Makefile
