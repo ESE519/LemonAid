@@ -117,7 +117,7 @@ int read_loop(bool display_on)
 				{
 					raw_flag = true;
 				}
-				else if(kb_char.isdigit())
+				else if(isdigit(kb_char))
 				{
 					lower[0] = kb_char;
 					lower[1] = '0';
@@ -129,7 +129,7 @@ int read_loop(bool display_on)
 					upper[3] = '\0';
           lower_ID = strtoul(lower, NULL, 16);
           upper_ID = strtoul(upper, NULL, 16);
-					err = CAN_MsgFilter(h, lower_ID, upper_ID, msgtype);
+					errno = CAN_MsgFilter(h, lower_ID, upper_ID, msgtype);
 				}
 			}	
 
