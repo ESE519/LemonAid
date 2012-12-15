@@ -1,8 +1,0 @@
-
-filtertest Version "Release_20070211_a"  (www.peak-system.com)
-------- Copyright (C) 2004-2009 PEAK System-Technik GmbH ------
-filtertest comes with ABSOLUTELY NO WARRANTY.     This is free
-software  and you are welcome  to redistribute it under certain
-conditions.   For   details   see    attached   COPYING   file.
-
-filtertest: driver version = Release_20120726_n
