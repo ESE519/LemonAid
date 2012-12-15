@@ -7,11 +7,11 @@ Go up to the parent directory, and run `make clean && make` to compile the libra
 ###Usage
 1. Ford Focus Electronic Neutralizer  
 
-    Run `sudo cantransmitter -f=/dev/pcanXX ./transmit.txt`
+    Run `sudo ~/cansniffer/cantransmitter -f=/dev/pcanXX ./transmit.txt`
 
 2. Cansniffer  
 
-    Run `sudo cansniffer -f=/dev/pcanXX` to launch the program. **XX** is the pcan port number, which you can find using the `ls /dev/ | grep pcan` command.   
+    Run `sudo ~/cansniffer/cansniffer -f=/dev/pcanXX` to launch the program. **XX** is the pcan port number, which you can find using the `ls /dev/ | grep pcan` command.   
     After launching the program, there are several optional commands you can execute on the fly:  
      - **'r'**: instead of displaying formatted data (Ford Focus), list raw CAN messages
      - **'0-9'**: setup filters within a range, *for example*: **'1'** will setup filter to be within [0x100, 0x200]
@@ -47,4 +47,4 @@ Go up to the parent directory, and run `make clean && make` to compile the libra
 					time int);`
 
  - Run program
-`sudo canmonitor -f=/dev/pcanXX` 
+`sudo ~/cansniffer/canmonitor -f=/dev/pcanXX` 
