@@ -33,9 +33,23 @@ console.log('lat: ');
 
 var app = require('http').createServer(handler), 
      io = require('socket.io').listen(app), 
-     fs = require('fs'),
-     sqlite3 = require('sqlite3').verbose(),
-     db = new sqlite3.Database('test.db');
+     fs = require('fs');
+     //mysql = require('mysql'),
+     //sqlite3 = require('sqlite3').verbose(),
+     //db = new sqlite3.Database('test.db');
+
+
+//database
+/*
+var db_client = mysql.createConnection({
+                host: 'localhost',
+                user: 'root',
+                password: '12345',
+});
+*/
+
+//db_client.connect();
+
 
 app.listen(8088);
 
@@ -47,7 +61,16 @@ function handler(req, res) {
 var itr = 0;
 var right = true;
 
+var TEST_DATABASE = 'lemon';
+var TEST_TABLE = 'speedinfo';
+
 io.sockets.on('connection', function(socket) {
+	
+	//console.log('client connected -- next statement is use database');
+	
+	
+	//db_client.query('USE '+TEST_DATABASE);
+	
 	console.log('******************* Client connected *******************' + socket.id);
 	
 	// handle data request
@@ -56,23 +79,62 @@ io.sockets.on('connection', function(socket) {
 		
 		console.log('***************** new data requested *********************');
 		
+		
+		
+        
+		
+		
+		
 		transmitInterval = setInterval(function() {
+			
+			
+			
+			
+			
+			/*
+			db_client.query('SELECT * FROM '+ TEST_TABLE + ' order by time desc limit 1', function(err, results) {
+            if (err) throw err;
+                //TODO: check for update in db
+
+
+                //socket.emit('news', { hello: results[0].rpm });
+                
+                socket.emit('newData', {
+								carid : carid,
+								tripid : tripid,
+								engine : engine,
+								throttle : throttle,
+								rpm : rpm, 
+								speed : speed,
+								steering: steering,
+								gear : gear,
+								light: light,
+								door: door,
+								turn: turn,
+								brake: brake,
+								fuel: fuel,
+								temperature: temperature,	 
+								lat : lat,
+								lon : lon,
+								timedb: timedb
+				
+							});
+            });*/
+        
 			//TODO: read new data from the database and if new -> emit
 			
-			rpm = Math.floor((Math.random() * 10) + 1);
-			if(rpm > 6){
-				rpm = 4;
-			}
-			speed = Math.floor(Math.random() * (70 - 0 + 1)) + 0;
+			rpm = Math.floor(Math.random() * (4000 - 699 + 1)) + 699;
 			
+			speed = Math.floor(Math.random() * (70 - 0 + 1)) + 0;
+			steering = Math.floor(Math.random() * (100 - 1  + 1)) + 2;
 			latData = lat[itr];
 			lonData = lon[itr];
 			
 			itr++;
 			
 			if(itr >= lat.length){
-				latData = 0;
-				lonData = 0;
+				itr = 0;
+				
 			}
 			
 			throttle = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
@@ -92,7 +154,10 @@ io.sockets.on('connection', function(socket) {
 					door = 0	
 				}
 				else{
-					door = 1
+					door = door + 1
+					if(door > 3){
+						door = 0
+					}
 				}
 			}
 			
@@ -122,17 +187,44 @@ io.sockets.on('connection', function(socket) {
 				}
 			}
 			
-			
-			if(steering < 90){
-				steering += 2	
+			/*
+			if(steering > 90){
+				steering -= 45	
 			}
-			else{
-				steering -= 2
+			else if (steering < -95){
+				steering += 25
 			}
 			
 			
-						
+			/*
+			 * Simulate -- Trip 7 --> Human crash
+			 * 
+			 * 1. Speed 
+			 * 2. Steering angle
+			 * 3. Light
+			 * 4. Door
+			 * 5. brake
+			 * 
+			 */			
 			
+			
+			
+			
+			
+				//speed = speed - 1
+				
+				
+			
+			
+				//steering = steering + 18; 
+			 
+			
+			
+			timedb = (new Date).getTime();
+			carid = 0;
+			tripid = 9;
+			
+			//console.log(lat , '    ', lon)
 			
 			socket.emit('newData', {
 								carid : carid,
@@ -149,56 +241,19 @@ io.sockets.on('connection', function(socket) {
 								brake: brake,
 								fuel: fuel,
 								temperature: temperature,	 
-								lat : lat,
-								lon : lon,
+								lat : latData,
+								lon : lonData,
 								timedb: timedb
 				
 			});
 			
-			console.log('***************************************  steering:     ' + steering + '  -----------  ' + sendCount  );
+			console.log('***************************************  ' + sendCount + 'steering  - ' + steering );
 			
-			/*
-			db.serialize(function() {
 			
-			var count = 0
-				
-  				db.each("SELECT rowid as id, * FROM speedinfo", function(err, row) {	// order by id desc in real program
-			    	  //if(row.id > count){
-			    	  	
-			    	  	
-			    	  	//cap off values if they are out-of-bounds
-			    	  	
-				    	  
-				          socket.emit('newData', {
-								carid : row.carid,
-								tripid : row.tripid,
-								engine : row.engine,
-								throttle : row.throttle,
-								rpm : row.rpm, 
-								speed : row.speed,
-								steering: row.steering,
-								gear : row.gear,
-								light: row.light,
-								door: row.door,
-								turn: row.turn,
-								brake: row.brake,
-								fuel: row.fuel,
-								temperature: row.temperature,	 
-								lat : row.lat,
-								lon : row.lon,
-								timedb: row.timedb
-				
-							});
-				  	  //}
-				  	 count = row.id 
-		    	});
-		    	
-			});
-			*/
 			
 			sendCount++;
 			
-		}, 1500);
+		}, 1200);
 	
 	});
 	
