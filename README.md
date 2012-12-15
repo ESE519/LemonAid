@@ -17,7 +17,7 @@ and connect the board to your laptop through USB cable. And run
 `screen /dev/ttyUSBX 115200`   
 If you see no output, just type Enter, it will take 1 to 5 minutes to have the board bootup the operating system.  
 When you see the login prompt, login with username: "ubuntu", password: "temppwd".   
-Then you will be logged in onto the "home" path, and then run `sh ./setup_lemondaid.sh` to do the final setup
+Then you will be logged in onto the "home" path, and then run `sh ./setup_lemonaid.sh` to do the final setup
 
 ###Run Program
 After setup of everything, run the following commands to start the standard program:

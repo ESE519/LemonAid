@@ -215,5 +215,7 @@ cp ./pcanlib/* ${PROGRAM_DIRECTORY}/pcanlib
 cp ./pcandriver/* ${PROGRAM_DIRECTORY}/pcandriver
 cp ./cansniffer/* ${PROGRAM_DIRECTORY}/cansniffer
 cp ./Makefile ${PROGRAM_DIRECTORY}/Makefile
-echo ""
+cp ./tools/setup_lemonaid.sh ${PROGRAM_DIRECTORY}/setup_lemonaid.sh
+
+echo " "
 echo "Done!"
