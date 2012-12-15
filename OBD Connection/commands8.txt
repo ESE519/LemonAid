@@ -1,20 +1,0 @@
-in init
-all init done
-trying to open port
-atzELM327 v1.5
-0180NO DATA>
-0181NO DATA>
-0182NO DATA>
-0183NO DATA>
-0184NO DATA>
-0185NO DATA>
-0186NO DATA>
-0187NO DATA>
-0188NO DATA>
-0189NO DATA>
-018ANO DATA>
-018BNO DATA>
-018CNO DATA>
-018DCAN ERROR>
-018ENO DATA>
-018FNO DATA>

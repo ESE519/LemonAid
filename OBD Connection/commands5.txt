@@ -1,20 +1,0 @@
-in init
-all init done
-trying to open port
-atzELM327 v1.5
-0150NO DATA>
-0151NO DATA>
-0152NO DATA>
-0153NO DATA>
-0154NO DATA>
-0155NO DATA>
-0156NO DATA>
-0157NO DATA>
-0158NO DATA>
-0159NO DATA>
-015ANO DATA>
-015BNO DATA>
-015CNO DATA>
-015DNO DATA>
-015ENO DATA>
-015FNO DATA>

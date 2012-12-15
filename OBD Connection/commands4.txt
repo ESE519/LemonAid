@@ -1,20 +1,0 @@
-in init
-all init done
-trying to open port
-atzELM327 v1.5
->014041 40 40 80 
-014141 41 00 67 E
-014241 42 36 EB 
-014341 43 00 2E 
-014441 44 81 4A 
-014541 45 03 >
-014641 46 33 >
-014741 47 1A >
-0148NO DATA>
-014941 49 26 41 
-014A41 4A 13 >
-014BNO DATA>
-014C41 4C 05 >
-014DNO DATA>
-014ENO DATA>
-014FNO DATA>
