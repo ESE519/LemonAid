@@ -18,7 +18,7 @@ Go up to the parent directory, and run `make clean && make` to compile the libra
     
 3. Canmonitor   
 
- - Setup
+ - Setup *(If you have already run the "setup\_lemonaid.sh" script, just jump to the next step)*
    - Make sure the PCAN cable is plugged in, and run `lsmod | grep pcan` to check if the driver is properly loaded.
    - In order to run canmonitor program, you need to install and setup MySQL database:  
 **NOTE: during the installation, set the root password as: "12345"**  

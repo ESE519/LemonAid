@@ -138,16 +138,6 @@ cd ${CURRENT_DIRECTORY}
 
 echo "##############################"
 echo "##############################"
-echo "     Ready to kernel update   "
-echo "##############################"
-echo "##############################"
-
-cd ${CURRENT_DIRECTORY}/linux-dev
-pwd
-sh ./build_kernel.sh
-
-echo "##############################"
-echo "##############################"
 echo "     Installing Ubuntu        "
 echo "##############################"
 echo "##############################"
@@ -172,10 +162,21 @@ else
 		echo "wait 2 seconds..."
 		sleep 2;
 	done
+	echo "found it!"
 	/bin/bash -e 'setup_sdcard.sh --mmc /dev/${MMC} --uboot "${BOARD}"'
 fi
 
 cd ${CURRENT_DIRECTORY}
+
+echo "##############################"
+echo "##############################"
+echo "     Ready to kernel update   "
+echo "##############################"
+echo "##############################"
+
+cd ${CURRENT_DIRECTORY}/linux-dev
+pwd
+sh ./build_kernel.sh
 
 echo "##############################"
 echo "##############################"
@@ -201,6 +202,8 @@ do
 	echo "wait 5 seconds..."
 	sleep 5;
 done
+echo "found it!"
+echo "final jobs..."
 mkdir /media/rootfs/home/ubuntu/program
 PROGRAM_DIRECTORY=/media/rootfs/home/ubuntu/program
 
@@ -212,3 +215,5 @@ cp ./pcanlib/* ${PROGRAM_DIRECTORY}/pcanlib
 cp ./pcandriver/* ${PROGRAM_DIRECTORY}/pcandriver
 cp ./cansniffer/* ${PROGRAM_DIRECTORY}/cansniffer
 cp ./Makefile ${PROGRAM_DIRECTORY}/Makefile
+echo ""
+echo "Done!"

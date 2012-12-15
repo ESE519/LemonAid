@@ -11,4 +11,4 @@ and then clone our project by running this command: `git clone git://github.com/
 And the "install\_lemonaid.sh" will do everything for you.
 
 ###Beaglebone Setup
-After running the install-lemonaid script, you will have an customized Ubuntu with our pcandriver on board. After plugging the SD card into your Beaglebone, 
+After running the install-lemonaid script, you will have an customized Ubuntu with our pcandriver on board. After plugging the SD card into your Beaglebone, **power up your Beaglebone with a separate power cord**, and connect the board to your laptop through USB cable. 
