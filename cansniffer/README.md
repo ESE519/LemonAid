@@ -7,7 +7,7 @@ Go up to the parent directory, and run `make clean && make` to compile the libra
 ###Usage
 1. Cansniffer list
 
-Run `sudo cansniffer -f=/dev/pcanXX` to launch the program. XX is the pcan port number, which you can find using the `ls /dev/ | grep pcan` command.
+    Run `sudo cansniffer -f=/dev/pcanXX` to launch the program. XX is the pcan port number, which you can find using the `ls /dev/ | grep pcan` command.
 
 2. Canmonitor list
 
