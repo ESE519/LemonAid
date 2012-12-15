@@ -24,7 +24,7 @@ Go up to the parent directory, and run `make clean && make` to compile the libra
      - run
 `mysql -u root -p` and type in "12345" as the root password  
      - in the mysql console, type the following command and hit enter:  
-`create table if not exists speedinfo (carid int, tripid int, engine int, speed int, rpm int, thr int, steer int, gear int, light int, door int, turn int, brake int, fuel int, temp int, lat real, lon real, time int);
+`create table if not exists speedinfo (carid int,   tripid int,   engine int,   speed int,   rpm int,   thr int,   steer int,   gear int,   light int,   door int,   turn int,   brake int,   fuel int,   temp int,   lat real,   lon real,   time int);`
 
  - Run program
 `sudo canmonitor -f=/dev/pcanXX` 
