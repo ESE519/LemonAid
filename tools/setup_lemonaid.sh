@@ -51,6 +51,11 @@ sudo echo "gateway 192.168.1.1" >> /etc/network/interfaces
 echo "setting up can monitor program..."
 make clean && make
 
+echo "setting up MySQL database and table..."
+echo "Please get ready to input password (default: 12345)"
+mysql -u root -p -e "create database if not exists lemon"
+mysql -u root -p -e "create table if not exists speedinfo (carid int, tripid int, engine int, speed int, rpm int, thr int, steer int, gear int, light int, door int, turn int, brake int, fuel int, temp int, lat real, lon real, time int);"
+
 echo "Done!"
 echo "Reboot required!"
 
