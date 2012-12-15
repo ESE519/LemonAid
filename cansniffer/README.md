@@ -5,7 +5,8 @@ The purpose of this program is to sniff the CAN bus of an automobile by parsing 
 Go up to the parent directory, and run `make clean && make` to compile the library and program.
 
 ###Usage
-1. Ford Focus Electronic Neutralizer
+1. Ford Focus Electronic Neutralizer  
+
     Run `sudo cantransmitter -f=/dev/pcanXX ./transmit.txt`
 
 2. Cansniffer  
