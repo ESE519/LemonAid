@@ -1,11 +1,268 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>LemonAid</title>
-    </head>
-    <body>
-        <h1>LemonAid</h1>
-    </body>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>LemonAid</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="title">LemonAid</h1>
+        <p>A 'Blackbox' for automobiles</p>
+        <p class="view">
+        	<a href="http://lemonaid-ese519.tumblr.com/">Project Blog <small>lemonaid-ese519/Tumblr</small></a>
+        	<a href="https://github.com/ESE519/LemonAid">View the Project on GitHub <small>ese519/LemonAid</small></a>
+
+        </p>
+        
+        <ul>
+          <li><a href="https://github.com/ESE519/LemonAid/archive/master.zip">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/ESE519/LemonAid/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/ESE519/LemonAid">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        
+        <h1>Description</h1>
+        <p>LemonAid is a black-box for automobiles. It provides a gateway to connect to the vehicle’s information bus. The gateway can records vital parameters for analysis and efficiency improvement. 
+        	After intercepting data from the car, an algorithm is applied on the newly intercepted values to detect anomalies in the engine, body or the chassis of the car. These anomalies are categorized as key events which may be of interest for insurance companies in case of an accident and for analysis in general. 
+        	 Insurance analysts can use data about driving habits, compliance to traffic rules and activity of the vehicle owner to overcome inefficiencies in insurance pricing.  
+        	This system is extermely useful as it can aid accident scene investigators to recreate the scenario and playback all vital moments.</p>
+        <hr/>
+        
+        <h1></h1>
+        
+        <h1>Architecture</h1>
+        <p><img src="./img/arch.png" alt="Architecture" /></p>
+        <p>The LemonAid system is divided into two main components:
+        	<ul>
+        		<li>
+        			<strong>Gateway</strong>: <br/ >
+        			We use the BeagleBone as the gateway to the automobile. After mounting Ubuntu on the BeagleBone,
+        			 we installed necessary drivers for the PEAK CAN-USB cable to work in linux environment. 
+        			 The CAN monitor program is sniffs CAN messages and identifies key parameter values and events 
+        			 like speed, rpm, steering angle, door status, throttle position, etc. The program then stores these
+        			 values in a database on-board. Since these values are obtained asynchronously, the iPad application
+        			 is notified of their arrival using asynchronous callbacks from a node JS server. The gateway is connected 
+        			 to the iPad through wifi network hosted on the gateway.
+        		</li>    <br />
+        		<li>
+        			<strong>iPad Application</strong>: <br />
+        			The app opens a socket connection to the gateway and receives important automobile data. Once new data
+        			is received, the application stores these parameters in a local database for further analysis and at the same
+        			time, updates the interface to display latest parameter values. Once the iPad connects to the gateway, id of the 
+        			car can be detected. This way, we can generate a mapping table and scale to various automobiles.
+        		</li>
+        	</ul>	
+        	
+        </p>
+        <hr/>
+        
+        <h1>Methodology</h1>
+        <h3>Connecting to the OBD port</h3>
+        <p>
+        	To establish connection with the automobile (Ford Focus and Toyota Prius in our case) we connected the PEAK CAN-USB cable 
+        	to the car's OBD port. Other end of the cable is plugged into the gateway. 
+        	
+        </p>
+        <p><img class="center" src="./img/obdPortInCar.png" /></p>
+        
+        <h3>CAN Monitor</h3>
+        <p>
+        	The CAN monitor program sniff the CAN bus for specific CAN ids and records corresponding values in the database. 
+        	The messages flowing in the CAN bus are of the following format: <br /><br />
+        	Example: 0x230 8 01 34 00 00 fe 44 00 a9 <br /><br/>
+        	The CAN id is indicated by the hex representation. Following the CAN id is the number of bytes of data. Actual values
+        	following after the specified size. 
+        	To make sense of these numbers, we tested created various events in the car and recorded the change in these values. This part
+        	is time consuming. Once we determined the meaning of particular CAN ids, we had to convert the hex values into numbers that made sense. 
+        	
+        </p>
+        
+        <p class="center">
+        	<video width="480" height="272" controls>
+  				<source src="./img/Matrix_small.m4v" ></source>
+  			</video>
+        </p>
+        
+        
+        <h3>CAN Message Analysis</h3>
+        <span class="small"> &nbsp; (Sample data for Ford Focus)</span>
+        <table>
+          <tbody><tr>
+            <th>ID</th><th>Information</th><th>Unit / Value</th>
+          </tr>
+          <tr>
+            <td>0x0D0</td><td>Gear</td><td>['P', 'R', 'N', 'D']</td>
+          </tr>
+          <tr>
+            <td>0x0C8</td><td>Light</td><td>['Low', 'Night', 'Deep']</td>
+          </tr>
+          <tr>
+            <td>0x130</td><td>Speed</td><td>[kmph]</td>
+          </tr>
+          <tr>
+            <td>0x080</td><td>Throttle Position</td><td>[%]</td>
+          </tr>
+          <tr>
+            <td>0x0B0</td><td>Steering Angle</td><td>[(-450, 450) degrees]</td>
+          </tr>
+          <tr>
+            <td>0x340</td><td>Engine</td><td>['On', 'Off']</td>
+          </tr>
+          <tr>
+            <td>0x360</td><td>Door</td><td>['Ajar', 'Closed']</td>
+          </tr>
+          <tr>
+            <td>0x310</td><td>Turn indicators</td><td>['Left', 'Right', 'Parking']</td>
+          </tr>
+          <tr>
+            <td>0x090</td><td>RPM</td><td>[(0, 5) x1000]</td>
+          </tr>
+        </tbody></table>
+        
+        <span class="small"> &nbsp; (Sample data for Toyota Prius)</span>
+        <table>
+          <tbody><tr>
+            <th>ID</th><th>Information</th><th>Unit / Value</th>
+          </tr>
+          <tr>
+            <td>0x224</td><td>Brake</td><td>['On', 'Off']</td>
+          </tr>
+          <tr>
+            <td>0x620</td><td>Door</td><td>['Ajar', 'Closed']</td>
+          </tr>
+          <tr>
+            <td>0x127</td><td>Gear</td><td>['P', 'R', 'N', 'D']</td>
+          </tr>
+          <tr>
+            <td>0x622</td><td>Light</td><td>['Low', 'Night', 'Deep']</td>
+          </tr>
+          <tr>
+            <td>0x025</td><td>Steering Angle</td><td>[(-540, 540) degrees]</td>
+          </tr>
+        </tbody></table>
+        
+        <br/>
+        
+        <h1>iPad Application</h1>
+        <p>
+        	The iPad app connects to the LemonAid gateway using web sockets through adhoc wifi network hosted by the gateway. 
+        	A server hosted on the gateway serves the application with new values from the automobile by sending JSON objects asynchronously.
+        	<br/><br/>
+        	Main components of the application are:
+        	<ul>
+        		<li>
+        			<h4>Virtual Dashboard</h4>
+        			<img src="./img/app_1000.png" alt="Dashboard" />
+        			<p>
+        				<br />
+        			This feature of the application receives live data from the gateway and updates the UI. 
+        			The dashboard can show display parameters like speed, rpm, door status, brake status, lights, etc. In 
+        			the background, these parameters are backed up in the database for analysis.
+        			</p>
+        		</li>
+        		
+        		<li>
+        			<h4>Trip Observer</h4>
+        			<img src="./img/app_1001.png" alt="Trip Observer" />
+        			<p>
+        				<br />
+        				As shown in the image above, this feature of the application shows live parameters and plots
+        				 important parameters on an oscilloscope. Apart from this, the map shows the routes taken during a particular trip 
+        				 so that critical events can be analyzed better. The main component of this feature is that the user can 
+        				 pause the trip and rewind playback the trip with all the corresponding values updating based on the timestamp. This 
+        				 feature is extremely useful in case of accidents where we need to find critical events leading to the accident. During 
+        				 the pause and playback, all new values are stored in a cache and as soon as the trip observation mode is resumed, all cached 
+        				 values are pushed on the oscilloscope.
+        			</p>
+        		</li>
+        		
+        		<li>
+        			<h4>Analysis Platform</h4>
+        			<p>
+        				The analysis platform is extremely useful as it displays all the trips made by the car. On selecting a particular 
+        				trip, all parameters and critical events retrieved from the automobile are displayed on a graph with common timeline. 
+        				The user can easily see all the values at a particular instant in time and decipher mysterious accident scenarios. Moreover, 
+        				stored trip data can be used to improve driving efficiency and hence improve the performance of the automobile. 
+        			</p>
+        		</li>
+        	</ul>		
+        </p>
+        
+        	
+        
+        <br />
+        <hr/>
+        
+        
+        <span class="likeh1">Communication</span><span class="medium"> &nbsp; between Gateway and iPad</span>
+        <p>
+        	The communication between the iPad and the gateway is done by opening a socket connection. Once the connection 
+        	is established the iPad sends a request to the server on the gateway to send live data. To acknowledge this request, 
+        	the server forms loads all parameters in a JSON object and emits it to the iPad. To close the socket, the iPad initiates the process 
+        	by sending a disconnetion warning. The server acknowledges that request and stops sending data to the iPad.
+        	
+     
+        </p>
+        
+        <hr />
+        
+        
+        <h1>Evaluation</h1>
+        <p>
+        	We simulated different accident scenarios and found that the LemonAid system can detect and plot critical events accurately. 
+        	Before running the analysis platform, our algorithm detects sudden change in speed, abnormal steering angles, hard brakes, 
+        	sharp turn and other critical parameters like gear position, throttle position, etc. LemonAid gateway along with the iPad 
+        	application can be used to recreate and analyze accidents, aid insurance companies and help the user detect anomalies in driving patterns. The 
+        	gateway can be used by developers to enhance the system by customizing application according to particular needs (eg: Kart racing, Rally, crash investigation, etc.).  
+        	Below is the video of the working system and simulated accident scenarios.  
+        </p>
+        
+        <hr/>
+        
+        <h1>Working System</h1>
+        	<h3>Video</h3>
+        
+        	<p class="center">
+	        	<iframe width="560" height="315" src="http://www.youtube.com/embed/ut-_slfClkQ?rel=0" frameborder="0" allowfullscreen></iframe>
+        	</p>
+        
+        
+        	<h3>Presentation</h3>
+        	<p class="center">	
+        		<iframe src="http://www.slideshare.net/slideshow/embed_code/15653558" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC;border-width:1px 1px 0;margin-bottom:5px" allowfullscreen webkitallowfullscreen mozallowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="http://www.slideshare.net/pulahshah/lemonaid" title="LemonAid" target="_blank">LemonAid</a> </strong> from <strong><a href="http://www.slideshare.net/pulahshah" target="_blank">pulahshah</a></strong> </div>
+      		</p>
+      		
+      		<h3>Fun Video</h3>
+      		<p class="center">
+      			<iframe width="560" height="315" src="http://www.youtube.com/embed/eVXyV2g6kb0?rel=0" frameborder="0" allowfullscreen></iframe>
+     		</p>
+        <hr/>
+        
+
+
+	 
+     
+
+      </section>
+      <footer>
+      	
+      	<p>
+      		The LemonAid project was developed under the guidance of Prof. Mangharam at the University of Pennsylvania
+      	</p>
+      	
+      	<strong>Team</strong>
+      	<img src="./img/team.jpg" />
+        <p>Huang Yu, Pulah Shah, Sung Joon Kim</p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+  </body>
 </html>
