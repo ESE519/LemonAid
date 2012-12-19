@@ -45,6 +45,44 @@ html, body {
 }
 
 
+#imgHolder {
+	
+   
+}
+
+
+
+
+.mainImg {
+	position:absolute;
+	top:	250px;
+	z-index: 333333;
+	
+}
+
+
+#penn {
+	position:absolute;
+	left:		250px;
+	z-index: 333333
+}
+
+#lemon {
+	
+	position:absolute;
+	left:		450px;
+	z-index: 333333
+}
+
+#greenCar {
+	position:absolute;
+	top: 20px;
+	left:		650px;
+	z-index: 333333
+}
+
+
+
 .app {
 	border: 2px solid black;
 	width:  1020px;
@@ -52,6 +90,7 @@ html, body {
 	overflow: hidden;
 	background-color: black;
 }
+
 
 #controlPage {
 	
@@ -323,7 +362,7 @@ html, body {
   position: fixed;
   top:3px;
   right:0px;
-  background-color: #272727;
+  background-color: white;
   
   z-index:5000000;
   border-left: 1px solid gray;

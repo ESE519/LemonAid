@@ -199,12 +199,12 @@ document.addEventListener("deviceready", function() {
 	
 	
 	
-	
+	loadCharts();
 	
 	// trip ------------------------------------------------------
 	initializeMap();
 	initSlider();
-	loadCharts();
+	//loadCharts();
 	
 	// -------------------------------------- 
 	//createChart();
@@ -219,10 +219,14 @@ function populateDB(tx) {
      //tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id, data)');
      
      tx.executeSql('create table if not exists demo (carid int, tripid int, engine int, speed int, rpm int, throttle int, steering int, gear int, light int, door int, turn int, brake int, fuel int, temperature int, lat real, lon real, timedb text)');
-     //tripid = 2 // CHANGE THE TRIP ID HERE //TODO: DELETE THIS
+     // 5 -> everything working // 4 -> demo for dashboard  // 6 -> huang crash.gG || 7* -> Sung crash test (Important -- human crash scene)
+     // 8 -> same as 7 -- going backwards
+     
+     tripid = 9 // CHANGE THE TRIP ID HERE //TODO: DELETE THIS   //---------------------------------------> TRIP ID
      console.log('****** DEBUG - ' + tripid);
-     timedb = new Date().getTime();
-     tx.executeSql('insert into demo (carid, tripid, engine, speed, rpm, throttle, steering, gear, light, door, turn, brake, fuel, temperature, lat, lon, timedb) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [carid, tripid, engine, speed, rpm, throttle, steering, gear, light, door, turn, brake, fuel, temperature, lat, lon, timedb]);
+     
+     //timedb = new Date().getTime();
+     //tx.executeSql('insert into demo (carid, tripid, engine, speed, rpm, throttle, steering, gear, light, door, turn, brake, fuel, temperature, lat, lon, timedb) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [carid, tripid, engine, speed, rpm, throttle, steering, gear, light, door, turn, brake, fuel, temperature, lat, lon, timedb]);
      
 }
 
@@ -235,7 +239,7 @@ function errorCB(err) {
 
 function successCB() {
     //alert("success!");	//TODO : in the settings panel show db connection
-    console.log('row inserted -- success')
+   // console.log('row inserted -- success')
     //FIXME: use native alerts
 }
 
@@ -246,6 +250,7 @@ function queryDB(tx) {
 
 // unique trips query
 function queryUniqueTripsDB(tx) {
+	
     tx.executeSql('SELECT distinct tripid FROM DEMO', [], querySuccess, errorCB);
 }
 
@@ -347,6 +352,9 @@ $(".tlistItem").live('mousedown', function(e) {
 	e.preventDefault();
 	//alert( $(this).attr('id') );
 	id = $(this).attr('id');
+	
+	console.log('Selected trip: ' + id);
+	
 	$('.panel-popover-trip').css('display', 'none');
 	tripSide = false;
 	db = window.openDatabase("Database", "1.0", "Cordova Demo", 999999);
@@ -445,9 +453,15 @@ function onOffline() {
 }
 
 function connectToSocket() {
-	 socket = io.connect('http://158.130.107.164:8088');
-	//socket = io.connect('http://192.168.1.6:8088');
-
+	
+	console.log('before connect');
+	
+	 socket = io.connect('http://localhost:8088');
+	//socket = io.connect('http://158.130.106.249:8088');
+		
+		
+		console.log('after connect ------ *********** connection established');
+		
 	socket.emit('getNewData', function() {
 		console.log('Requesting new data');
 	});
@@ -457,7 +471,7 @@ function connectToSocket() {
 	socket.on('newData', function(data) {
 		isSocketConnected = true;
 		
-		
+		//console.log('*********DEBUG: got new data row: ' + data.door + 'gear: ' + data.gear + 'rpm: '+ data.rpm + ' angle: ' + data.steering);
 		
 		carid 		= data.carid;
 		tripid 		= data.tripid;
@@ -478,7 +492,7 @@ function connectToSocket() {
 		temperature = data.temperature
 		lat 		= data.lat;
 		lon 		= data.lon;
-		timedb 		= -1;//data.timedb
+		timedb 		= (new Date()).getTime();//data.timedb
 		timecurr    = new Date();
 		
 		
@@ -529,22 +543,8 @@ function connectToSocket() {
 		}
 		run++;
 	
-		//db.transaction(populateDB, errorCB, successCB);
+		//db.transaction(populateDB, errorCB, successCB);  //------------------------------------->  Inserted in DB here
 	
-	
-		
-		//console.log('Throttle: ' + throttle + '  RPM: ' + rpm + '  Speed: ' + speed + '  lat: ' + lat + '  lon: ' + lon);
-		
-		
-		// got all the data -- store the values in the database
-		
-		if(db != null){
-			
-			//console.log('inserting into DB...');
-			//tx.executeSql('INSERT INTO SPEEDINFO VALUES(0, carid, tripid, engine, speed, rpm, throttle, steering, gear, light, door, turn, brake, fuel, temperature, lat, lon, timedb, timecurr)');
-			//db.transaction(insertDB, [], successInsertCB, errorCB);	
-		}
-		 
 		
 		
 		
@@ -571,7 +571,8 @@ function updateDashboard() {
 	
 	
 	// rpm
-	$("#rpm").data("kendoRadialGauge").value(rpm);	
+	var dRpm = rpm / 1000.0;
+	$("#rpm").data("kendoRadialGauge").value(dRpm);	
 	
 	// lights
 	if(light == 0) {
@@ -602,12 +603,37 @@ function updateDashboard() {
 	}
 	
 	// turn
+	if(turn > 0){
+		turnOn()
+	}
+	else {
+		turnOff();
+	}
 	
 	
 	// fuel levels
 	
 	
 	// temperature
+}
+
+function turnOn() {
+	turnOff();
+	if(turn == 1){
+		$('#left_turn_signal').removeClass('signOff');
+	}
+	else if(turn == 2){
+		$('#right_turn_signal').removeClass('signOff');
+	}
+	else if(turn == 3){
+		$('#left_turn_signal').removeClass('signOff');
+		$('#right_turn_signal').removeClass('signOff');
+	}
+}
+
+function turnOff() {
+	$('#right_turn_signal').addClass('signOff');
+	$('#left_turn_signal').addClass('signOff');
 }
 
 
@@ -618,6 +644,9 @@ function updateTripUI() {
 	if (flag) {// only update the UI if flag is true
 		//$('#throttleText').html(throttle + ' %');
 		//updateThrottle(throttle);
+		
+		
+		$("#timeRev").text(new Date());
 		
 		$('#throttlePosition').html(throttle);
 		$('#rpmMeter').html(rpm);
@@ -725,7 +754,7 @@ function initValues() {
 	clearWarning();
 	
 	// gear - Parking
-	setGear(1);
+	setGear(0);
 	
 	// headlamp - Off
 	headlampOff();
@@ -781,19 +810,19 @@ function setGear(position) {
 	clearGear();
 	
 	switch (position) {
-		case 1:
+		case 0:
 			$('#p').css('background-color', 'white');
 			$('#p').css('color', '#000000');
 			break;
-		case 2:
+		case 1:
 			$('#r').css('background-color', 'white');
 			$('#r').css('color', '#000000');
 			break;
-		case 3:
+		case 2:
 			$('#n').css('background-color', 'white');
 			$('#n').css('color', '#000000');
 			break;
-		case 4:
+		case 3:
 			$('#d').css('background-color', 'white');
 			$('#d').css('color', '#000000');
 			break;
@@ -810,11 +839,11 @@ function openDoor(doorPosition) {
 	$('#doorWarning').removeClass('signOff');
 	
 	switch(doorPosition) {
-		case 1:	//driver front
+		case 1:	//driver front --> 14
 			$('#dfront').css('background-color', 'green');
 			$('#dfront').css('opacity', '0.5');
 			break;
-		case 2:	//passenger front
+		case 2:	//passenger front --> 13
 			$('#pfront').css('background-color', 'green');
 			$('#pfront').css('opacity', '0.5');
 			break;
@@ -826,20 +855,23 @@ function openDoor(doorPosition) {
 			$('#prear').css('background-color', 'green');
 			$('#prear').css('opacity', '0.5');
 			break;
-		case 5:	//both front
+		case 12:	//both front
 			$('#dfront').css('background-color', 'green');
 			$('#dfront').css('opacity', '0.5');
 			$('#pfront').css('background-color', 'green');
 			$('#pfront').css('opacity', '0.5');
 			break;
-		case 6:
+		case 10:		// both driver
 			
 			break;
-		case 7:
+		case 5:		// both passengers
 			
 			break;
 		case 8:
 			
+		
+		case 0: //--15
+			closeDoors();
 			break;
 		default:
 			break;
@@ -1219,6 +1251,9 @@ function updateThrottle(passed_th) {
 
 
 function loadCharts() {
+	
+
+	
 Highcharts.setOptions({
             global: {
                 useUTC: false
@@ -1243,12 +1278,13 @@ Highcharts.setOptions({
                         rpmseries = this.series[1];
                         angleseries = this.series[2];
                         chartInterval = setInterval(function() {
-                            	var x = (new Date()).getTime(); // current time
+                            	var x = timedb; // current time
                             
+                            var plotRpm = rpm / 1000.0;
                             
                             //console.log('in chart: ' + speed);
                             series.addPoint([x, speed], flag, flag);    
-                            rpmseries.addPoint([x, rpm], flag, flag);
+                            rpmseries.addPoint([x, plotRpm], flag, flag);
                             angleseries.addPoint([x, steering], flag, flag);
                             
                         }, 1000);
@@ -1348,10 +1384,10 @@ Highcharts.setOptions({
                 
                     // generate an array of random data
                     var data1 = [],
-                        time = (new Date()).getTime(),
+                        time = timedb;//(new Date()).getTime(),
                         i;
     
-                    for (i = -19; i <= 0; i++) {
+                    for (i = -15; i <= 0; i++) {
                         data1.push({
                             x: time + i * 1000,
                             y: 0
@@ -1364,10 +1400,10 @@ Highcharts.setOptions({
             	yAxis : 1,
             	data: (function() {
                     // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),i;
+                    var data = [], i,
+                        time = timedb;//(new Date()).getTime(),i;
     
-                    for (i = -19; i <= 0; i++) {
+                    for (i = -15; i <= 0; i++) {
                         data.push({
                             x: time + i * 1000,
                             y: 0
@@ -1380,10 +1416,10 @@ Highcharts.setOptions({
             	yAxis : 2,
             	data: (function() {
                     // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),i;
+                    var data = [], i,
+                        time = timedb;//(new Date()).getTime(),i;
     
-                    for (i = -19; i <= 0; i++) {
+                    for (i = -15; i <= 0; i++) {
                         data.push({
                             x: time + i * 1000,
                             y: 0
@@ -1421,7 +1457,9 @@ function setNewUI(passed_value) {
 	currpb = playback[passed_value];
 	
 	$('#throttlePosition').html(currpb.th);
+	console.log('time: ' + currpb.ti);	
 	
+	$("#timeRev").text(currpb.ti);
 
 	$('#rpmMeter').html(currpb.rp);
 	$('#speedMeter').html(currpb.sp);	//TODO: update other parameters also
@@ -1458,6 +1496,7 @@ function setNewUI(passed_value) {
 	}
 	
 	if(currpb.doo == 0) {
+			$('#doorIcon').html('');
 			$('#doorText').html('CLOSED');
 		}
 		else if(currpb.doo == 1) {
@@ -1477,6 +1516,9 @@ function setNewUI(passed_value) {
 			$('#doorIcon').html('PR');
 		}
 		// TODO: handle all posibilities
+		
+		
+		// -- TODO: check if map / cam => if camDiv -> update img frames
 
 	// map
 	// TODO: clear all markers first
@@ -1510,6 +1552,24 @@ function onResumeClick() {
 	$('#slider').slider('disable');	
 }
 
+
+var currentSelection = "map";
+function onCamClick() {
+	if(currentSelection == "map"){
+		$("#mapCam").attr("src","./img/map-marker.png");
+		$('#camDiv').css('display', 'block');
+		$('#mapDiv').css('display', 'none');
+		
+		currentSelection = "cam";
+	}
+	else {
+		$("#mapCam").attr("src","./img/camera.png");
+		$('#camDiv').css('display', 'none');
+		$('#mapDiv').css('display', 'block');
+		
+		currentSelection = "map";
+	}
+}
 
 
 
@@ -1572,16 +1632,17 @@ function createChart(pData) {
 $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.json&callback=?', function(data) {
 
         // split the data set into ohlc and volume
-        var ohlc = [],
-            volume = [],
-            speedAllSeries = [], rpmAllSeries = [], angleAllSeries = [],
+        var speedAllSeries = [], rpmAllSeries = [], angleAllSeries = [], eventAllSeries = []
             dataLength = data.length;
             
-        for (i = 0; i < 400; i++) {
+        for (i = 0; i < 200; i++) {
             
             //alert(data[i][0]);
             
-            var currTime = new Date().getTime();
+            var currTime =data[i][0]//new Date().getTime();
+            
+            //console.log(pData[i].braker);
+            
             
             speedAllSeries.push([
                 currTime,
@@ -1590,7 +1651,7 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
             
             rpmAllSeries.push([
                 currTime,
-                pData[i].rpmr
+                pData[i].braker
             ]);
             
             
@@ -1598,6 +1659,8 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
             	currTime,
             	pData[i].steeringr
             ]);
+            
+            eventAllSeries.push([currTime, pData[i].gearr]);
         }
 
        
@@ -1678,13 +1741,13 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
 				}]
             }, {
                 title: {
-                    text: 'RPM'
+                    text: 'Brake'
                 },
                 min: 0,
-                max: 4000,
+                max: 2,
                 minorTickInterval: 1000,
                 gridLineWidth: 0,
-                top: 170,
+                top: 150,
                 height: 100,
                 offset: 0,
                 lineWidth: 2
@@ -1692,10 +1755,21 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
             	title: {
             		text: 'Angle'
             	},
-            	top: 300,
+            	top: 280,
             	min: -450,
             	max: 450,
             	minorTickInterval: 90,
+            	height: 100,
+            	offset: 0,
+            	lineWidth: 2
+            }, {
+            	title: {
+            		text: 'Light / Gear'
+            	},
+            	top: 400,
+            	min: 0,
+            	max: 4,
+            	minorTickInterval: 1,
             	height: 100,
             	offset: 0,
             	lineWidth: 2
@@ -1708,7 +1782,7 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
                 
             }, {
                 type: 'spline',
-                name: 'RPM',
+                name: 'Brake',
                 data: rpmAllSeries,
                 yAxis: 1
             }, {
@@ -1716,6 +1790,20 @@ $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-ohlcv.
             	name: 'Angle',
             	data: angleAllSeries,
             	yAxis: 2
+            },
+            {
+            	type: 'spline',
+            	name: 'Event',
+            	data: eventAllSeries,
+            	lineWidth : 0,
+				marker : {
+					enabled : true,
+					radius : 2
+				},
+				tooltip: {
+					valueDecimals: 2
+				},
+            	yAxis: 3
             }]
         });
     });        
