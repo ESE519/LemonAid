@@ -7,7 +7,7 @@ Go up to the parent directory, and run `make clean && make` to compile the libra
 ###Usage
 1. Ford Focus Electronic Neutralizer  
 
-    Run `sudo ~/cansniffer/cantransmitter -f=/dev/pcanXX ./transmit.txt`
+    Run `sudo ~/cansniffer/cantransmitter -f=/dev/pcanXX ~/cansniffer/transmit.txt`
 
 2. Cansniffer  
 
