@@ -148,13 +148,6 @@ cd ${UBUNTU_DIR}
 pwd
 
 if [ "${MMC}" ] ; then
-	if [ `ls /dev/ | grep ${MMC}` ] ; then
-		echo "MMC set, ready to install image"
-		/bin/bash -e 'setup_sdcard.sh --mmc /dev/${MMC} --uboot "${BOARD}"'
-	else
-		echo "Please insert your SD card"
-	fi
-else
 	until [ `ls /dev/ | grep ${MMC}` ]
 	do
 		echo "Please insert the SD card;"
@@ -163,9 +156,18 @@ else
 		sleep 2;
 	done
 	echo "found it!"
-	/bin/bash -e 'setup_sdcard.sh --mmc /dev/${MMC} --uboot "${BOARD}"'
+else
+	until [ `ls /dev/ | grep mmc` ]
+	do
+		echo "Please insert the SD card;"
+		echo "OR press [Ctrl-C] and specify another path to your SD card"
+		echo "wait 2 seconds..."
+		sleep 2;
+	done
+	echo "found it!"
 fi
 
+/bin/bash -e 'setup_sdcard.sh --mmc /dev/${MMC} --uboot "${BOARD}"'
 cd ${CURRENT_DIRECTORY}
 
 echo "##############################"
