@@ -31,9 +31,9 @@
         
         <h1>Description</h1>
         <p>LemonAid is a black-box for automobiles. It provides a gateway to connect to the vehicle’s information bus. The gateway can records vital parameters for analysis and efficiency improvement. 
-        	After intercepting data from the car, an algorithm is applied on the newly intercepted values to detect anomalies in the engine, body or the chassis of the car. These anomalies are categorized as key events which may be of interest for insurance companies in case of an accident and for analysis in general. 
+        	After intercepting data from the car, an algorithm is applied on the newly intercepted values to detect anomalies in the engine, body or chassis of the car. These anomalies are categorized as key events which may be of interest for insurance companies in case of an accident and for analysis in general. 
         	 Insurance analysts can use data about driving habits, compliance to traffic rules and activity of the vehicle owner to overcome inefficiencies in insurance pricing.  
-        	This system is extermely useful as it can aid accident scene investigators to recreate the scenario and playback all vital moments.</p>
+        	This system is extremely useful as it can aid accident scene investigators to recreate the scenario and playback all vital moments.</p>
         <hr/>
         
         <h1></h1>
@@ -56,7 +56,7 @@
         			<strong>iPad Application</strong>: <br />
         			The app opens a socket connection to the gateway and receives important automobile data. Once new data
         			is received, the application stores these parameters in a local database for further analysis and at the same
-        			time, updates the interface to display latest parameter values. Once the iPad connects to the gateway, id of the 
+        			time, updates the interface to display latest parameter values. After the iPad connects to the gateway, id of the 
         			car can be detected. This way, we can generate a mapping table and scale to various automobiles.
         		</li>
         	</ul>	
@@ -207,7 +207,7 @@
         	The communication between the iPad and the gateway is done by opening a socket connection. Once the connection 
         	is established the iPad sends a request to the server on the gateway to send live data. To acknowledge this request, 
         	the server forms loads all parameters in a JSON object and emits it to the iPad. To close the socket, the iPad initiates the process 
-        	by sending a disconnetion warning. The server acknowledges that request and stops sending data to the iPad.
+        	by sending a disconnection warning. The server acknowledges that request and stops sending data to the iPad.
         	
      
         </p>
